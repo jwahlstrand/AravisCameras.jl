@@ -1,0 +1,1130 @@
+quote
+$(Expr(:toplevel, quote
+    gtype_wrapper_cache = Dict{Symbol, Type}()
+    begin
+        abstract type ArvBuffer <: GObject end
+        mutable struct ArvBufferLeaf <: ArvBuffer
+            handle::Ptr{GObject}
+            function ArvBufferLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvBufferLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvBuffer] = ArvBufferLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvBuffer) = begin
+                ccall(("arv_buffer_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvCamera <: GObject end
+        mutable struct ArvCameraLeaf <: ArvCamera
+            handle::Ptr{GObject}
+            function ArvCameraLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvCameraLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvCamera] = ArvCameraLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvCamera) = begin
+                ccall(("arv_camera_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvChunkParser <: GObject end
+        mutable struct ArvChunkParserLeaf <: ArvChunkParser
+            handle::Ptr{GObject}
+            function ArvChunkParserLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvChunkParserLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvChunkParser] = ArvChunkParserLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvChunkParser) = begin
+                ccall(("arv_chunk_parser_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDevice <: GObject end
+        mutable struct ArvDeviceLeaf <: ArvDevice
+            handle::Ptr{GObject}
+            function ArvDeviceLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDeviceLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDevice] = ArvDeviceLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDevice) = begin
+                ccall(("arv_device_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomNode <: GObject end
+        mutable struct ArvDomNodeLeaf <: ArvDomNode
+            handle::Ptr{GObject}
+            function ArvDomNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomNode] = ArvDomNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomNode) = begin
+                ccall(("arv_dom_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomCharacterData <: ArvDomNode end
+        mutable struct ArvDomCharacterDataLeaf <: ArvDomCharacterData
+            handle::Ptr{GObject}
+            function ArvDomCharacterDataLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomCharacterDataLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomCharacterData] = ArvDomCharacterDataLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomCharacterData) = begin
+                ccall(("arv_dom_character_data_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomDocument <: ArvDomNode end
+        mutable struct ArvDomDocumentLeaf <: ArvDomDocument
+            handle::Ptr{GObject}
+            function ArvDomDocumentLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomDocumentLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomDocument] = ArvDomDocumentLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomDocument) = begin
+                ccall(("arv_dom_document_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomDocumentFragment <: ArvDomNode end
+        mutable struct ArvDomDocumentFragmentLeaf <: ArvDomDocumentFragment
+            handle::Ptr{GObject}
+            function ArvDomDocumentFragmentLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomDocumentFragmentLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomDocumentFragment] = ArvDomDocumentFragmentLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomDocumentFragment) = begin
+                ccall(("arv_dom_document_fragment_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomElement <: ArvDomNode end
+        mutable struct ArvDomElementLeaf <: ArvDomElement
+            handle::Ptr{GObject}
+            function ArvDomElementLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomElementLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomElement] = ArvDomElementLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomElement) = begin
+                ccall(("arv_dom_element_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomNamedNodeMap <: GObject end
+        mutable struct ArvDomNamedNodeMapLeaf <: ArvDomNamedNodeMap
+            handle::Ptr{GObject}
+            function ArvDomNamedNodeMapLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomNamedNodeMapLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomNamedNodeMap] = ArvDomNamedNodeMapLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomNamedNodeMap) = begin
+                ccall(("arv_dom_named_node_map_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomNodeList <: GObject end
+        mutable struct ArvDomNodeListLeaf <: ArvDomNodeList
+            handle::Ptr{GObject}
+            function ArvDomNodeListLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomNodeListLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomNodeList] = ArvDomNodeListLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomNodeList) = begin
+                ccall(("arv_dom_node_list_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomNodeChildList <: ArvDomNodeList end
+        mutable struct ArvDomNodeChildListLeaf <: ArvDomNodeChildList
+            handle::Ptr{GObject}
+            function ArvDomNodeChildListLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomNodeChildListLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomNodeChildList] = ArvDomNodeChildListLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomNodeChildList) = begin
+                ccall(("arv_dom_node_child_list_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvDomText <: ArvDomCharacterData end
+        mutable struct ArvDomTextLeaf <: ArvDomText
+            handle::Ptr{GObject}
+            function ArvDomTextLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvDomTextLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvDomText] = ArvDomTextLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvDomText) = begin
+                ccall(("arv_dom_text_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvEvaluator <: GObject end
+        mutable struct ArvEvaluatorLeaf <: ArvEvaluator
+            handle::Ptr{GObject}
+            function ArvEvaluatorLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvEvaluatorLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvEvaluator] = ArvEvaluatorLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvEvaluator) = begin
+                ccall(("arv_evaluator_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvFakeCamera <: GObject end
+        mutable struct ArvFakeCameraLeaf <: ArvFakeCamera
+            handle::Ptr{GObject}
+            function ArvFakeCameraLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvFakeCameraLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvFakeCamera] = ArvFakeCameraLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvFakeCamera) = begin
+                ccall(("arv_fake_camera_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvFakeDevice <: ArvDevice end
+        mutable struct ArvFakeDeviceLeaf <: ArvFakeDevice
+            handle::Ptr{GObject}
+            function ArvFakeDeviceLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvFakeDeviceLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvFakeDevice] = ArvFakeDeviceLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvFakeDevice) = begin
+                ccall(("arv_fake_device_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvInterface <: GObject end
+        mutable struct ArvInterfaceLeaf <: ArvInterface
+            handle::Ptr{GObject}
+            function ArvInterfaceLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvInterfaceLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvInterface] = ArvInterfaceLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvInterface) = begin
+                ccall(("arv_interface_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvFakeInterface <: ArvInterface end
+        mutable struct ArvFakeInterfaceLeaf <: ArvFakeInterface
+            handle::Ptr{GObject}
+            function ArvFakeInterfaceLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvFakeInterfaceLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvFakeInterface] = ArvFakeInterfaceLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvFakeInterface) = begin
+                ccall(("arv_fake_interface_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvStream <: GObject end
+        mutable struct ArvStreamLeaf <: ArvStream
+            handle::Ptr{GObject}
+            function ArvStreamLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvStreamLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvStream] = ArvStreamLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvStream) = begin
+                ccall(("arv_stream_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvFakeStream <: ArvStream end
+        mutable struct ArvFakeStreamLeaf <: ArvFakeStream
+            handle::Ptr{GObject}
+            function ArvFakeStreamLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvFakeStreamLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvFakeStream] = ArvFakeStreamLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvFakeStream) = begin
+                ccall(("arv_fake_stream_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGc <: ArvDomDocument end
+        mutable struct ArvGcLeaf <: ArvGc
+            handle::Ptr{GObject}
+            function ArvGcLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGc] = ArvGcLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGc) = begin
+                ccall(("arv_gc_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcNode <: ArvDomElement end
+        mutable struct ArvGcNodeLeaf <: ArvGcNode
+            handle::Ptr{GObject}
+            function ArvGcNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcNode] = ArvGcNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcNode) = begin
+                ccall(("arv_gc_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcFeatureNode <: ArvGcNode end
+        mutable struct ArvGcFeatureNodeLeaf <: ArvGcFeatureNode
+            handle::Ptr{GObject}
+            function ArvGcFeatureNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcFeatureNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcFeatureNode] = ArvGcFeatureNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcFeatureNode) = begin
+                ccall(("arv_gc_feature_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcBoolean <: ArvGcFeatureNode end
+        mutable struct ArvGcBooleanLeaf <: ArvGcBoolean
+            handle::Ptr{GObject}
+            function ArvGcBooleanLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcBooleanLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcBoolean] = ArvGcBooleanLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcBoolean) = begin
+                ccall(("arv_gc_boolean_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcCategory <: ArvGcFeatureNode end
+        mutable struct ArvGcCategoryLeaf <: ArvGcCategory
+            handle::Ptr{GObject}
+            function ArvGcCategoryLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcCategoryLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcCategory] = ArvGcCategoryLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcCategory) = begin
+                ccall(("arv_gc_category_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcCommand <: ArvGcFeatureNode end
+        mutable struct ArvGcCommandLeaf <: ArvGcCommand
+            handle::Ptr{GObject}
+            function ArvGcCommandLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcCommandLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcCommand] = ArvGcCommandLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcCommand) = begin
+                ccall(("arv_gc_command_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcConverter <: ArvGcFeatureNode end
+        mutable struct ArvGcConverterLeaf <: ArvGcConverter
+            handle::Ptr{GObject}
+            function ArvGcConverterLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcConverterLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcConverter] = ArvGcConverterLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcConverter) = begin
+                ccall(("arv_gc_converter_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcConverterNode <: ArvGcConverter end
+        mutable struct ArvGcConverterNodeLeaf <: ArvGcConverterNode
+            handle::Ptr{GObject}
+            function ArvGcConverterNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcConverterNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcConverterNode] = ArvGcConverterNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcConverterNode) = begin
+                ccall(("arv_gc_converter_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcEnumEntry <: ArvGcFeatureNode end
+        mutable struct ArvGcEnumEntryLeaf <: ArvGcEnumEntry
+            handle::Ptr{GObject}
+            function ArvGcEnumEntryLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcEnumEntryLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcEnumEntry] = ArvGcEnumEntryLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcEnumEntry) = begin
+                ccall(("arv_gc_enum_entry_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcEnumeration <: ArvGcFeatureNode end
+        mutable struct ArvGcEnumerationLeaf <: ArvGcEnumeration
+            handle::Ptr{GObject}
+            function ArvGcEnumerationLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcEnumerationLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcEnumeration] = ArvGcEnumerationLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcEnumeration) = begin
+                ccall(("arv_gc_enumeration_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcFloatNode <: ArvGcFeatureNode end
+        mutable struct ArvGcFloatNodeLeaf <: ArvGcFloatNode
+            handle::Ptr{GObject}
+            function ArvGcFloatNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcFloatNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcFloatNode] = ArvGcFloatNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcFloatNode) = begin
+                ccall(("arv_gc_float_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcRegisterNode <: ArvGcFeatureNode end
+        mutable struct ArvGcRegisterNodeLeaf <: ArvGcRegisterNode
+            handle::Ptr{GObject}
+            function ArvGcRegisterNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcRegisterNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcRegisterNode] = ArvGcRegisterNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcRegisterNode) = begin
+                ccall(("arv_gc_register_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcFloatRegNode <: ArvGcRegisterNode end
+        mutable struct ArvGcFloatRegNodeLeaf <: ArvGcFloatRegNode
+            handle::Ptr{GObject}
+            function ArvGcFloatRegNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcFloatRegNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcFloatRegNode] = ArvGcFloatRegNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcFloatRegNode) = begin
+                ccall(("arv_gc_float_reg_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcGroupNode <: ArvGcFeatureNode end
+        mutable struct ArvGcGroupNodeLeaf <: ArvGcGroupNode
+            handle::Ptr{GObject}
+            function ArvGcGroupNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcGroupNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcGroupNode] = ArvGcGroupNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcGroupNode) = begin
+                ccall(("arv_gc_group_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcPropertyNode <: ArvGcNode end
+        mutable struct ArvGcPropertyNodeLeaf <: ArvGcPropertyNode
+            handle::Ptr{GObject}
+            function ArvGcPropertyNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcPropertyNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcPropertyNode] = ArvGcPropertyNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcPropertyNode) = begin
+                ccall(("arv_gc_property_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcIndexNode <: ArvGcPropertyNode end
+        mutable struct ArvGcIndexNodeLeaf <: ArvGcIndexNode
+            handle::Ptr{GObject}
+            function ArvGcIndexNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcIndexNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcIndexNode] = ArvGcIndexNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcIndexNode) = begin
+                ccall(("arv_gc_index_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcIntConverterNode <: ArvGcConverter end
+        mutable struct ArvGcIntConverterNodeLeaf <: ArvGcIntConverterNode
+            handle::Ptr{GObject}
+            function ArvGcIntConverterNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcIntConverterNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcIntConverterNode] = ArvGcIntConverterNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcIntConverterNode) = begin
+                ccall(("arv_gc_int_converter_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcIntRegNode <: ArvGcRegisterNode end
+        mutable struct ArvGcIntRegNodeLeaf <: ArvGcIntRegNode
+            handle::Ptr{GObject}
+            function ArvGcIntRegNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcIntRegNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcIntRegNode] = ArvGcIntRegNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcIntRegNode) = begin
+                ccall(("arv_gc_int_reg_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcSwissKnife <: ArvGcFeatureNode end
+        mutable struct ArvGcSwissKnifeLeaf <: ArvGcSwissKnife
+            handle::Ptr{GObject}
+            function ArvGcSwissKnifeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcSwissKnifeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcSwissKnife] = ArvGcSwissKnifeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcSwissKnife) = begin
+                ccall(("arv_gc_swiss_knife_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcIntSwissKnifeNode <: ArvGcSwissKnife end
+        mutable struct ArvGcIntSwissKnifeNodeLeaf <: ArvGcIntSwissKnifeNode
+            handle::Ptr{GObject}
+            function ArvGcIntSwissKnifeNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcIntSwissKnifeNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcIntSwissKnifeNode] = ArvGcIntSwissKnifeNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcIntSwissKnifeNode) = begin
+                ccall(("arv_gc_int_swiss_knife_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcIntegerNode <: ArvGcFeatureNode end
+        mutable struct ArvGcIntegerNodeLeaf <: ArvGcIntegerNode
+            handle::Ptr{GObject}
+            function ArvGcIntegerNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcIntegerNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcIntegerNode] = ArvGcIntegerNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcIntegerNode) = begin
+                ccall(("arv_gc_integer_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcInvalidatorNode <: ArvGcPropertyNode end
+        mutable struct ArvGcInvalidatorNodeLeaf <: ArvGcInvalidatorNode
+            handle::Ptr{GObject}
+            function ArvGcInvalidatorNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcInvalidatorNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcInvalidatorNode] = ArvGcInvalidatorNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcInvalidatorNode) = begin
+                ccall(("arv_gc_invalidator_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcMaskedIntRegNode <: ArvGcRegisterNode end
+        mutable struct ArvGcMaskedIntRegNodeLeaf <: ArvGcMaskedIntRegNode
+            handle::Ptr{GObject}
+            function ArvGcMaskedIntRegNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcMaskedIntRegNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcMaskedIntRegNode] = ArvGcMaskedIntRegNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcMaskedIntRegNode) = begin
+                ccall(("arv_gc_masked_int_reg_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcPort <: ArvGcFeatureNode end
+        mutable struct ArvGcPortLeaf <: ArvGcPort
+            handle::Ptr{GObject}
+            function ArvGcPortLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcPortLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcPort] = ArvGcPortLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcPort) = begin
+                ccall(("arv_gc_port_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcRegisterDescriptionNode <: ArvGcFeatureNode end
+        mutable struct ArvGcRegisterDescriptionNodeLeaf <: ArvGcRegisterDescriptionNode
+            handle::Ptr{GObject}
+            function ArvGcRegisterDescriptionNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcRegisterDescriptionNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcRegisterDescriptionNode] = ArvGcRegisterDescriptionNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcRegisterDescriptionNode) = begin
+                ccall(("arv_gc_register_description_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcStringNode <: ArvGcFeatureNode end
+        mutable struct ArvGcStringNodeLeaf <: ArvGcStringNode
+            handle::Ptr{GObject}
+            function ArvGcStringNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcStringNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcStringNode] = ArvGcStringNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcStringNode) = begin
+                ccall(("arv_gc_string_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcStringRegNode <: ArvGcRegisterNode end
+        mutable struct ArvGcStringRegNodeLeaf <: ArvGcStringRegNode
+            handle::Ptr{GObject}
+            function ArvGcStringRegNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcStringRegNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcStringRegNode] = ArvGcStringRegNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcStringRegNode) = begin
+                ccall(("arv_gc_string_reg_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcStructEntryNode <: ArvGcFeatureNode end
+        mutable struct ArvGcStructEntryNodeLeaf <: ArvGcStructEntryNode
+            handle::Ptr{GObject}
+            function ArvGcStructEntryNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcStructEntryNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcStructEntryNode] = ArvGcStructEntryNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcStructEntryNode) = begin
+                ccall(("arv_gc_struct_entry_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcStructRegNode <: ArvGcRegisterNode end
+        mutable struct ArvGcStructRegNodeLeaf <: ArvGcStructRegNode
+            handle::Ptr{GObject}
+            function ArvGcStructRegNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcStructRegNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcStructRegNode] = ArvGcStructRegNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcStructRegNode) = begin
+                ccall(("arv_gc_struct_reg_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcSwissKnifeNode <: ArvGcSwissKnife end
+        mutable struct ArvGcSwissKnifeNodeLeaf <: ArvGcSwissKnifeNode
+            handle::Ptr{GObject}
+            function ArvGcSwissKnifeNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcSwissKnifeNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcSwissKnifeNode] = ArvGcSwissKnifeNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcSwissKnifeNode) = begin
+                ccall(("arv_gc_swiss_knife_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGcValueIndexedNode <: ArvGcPropertyNode end
+        mutable struct ArvGcValueIndexedNodeLeaf <: ArvGcValueIndexedNode
+            handle::Ptr{GObject}
+            function ArvGcValueIndexedNodeLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGcValueIndexedNodeLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGcValueIndexedNode] = ArvGcValueIndexedNodeLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGcValueIndexedNode) = begin
+                ccall(("arv_gc_value_indexed_node_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGvDevice <: ArvDevice end
+        mutable struct ArvGvDeviceLeaf <: ArvGvDevice
+            handle::Ptr{GObject}
+            function ArvGvDeviceLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGvDeviceLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGvDevice] = ArvGvDeviceLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGvDevice) = begin
+                ccall(("arv_gv_device_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGvFakeCamera <: GObject end
+        mutable struct ArvGvFakeCameraLeaf <: ArvGvFakeCamera
+            handle::Ptr{GObject}
+            function ArvGvFakeCameraLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGvFakeCameraLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGvFakeCamera] = ArvGvFakeCameraLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGvFakeCamera) = begin
+                ccall(("arv_gv_fake_camera_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGvInterface <: ArvInterface end
+        mutable struct ArvGvInterfaceLeaf <: ArvGvInterface
+            handle::Ptr{GObject}
+            function ArvGvInterfaceLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGvInterfaceLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGvInterface] = ArvGvInterfaceLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGvInterface) = begin
+                ccall(("arv_gv_interface_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvGvStream <: ArvStream end
+        mutable struct ArvGvStreamLeaf <: ArvGvStream
+            handle::Ptr{GObject}
+            function ArvGvStreamLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvGvStreamLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvGvStream] = ArvGvStreamLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvGvStream) = begin
+                ccall(("arv_gv_stream_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        abstract type ArvXmlSchema <: GObject end
+        mutable struct ArvXmlSchemaLeaf <: ArvXmlSchema
+            handle::Ptr{GObject}
+            function ArvXmlSchemaLeaf(handle::Ptr{GObject}, owns = false)
+                if handle == C_NULL
+                    error("Cannot construct ArvXmlSchemaLeaf with a NULL pointer")
+                end
+                GLib.gobject_maybe_sink(handle, owns)
+                return gobject_ref(new(handle))
+            end
+        end
+        gtype_wrapper_cache[:ArvXmlSchema] = ArvXmlSchemaLeaf
+        (GLib.g_type(::Type{T}) where T <: ArvXmlSchema) = begin
+                ccall(("arv_xml_schema_get_type", libaravis), GType, ())
+            end
+    end
+    begin
+        gtype_wrapper_cache_init() = begin
+                merge!(GLib.gtype_wrappers, gtype_wrapper_cache)
+            end
+    end
+    function ArvBuffer(_size::Integer, _preallocated::Maybe(Nothing))
+        G_.Buffer_new(_size, _preallocated)
+    end
+    function ArvBuffer(_size::Integer)
+        G_.Buffer_new_allocate(_size)
+    end
+    function ArvBuffer(_size::Integer, _preallocated::Maybe(Nothing), _user_data::Maybe(Nothing), _user_data_destroy_func::Maybe(Function))
+        G_.Buffer_new_full(_size, _preallocated, _user_data, _user_data_destroy_func)
+    end
+    function ArvCamera(_name::Maybe(Union{AbstractString, Symbol}); kwargs...)
+        obj = G_.Camera_new(_name)
+        GLib.setproperties!(obj; kwargs...)
+        obj
+    end
+    function ArvCamera(_device::ArvDevice; kwargs...)
+        obj = G_.Camera_new_with_device(_device)
+        GLib.setproperties!(obj; kwargs...)
+        obj
+    end
+    function ArvChunkParser(_xml::Union{AbstractString, Symbol}, _size::Integer; kwargs...)
+        obj = G_.ChunkParser_new(_xml, _size)
+        GLib.setproperties!(obj; kwargs...)
+        obj
+    end
+    function ArvDomDocument(_buffer::Maybe(Nothing), _size::Integer)
+        G_.DomDocument_new_from_memory(_buffer, _size)
+    end
+    function ArvDomDocument(_path::Union{AbstractString, Symbol})
+        G_.DomDocument_new_from_path(_path)
+    end
+    function ArvDomDocumentFragment()
+        G_.DomDocumentFragment_new()
+    end
+    function ArvDomNodeChildList(_parent_node::ArvDomNode)
+        G_.DomNodeChildList_new(_parent_node)
+    end
+    function ArvDomText(_data::Union{AbstractString, Symbol})
+        G_.DomText_new(_data)
+    end
+    function ArvEvaluator(_expression::Maybe(Union{AbstractString, Symbol}))
+        G_.Evaluator_new(_expression)
+    end
+    function ArvFakeCamera(_serial_number::Union{AbstractString, Symbol})
+        G_.FakeCamera_new(_serial_number)
+    end
+    function ArvFakeCamera(_serial_number::Union{AbstractString, Symbol}, _genicam_filename::Union{AbstractString, Symbol})
+        G_.FakeCamera_new_full(_serial_number, _genicam_filename)
+    end
+    function ArvFakeDevice(_serial_number::Union{AbstractString, Symbol}; kwargs...)
+        obj = G_.FakeDevice_new(_serial_number)
+        GLib.setproperties!(obj; kwargs...)
+        obj
+    end
+    function ArvGc(_device::ArvDevice, _xml::Maybe(Nothing), _size::Integer)
+        G_.Gc_new(_device, _xml, _size)
+    end
+    function ArvGc()
+        G_.Gc_p_value_indexed_node_new()
+    end
+    function ArvGcBoolean()
+        G_.GcBoolean_new()
+    end
+    function ArvGcCategory()
+        G_.GcCategory_new()
+    end
+    function ArvGcCommand()
+        G_.GcCommand_new()
+    end
+    function ArvGcConverterNode()
+        G_.GcConverterNode_new()
+    end
+    function ArvGcEnumEntry()
+        G_.GcEnumEntry_new()
+    end
+    function ArvGcEnumeration()
+        G_.GcEnumeration_new()
+    end
+    function ArvGcFloatNode()
+        G_.GcFloatNode_new()
+    end
+    function ArvGcFloatRegNode()
+        G_.GcFloatRegNode_new()
+    end
+    function ArvGcGroupNode()
+        G_.GcGroupNode_new()
+    end
+    function ArvGcIndexNode()
+        G_.GcIndexNode_new()
+    end
+    function ArvGcIntConverterNode()
+        G_.GcIntConverterNode_new()
+    end
+    function ArvGcIntRegNode()
+        G_.GcIntRegNode_new()
+    end
+    function ArvGcIntSwissKnifeNode()
+        G_.GcIntSwissKnifeNode_new()
+    end
+    function ArvGcIntegerNode()
+        G_.GcIntegerNode_new()
+    end
+    function ArvGcInvalidatorNode()
+        G_.GcInvalidatorNode_new()
+    end
+    function ArvGcMaskedIntRegNode()
+        G_.GcMaskedIntRegNode_new()
+    end
+    function ArvGcPort()
+        G_.GcPort_new()
+    end
+    function ArvGcRegisterDescriptionNode()
+        G_.GcRegisterDescriptionNode_new()
+    end
+    function ArvGcRegisterNode()
+        G_.GcRegisterNode_new()
+    end
+    function ArvGcStringNode()
+        G_.GcStringNode_new()
+    end
+    function ArvGcStringRegNode()
+        G_.GcStringRegNode_new()
+    end
+    function ArvGcStructEntryNode()
+        G_.GcStructEntryNode_new()
+    end
+    function ArvGcStructRegNode()
+        G_.GcStructRegNode_new()
+    end
+    function ArvGcSwissKnifeNode()
+        G_.GcSwissKnifeNode_new()
+    end
+    function ArvGcValueIndexedNode()
+        G_.GcValueIndexedNode_new()
+    end
+    function ArvGvDevice(_interface_address::GInetAddress, _device_address::GInetAddress; kwargs...)
+        obj = G_.GvDevice_new(_interface_address, _device_address)
+        GLib.setproperties!(obj; kwargs...)
+        obj
+    end
+    function ArvGvFakeCamera(_interface_name::Maybe(Union{AbstractString, Symbol}), _serial_number::Maybe(Union{AbstractString, Symbol}); kwargs...)
+        obj = G_.GvFakeCamera_new(_interface_name, _serial_number)
+        GLib.setproperties!(obj; kwargs...)
+        obj
+    end
+    function ArvGvFakeCamera(_interface_name::Maybe(Union{AbstractString, Symbol}), _serial_number::Maybe(Union{AbstractString, Symbol}), _genicam_filename::Maybe(Union{AbstractString, Symbol}); kwargs...)
+        obj = G_.GvFakeCamera_new_full(_interface_name, _serial_number, _genicam_filename)
+        GLib.setproperties!(obj; kwargs...)
+        obj
+    end
+    function ArvXmlSchema(_file::GFile)
+        G_.XmlSchema_new_from_file(_file)
+    end
+    function ArvXmlSchema(_buffer::Union{AbstractString, Symbol}, _size::Integer)
+        G_.XmlSchema_new_from_memory(_buffer, _size)
+    end
+    function ArvXmlSchema(_path::Union{AbstractString, Symbol})
+        G_.XmlSchema_new_from_path(_path)
+    end
+    mutable struct ArvZip
+        handle::Ptr{ArvZip}
+    end
+    mutable struct ArvZipFile
+        handle::Ptr{ArvZipFile}
+    end
+    gboxed_cache_init() = begin
+            append!(GLib.gboxed_types, gboxed_types)
+        end
+    export ArvBuffer, ArvBufferLeaf, ArvCamera, ArvCameraLeaf, ArvChunkParser, ArvChunkParserLeaf, ArvDevice, ArvDomCharacterData, ArvDomDocument, ArvDomDocumentFragment, ArvDomElement, ArvDomNamedNodeMap, ArvDomNode, ArvDomNodeChildList, ArvDomNodeChildListLeaf, ArvDomNodeList, ArvDomText, ArvDomTextLeaf, ArvEvaluator, ArvEvaluatorLeaf, ArvFakeCamera, ArvFakeCameraLeaf, ArvFakeDevice, ArvFakeDeviceLeaf, ArvFakeInterface, ArvFakeInterfaceLeaf, ArvFakeStream, ArvFakeStreamLeaf, ArvGc, ArvGcLeaf, ArvGcBoolean, ArvGcBooleanLeaf, ArvGcCategory, ArvGcCategoryLeaf, ArvGcCommand, ArvGcCommandLeaf, ArvGcConverter, ArvGcConverterNode, ArvGcConverterNodeLeaf, ArvGcEnumEntry, ArvGcEnumEntryLeaf, ArvGcEnumeration, ArvGcEnumerationLeaf, ArvGcFeatureNode, ArvGcFloatNode, ArvGcFloatNodeLeaf, ArvGcFloatRegNode, ArvGcFloatRegNodeLeaf, ArvGcGroupNode, ArvGcGroupNodeLeaf, ArvGcIndexNode, ArvGcIndexNodeLeaf, ArvGcIntConverterNode, ArvGcIntConverterNodeLeaf, ArvGcIntRegNode, ArvGcIntRegNodeLeaf, ArvGcIntSwissKnifeNode, ArvGcIntSwissKnifeNodeLeaf, ArvGcIntegerNode, ArvGcIntegerNodeLeaf, ArvGcInvalidatorNode, ArvGcInvalidatorNodeLeaf, ArvGcMaskedIntRegNode, ArvGcMaskedIntRegNodeLeaf, ArvGcNode, ArvGcPort, ArvGcPortLeaf, ArvGcPropertyNode, ArvGcPropertyNodeLeaf, ArvGcRegisterDescriptionNode, ArvGcRegisterDescriptionNodeLeaf, ArvGcRegisterNode, ArvGcRegisterNodeLeaf, ArvGcStringNode, ArvGcStringNodeLeaf, ArvGcStringRegNode, ArvGcStringRegNodeLeaf, ArvGcStructEntryNode, ArvGcStructEntryNodeLeaf, ArvGcStructRegNode, ArvGcStructRegNodeLeaf, ArvGcSwissKnife, ArvGcSwissKnifeNode, ArvGcSwissKnifeNodeLeaf, ArvGcValueIndexedNode, ArvGcValueIndexedNodeLeaf, ArvGvDevice, ArvGvDeviceLeaf, ArvGvFakeCamera, ArvGvFakeCameraLeaf, ArvGvInterface, ArvGvInterfaceLeaf, ArvGvStream, ArvGvStreamLeaf, ArvInterface, ArvStream, ArvXmlSchema, ArvXmlSchemaLeaf, ArvZip, ArvZipFile
+end))
+end

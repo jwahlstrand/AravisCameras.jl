@@ -1,0 +1,173 @@
+quote
+$(Expr(:toplevel, quote
+    function acquisition_mode_from_string(_string::Union{AbstractString, Symbol})
+        ret = ccall(("arv_acquisition_mode_from_string", libaravis), UInt32, (Cstring,), _string)
+        ret2 = AcquisitionMode(ret)
+        ret2
+    end
+    function acquisition_mode_to_string(_value)
+        ret = ccall(("arv_acquisition_mode_to_string", libaravis), Cstring, (UInt32,), _value)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function auto_from_string(_string::Union{AbstractString, Symbol})
+        ret = ccall(("arv_auto_from_string", libaravis), UInt32, (Cstring,), _string)
+        ret2 = Auto(ret)
+        ret2
+    end
+    function auto_to_string(_value)
+        ret = ccall(("arv_auto_to_string", libaravis), Cstring, (UInt32,), _value)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function chunk_parser_error_quark()
+        ret = ccall(("arv_chunk_parser_error_quark", libaravis), UInt32, ())
+        ret
+    end
+    function debug_enable(_category_selection::Union{AbstractString, Symbol})
+        ret = ccall(("arv_debug_enable", libaravis), Cint, (Cstring,), _category_selection)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function device_error_quark()
+        ret = ccall(("arv_device_error_quark", libaravis), UInt32, ())
+        ret
+    end
+    function disable_interface(_interface_id::Union{AbstractString, Symbol})
+        ret = ccall(("arv_disable_interface", libaravis), Nothing, (Cstring,), _interface_id)
+        nothing
+    end
+    function dom_implementation_add_document_type(_qualified_name::Union{AbstractString, Symbol}, _document_type::Integer)
+        ret = ccall(("arv_dom_implementation_add_document_type", libaravis), Nothing, (Cstring, UInt64), _qualified_name, _document_type)
+        nothing
+    end
+    function dom_implementation_cleanup()
+        ret = ccall(("arv_dom_implementation_cleanup", libaravis), Nothing, ())
+        nothing
+    end
+    function dom_implementation_create_document(_namespace_uri::Union{AbstractString, Symbol}, _qualified_name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_implementation_create_document", libaravis), Ptr{GObject}, (Cstring, Cstring), _namespace_uri, _qualified_name)
+        ret2 = convert(ArvDomDocument, ret, true)
+        ret2
+    end
+    function enable_interface(_interface_id::Union{AbstractString, Symbol})
+        ret = ccall(("arv_enable_interface", libaravis), Nothing, (Cstring,), _interface_id)
+        nothing
+    end
+    function exposure_mode_from_string(_string::Union{AbstractString, Symbol})
+        ret = ccall(("arv_exposure_mode_from_string", libaravis), UInt32, (Cstring,), _string)
+        ret2 = ExposureMode(ret)
+        ret2
+    end
+    function exposure_mode_to_string(_value)
+        ret = ccall(("arv_exposure_mode_to_string", libaravis), Cstring, (UInt32,), _value)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function gc_access_mode_from_string(_string::Union{AbstractString, Symbol})
+        ret = ccall(("arv_gc_access_mode_from_string", libaravis), UInt32, (Cstring,), _string)
+        ret2 = GcAccessMode(ret)
+        ret2
+    end
+    function gc_access_mode_to_string(_value)
+        ret = ccall(("arv_gc_access_mode_to_string", libaravis), Cstring, (UInt32,), _value)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function gc_error_quark()
+        ret = ccall(("arv_gc_error_quark", libaravis), UInt32, ())
+        ret
+    end
+    function get_device_address(_index::Integer)
+        ret = ccall(("arv_get_device_address", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_id(_index::Integer)
+        ret = ccall(("arv_get_device_id", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_manufacturer_info(_index::Integer)
+        ret = ccall(("arv_get_device_manufacturer_info", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_model(_index::Integer)
+        ret = ccall(("arv_get_device_model", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_physical_id(_index::Integer)
+        ret = ccall(("arv_get_device_physical_id", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_protocol(_index::Integer)
+        ret = ccall(("arv_get_device_protocol", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_serial_nbr(_index::Integer)
+        ret = ccall(("arv_get_device_serial_nbr", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_vendor(_index::Integer)
+        ret = ccall(("arv_get_device_vendor", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_interface_id(_index::Integer)
+        ret = ccall(("arv_get_interface_id", libaravis), Cstring, (UInt32,), _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_n_devices()
+        ret = ccall(("arv_get_n_devices", libaravis), UInt32, ())
+        ret
+    end
+    function get_n_interfaces()
+        ret = ccall(("arv_get_n_interfaces", libaravis), UInt32, ())
+        ret
+    end
+    function make_thread_high_priority(_nice_level::Integer)
+        ret = ccall(("arv_make_thread_high_priority", libaravis), Cint, (Int32,), _nice_level)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function make_thread_realtime(_priority::Integer)
+        ret = ccall(("arv_make_thread_realtime", libaravis), Cint, (Int32,), _priority)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function open_device(_device_id::Maybe(Union{AbstractString, Symbol}))
+        _device_id_maybe = nothing_to_null(_device_id)
+        err = err_buf()
+        ret = ccall(("arv_open_device", libaravis), Ptr{GObject}, (Cstring, Ptr{Ptr{GError}}), _device_id_maybe, err)
+        check_err(err)
+        ret2 = convert(ArvDevice, ret, true)
+        ret2
+    end
+    function set_fake_camera_genicam_filename(_filename::Union{AbstractString, Symbol})
+        ret = ccall(("arv_set_fake_camera_genicam_filename", libaravis), Nothing, (Cstring,), _filename)
+        nothing
+    end
+    function set_interface_flags(_interface_id::Union{AbstractString, Symbol}, _flags::Integer)
+        ret = ccall(("arv_set_interface_flags", libaravis), Nothing, (Cstring, Int32), _interface_id, _flags)
+        nothing
+    end
+    function shutdown()
+        ret = ccall(("arv_shutdown", libaravis), Nothing, ())
+        nothing
+    end
+    function update_device_list()
+        ret = ccall(("arv_update_device_list", libaravis), Nothing, ())
+        nothing
+    end
+    function xml_schema_error_quark()
+        ret = ccall(("arv_xml_schema_error_quark", libaravis), UInt32, ())
+        ret
+    end
+end))
+end

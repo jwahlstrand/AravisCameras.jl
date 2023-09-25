@@ -1,0 +1,2913 @@
+quote
+$(Expr(:toplevel, quote
+    function Buffer_new(_size::Integer, _preallocated::Maybe(Nothing))
+        _preallocated_maybe = nothing_to_null(_preallocated)
+        ret = ccall(("arv_buffer_new", libaravis), Ptr{GObject}, (UInt64, Ptr{Nothing}), _size, _preallocated_maybe)
+        ret2 = ArvBufferLeaf(ret, true)
+        ret2
+    end
+    function Buffer_new_allocate(_size::Integer)
+        ret = ccall(("arv_buffer_new_allocate", libaravis), Ptr{GObject}, (UInt64,), _size)
+        ret2 = ArvBufferLeaf(ret, true)
+        ret2
+    end
+    function find_component(instance::ArvBuffer, _component_id::Integer)
+        ret = ccall(("arv_buffer_find_component", libaravis), Int32, (Ptr{GObject}, UInt32), instance, _component_id)
+        ret
+    end
+    function get_chunk_data(instance::ArvBuffer, _chunk_id::Integer)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_buffer_get_chunk_data", libaravis), Ptr{UInt8}, (Ptr{GObject}, UInt64, Ptr{UInt64}), instance, _chunk_id, m_size)
+        ret2 = collect(unsafe_wrap(Vector{UInt8}, ret, m_size[]))
+        _size = m_size[]
+        _size = convert(Maybe(Integer), _size)
+        ret2
+    end
+    function get_data(instance::ArvBuffer)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_buffer_get_data", libaravis), Ptr{UInt8}, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
+        ret2 = collect(unsafe_wrap(Vector{UInt8}, ret, m_size[]))
+        _size = m_size[]
+        ret2
+    end
+    function get_frame_id(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_frame_id", libaravis), UInt64, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_image_data(instance::ArvBuffer)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_buffer_get_image_data", libaravis), Ptr{UInt8}, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
+        ret2 = collect(unsafe_wrap(Vector{UInt8}, ret, m_size[]))
+        _size = m_size[]
+        ret2
+    end
+    function get_image_height(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_image_height", libaravis), Int32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_image_padding(instance::ArvBuffer)
+        m_x_padding = Ref{Int32}()
+        m_y_padding = Ref{Int32}()
+        ret = ccall(("arv_buffer_get_image_padding", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}), instance, m_x_padding, m_y_padding)
+        _x_padding = m_x_padding[]
+        _y_padding = m_y_padding[]
+        (_x_padding, _y_padding)
+    end
+    function get_image_pixel_format(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_image_pixel_format", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_image_region(instance::ArvBuffer)
+        m_x = Ref{Int32}()
+        m_y = Ref{Int32}()
+        m_width = Ref{Int32}()
+        m_height = Ref{Int32}()
+        ret = ccall(("arv_buffer_get_image_region", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}), instance, m_x, m_y, m_width, m_height)
+        _x = m_x[]
+        _y = m_y[]
+        _width = m_width[]
+        _height = m_height[]
+        (_x, _y, _width, _height)
+    end
+    function get_image_width(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_image_width", libaravis), Int32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_image_x(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_image_x", libaravis), Int32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_image_y(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_image_y", libaravis), Int32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_n_parts(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_n_parts", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_part_component_id(instance::ArvBuffer, _part_id::Integer)
+        ret = ccall(("arv_buffer_get_part_component_id", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret
+    end
+    function get_part_data(instance::ArvBuffer, _part_id::Integer)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_buffer_get_part_data", libaravis), Ptr{UInt8}, (Ptr{GObject}, UInt32, Ptr{UInt64}), instance, _part_id, m_size)
+        ret2 = collect(unsafe_wrap(Vector{UInt8}, ret, m_size[]))
+        _size = m_size[]
+        ret2
+    end
+    function get_part_data_type(instance::ArvBuffer, _part_id::Integer)
+        ret = ccall(("arv_buffer_get_part_data_type", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret2 = BufferPartDataType(ret)
+        ret2
+    end
+    function get_part_height(instance::ArvBuffer, _part_id::Integer)
+        ret = ccall(("arv_buffer_get_part_height", libaravis), Int32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret
+    end
+    function get_part_padding(instance::ArvBuffer, _part_id::Integer)
+        m_x_padding = Ref{Int32}()
+        m_y_padding = Ref{Int32}()
+        ret = ccall(("arv_buffer_get_part_padding", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Int32}, Ptr{Int32}), instance, _part_id, m_x_padding, m_y_padding)
+        _x_padding = m_x_padding[]
+        _y_padding = m_y_padding[]
+        (_x_padding, _y_padding)
+    end
+    function get_part_pixel_format(instance::ArvBuffer, _part_id::Integer)
+        ret = ccall(("arv_buffer_get_part_pixel_format", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret
+    end
+    function get_part_region(instance::ArvBuffer, _part_id::Integer)
+        m_x = Ref{Int32}()
+        m_y = Ref{Int32}()
+        m_width = Ref{Int32}()
+        m_height = Ref{Int32}()
+        ret = ccall(("arv_buffer_get_part_region", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}), instance, _part_id, m_x, m_y, m_width, m_height)
+        _x = m_x[]
+        _y = m_y[]
+        _width = m_width[]
+        _height = m_height[]
+        (_x, _y, _width, _height)
+    end
+    function get_part_width(instance::ArvBuffer, _part_id::Integer)
+        ret = ccall(("arv_buffer_get_part_width", libaravis), Int32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret
+    end
+    function get_part_x(instance::ArvBuffer, _part_id::Integer)
+        ret = ccall(("arv_buffer_get_part_x", libaravis), Int32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret
+    end
+    function get_part_y(instance::ArvBuffer, _part_id::Integer)
+        ret = ccall(("arv_buffer_get_part_y", libaravis), Int32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret
+    end
+    function get_payload_type(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_payload_type", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = BufferPayloadType(ret)
+        ret2
+    end
+    function get_status(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_status", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = BufferStatus(ret)
+        ret2
+    end
+    function get_system_timestamp(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_system_timestamp", libaravis), UInt64, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_timestamp(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_timestamp", libaravis), UInt64, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_user_data(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_get_user_data", libaravis), Ptr{Nothing}, (Ptr{GObject},), instance)
+        ret2 = convert(Nothing, ret)
+        ret2
+    end
+    function has_chunks(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_has_chunks", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_frame_id(instance::ArvBuffer, _frame_id::Integer)
+        ret = ccall(("arv_buffer_set_frame_id", libaravis), Nothing, (Ptr{GObject}, UInt64), instance, _frame_id)
+        nothing
+    end
+    function set_system_timestamp(instance::ArvBuffer, _timestamp_ns::Integer)
+        ret = ccall(("arv_buffer_set_system_timestamp", libaravis), Nothing, (Ptr{GObject}, UInt64), instance, _timestamp_ns)
+        nothing
+    end
+    function set_timestamp(instance::ArvBuffer, _timestamp_ns::Integer)
+        ret = ccall(("arv_buffer_set_timestamp", libaravis), Nothing, (Ptr{GObject}, UInt64), instance, _timestamp_ns)
+        nothing
+    end
+    function Camera_new(_name::Maybe(Union{AbstractString, Symbol}))
+        _name_maybe = nothing_to_null(_name)
+        err = err_buf()
+        ret = ccall(("arv_camera_new", libaravis), Ptr{GObject}, (Cstring, Ptr{Ptr{GError}}), _name_maybe, err)
+        check_err(err)
+        ret2 = ArvCameraLeaf(ret, true)
+        ret2
+    end
+    function Camera_new_with_device(_device::ArvDevice)
+        err = err_buf()
+        ret = ccall(("arv_camera_new_with_device", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{Ptr{GError}}), _device, err)
+        check_err(err)
+        ret2 = ArvCameraLeaf(ret, true)
+        ret2
+    end
+    function abort_acquisition(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_abort_acquisition", libaravis), Nothing, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        nothing
+    end
+    function acquisition(instance::ArvCamera, _timeout::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_acquisition", libaravis), Ptr{GObject}, (Ptr{GObject}, UInt64, Ptr{Ptr{GError}}), instance, _timeout, err)
+        check_err(err)
+        ret2 = convert(ArvBuffer, ret, true)
+        ret2
+    end
+    function are_chunks_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_are_chunks_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function clear_triggers(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_clear_triggers", libaravis), Nothing, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        nothing
+    end
+    function create_chunk_parser(instance::ArvCamera)
+        ret = ccall(("arv_camera_create_chunk_parser", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvChunkParser, ret, true)
+        ret2
+    end
+    function dup_available_components(instance::ArvCamera)
+        m_n_components = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_components", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_components, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_components[]), true)
+        _n_components = m_n_components[]
+        ret2
+    end
+    function dup_available_enumerations(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_enumerations", libaravis), Ptr{Int64}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
+        check_err(err)
+        ret2 = begin
+                arrtemp = collect(unsafe_wrap(Vector{Int64}, ret, m_n_values[]))
+                GLib.g_free(ret)
+                arrtemp
+            end
+        _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_enumerations_as_display_names(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_enumerations_as_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_enumerations_as_strings(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_enumerations_as_strings", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_pixel_formats(instance::ArvCamera)
+        m_n_pixel_formats = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_pixel_formats", libaravis), Ptr{Int64}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_pixel_formats, err)
+        check_err(err)
+        ret2 = begin
+                arrtemp = collect(unsafe_wrap(Vector{Int64}, ret, m_n_pixel_formats[]))
+                GLib.g_free(ret)
+                arrtemp
+            end
+        _n_pixel_formats = m_n_pixel_formats[]
+        ret2
+    end
+    function dup_available_pixel_formats_as_display_names(instance::ArvCamera)
+        m_n_pixel_formats = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_pixel_formats_as_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_pixel_formats, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_pixel_formats[]), true)
+        _n_pixel_formats = m_n_pixel_formats[]
+        ret2
+    end
+    function dup_available_pixel_formats_as_strings(instance::ArvCamera)
+        m_n_pixel_formats = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_pixel_formats_as_strings", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_pixel_formats, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_pixel_formats[]), true)
+        _n_pixel_formats = m_n_pixel_formats[]
+        ret2
+    end
+    function dup_available_trigger_sources(instance::ArvCamera)
+        m_n_sources = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_trigger_sources", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_sources, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_sources[]), true)
+        _n_sources = m_n_sources[]
+        ret2
+    end
+    function dup_available_triggers(instance::ArvCamera)
+        m_n_triggers = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_triggers", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_triggers, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_triggers[]), true)
+        _n_triggers = m_n_triggers[]
+        ret2
+    end
+    function execute_command(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_execute_command", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        nothing
+    end
+    function get_acquisition_mode(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_acquisition_mode", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = AcquisitionMode(ret)
+        ret2
+    end
+    function get_binning(instance::ArvCamera)
+        m_dx = Ref{Int32}()
+        m_dy = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_binning", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_dx, m_dy, err)
+        check_err(err)
+        _dx = m_dx[]
+        _dy = m_dy[]
+        (_dx, _dy)
+    end
+    function get_black_level(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_black_level", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_black_level_auto(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_black_level_auto", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = Auto(ret)
+        ret2
+    end
+    function get_black_level_bounds(instance::ArvCamera)
+        m_min = Ref{Float64}()
+        m_max = Ref{Float64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_black_level_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Float64}, Ptr{Float64}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_boolean(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        m_value = Ref{Cint}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_boolean_gi", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Cint}, Ptr{Ptr{GError}}), instance, _feature, m_value, err)
+        check_err(err)
+        _value = m_value[]
+        _value = convert(Bool, _value)
+        _value
+    end
+    function get_chunk_mode(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_chunk_mode", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_chunk_state(instance::ArvCamera, _chunk::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_get_chunk_state", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _chunk, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_device(instance::ArvCamera)
+        ret = ccall(("arv_camera_get_device", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDevice, ret, false)
+        ret2
+    end
+    function get_device_id(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_device_id", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_serial_number(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_device_serial_number", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_exposure_time(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_exposure_time", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_exposure_time_auto(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_exposure_time_auto", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = Auto(ret)
+        ret2
+    end
+    function get_exposure_time_bounds(instance::ArvCamera)
+        m_min = Ref{Float64}()
+        m_max = Ref{Float64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_exposure_time_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Float64}, Ptr{Float64}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_float(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_get_float", libaravis), Float64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_float_bounds(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        m_min = Ref{Float64}()
+        m_max = Ref{Float64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_float_bounds", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Float64}, Ptr{Float64}, Ptr{Ptr{GError}}), instance, _feature, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_float_increment(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_get_float_increment", libaravis), Float64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_frame_count(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_frame_count", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_frame_count_bounds(instance::ArvCamera)
+        m_min = Ref{Int64}()
+        m_max = Ref{Int64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_frame_count_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Int64}, Ptr{Int64}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_frame_rate(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_frame_rate", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_frame_rate_bounds(instance::ArvCamera)
+        m_min = Ref{Float64}()
+        m_max = Ref{Float64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_frame_rate_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Float64}, Ptr{Float64}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_gain(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_gain", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_gain_auto(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_gain_auto", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = Auto(ret)
+        ret2
+    end
+    function get_gain_bounds(instance::ArvCamera)
+        m_min = Ref{Float64}()
+        m_max = Ref{Float64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_gain_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Float64}, Ptr{Float64}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_height_bounds(instance::ArvCamera)
+        m_min = Ref{Int32}()
+        m_max = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_height_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_height_increment(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_height_increment", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_integer(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_get_integer", libaravis), Int64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_integer_bounds(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        m_min = Ref{Int64}()
+        m_max = Ref{Int64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_integer_bounds", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Int64}, Ptr{Int64}, Ptr{Ptr{GError}}), instance, _feature, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_integer_increment(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_get_integer_increment", libaravis), Int64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_model_name(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_model_name", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_payload(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_payload", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_pixel_format(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_pixel_format", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_pixel_format_as_string(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_pixel_format_as_string", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_region(instance::ArvCamera)
+        m_x = Ref{Int32}()
+        m_y = Ref{Int32}()
+        m_width = Ref{Int32}()
+        m_height = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_region", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_x, m_y, m_width, m_height, err)
+        check_err(err)
+        _x = m_x[]
+        _y = m_y[]
+        _width = m_width[]
+        _height = m_height[]
+        (_x, _y, _width, _height)
+    end
+    function get_sensor_size(instance::ArvCamera)
+        m_width = Ref{Int32}()
+        m_height = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_sensor_size", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_width, m_height, err)
+        check_err(err)
+        _width = m_width[]
+        _height = m_height[]
+        (_width, _height)
+    end
+    function get_string(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_get_string", libaravis), Cstring, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_trigger_source(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_trigger_source", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_vendor_name(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_vendor_name", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_width_bounds(instance::ArvCamera)
+        m_min = Ref{Int32}()
+        m_max = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_width_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_width_increment(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_width_increment", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_x_binning_bounds(instance::ArvCamera)
+        m_min = Ref{Int32}()
+        m_max = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_x_binning_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_x_binning_increment(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_x_binning_increment", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_x_offset_bounds(instance::ArvCamera)
+        m_min = Ref{Int32}()
+        m_max = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_x_offset_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_x_offset_increment(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_x_offset_increment", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_y_binning_bounds(instance::ArvCamera)
+        m_min = Ref{Int32}()
+        m_max = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_y_binning_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_y_binning_increment(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_y_binning_increment", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_y_offset_bounds(instance::ArvCamera)
+        m_min = Ref{Int32}()
+        m_max = Ref{Int32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_get_y_offset_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_y_offset_increment(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_y_offset_increment", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function gv_auto_packet_size(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_auto_packet_size", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function gv_get_current_stream_channel(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_current_stream_channel", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function gv_get_ip_configuration_mode(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_ip_configuration_mode", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = GvIpConfigurationMode(ret)
+        ret2
+    end
+    function gv_get_multipart(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_multipart", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function gv_get_n_network_interfaces(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_n_network_interfaces", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function gv_get_n_stream_channels(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_n_stream_channels", libaravis), Int32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function gv_get_packet_delay(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_packet_delay", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function gv_get_packet_size(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_packet_size", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function gv_get_persistent_ip(instance::ArvCamera)
+        m_ip = Ref{Ptr{GObject}}()
+        m_mask = Ref{Ptr{GObject}}()
+        m_gateway = Ref{Ptr{GObject}}()
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_get_persistent_ip", libaravis), Nothing, (Ptr{GObject}, Ptr{Ptr{GObject}}, Ptr{Ptr{GObject}}, Ptr{Ptr{GObject}}, Ptr{Ptr{GError}}), instance, m_ip, m_mask, m_gateway, err)
+        check_err(err)
+        _ip = m_ip[]
+        _ip = convert(GInetAddress, _ip, true)
+        _mask = m_mask[]
+        _mask = convert(GInetAddressMask, _mask, true)
+        _gateway = m_gateway[]
+        _gateway = convert(GInetAddress, _gateway, true)
+        (_ip, _mask, _gateway)
+    end
+    function gv_is_multipart_supported(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_is_multipart_supported", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function gv_select_stream_channel(instance::ArvCamera, _channel_id::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_select_stream_channel", libaravis), Nothing, (Ptr{GObject}, Int32, Ptr{Ptr{GError}}), instance, _channel_id, err)
+        check_err(err)
+        nothing
+    end
+    function gv_set_ip_configuration_mode(instance::ArvCamera, _mode)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_set_ip_configuration_mode", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _mode, err)
+        check_err(err)
+        nothing
+    end
+    function gv_set_multipart(instance::ArvCamera, _enable::Bool)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_set_multipart", libaravis), Nothing, (Ptr{GObject}, Cint, Ptr{Ptr{GError}}), instance, _enable, err)
+        check_err(err)
+        nothing
+    end
+    function gv_set_packet_delay(instance::ArvCamera, _delay_ns::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_set_packet_delay", libaravis), Nothing, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _delay_ns, err)
+        check_err(err)
+        nothing
+    end
+    function gv_set_packet_size(instance::ArvCamera, _packet_size::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_set_packet_size", libaravis), Nothing, (Ptr{GObject}, Int32, Ptr{Ptr{GError}}), instance, _packet_size, err)
+        check_err(err)
+        nothing
+    end
+    function gv_set_packet_size_adjustment(instance::ArvCamera, _adjustment)
+        ret = ccall(("arv_camera_gv_set_packet_size_adjustment", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _adjustment)
+        nothing
+    end
+    function gv_set_persistent_ip(instance::ArvCamera, _ip::GInetAddress, _mask::GInetAddressMask, _gateway::GInetAddress)
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_set_persistent_ip", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}, Ptr{GObject}, Ptr{GObject}, Ptr{Ptr{GError}}), instance, _ip, _mask, _gateway, err)
+        check_err(err)
+        nothing
+    end
+    function gv_set_persistent_ip_from_string(instance::ArvCamera, _ip::Union{AbstractString, Symbol}, _mask::Union{AbstractString, Symbol}, _gateway::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_gv_set_persistent_ip_from_string", libaravis), Nothing, (Ptr{GObject}, Cstring, Cstring, Cstring, Ptr{Ptr{GError}}), instance, _ip, _mask, _gateway, err)
+        check_err(err)
+        nothing
+    end
+    function gv_set_stream_options(instance::ArvCamera, _options)
+        ret = ccall(("arv_camera_gv_set_stream_options", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _options)
+        nothing
+    end
+    function is_binning_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_binning_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_black_level_auto_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_black_level_auto_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_black_level_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_black_level_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_component_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_component_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_enumeration_entry_available(instance::ArvCamera, _feature::Union{AbstractString, Symbol}, _entry::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_is_enumeration_entry_available", libaravis), Cint, (Ptr{GObject}, Cstring, Cstring, Ptr{Ptr{GError}}), instance, _feature, _entry, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_exposure_auto_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_exposure_auto_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_exposure_time_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_exposure_time_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_feature_available(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_is_feature_available", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_feature_implemented(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_is_feature_implemented", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_frame_rate_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_frame_rate_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_gain_auto_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_gain_auto_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_gain_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_gain_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_gv_device(instance::ArvCamera)
+        ret = ccall(("arv_camera_is_gv_device", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_region_offset_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_region_offset_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_software_trigger_supported(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_is_software_trigger_supported", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_uv_device(instance::ArvCamera)
+        ret = ccall(("arv_camera_is_uv_device", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function select_and_enable_component(instance::ArvCamera, _component::Union{AbstractString, Symbol}, _disable_others::Bool)
+        err = err_buf()
+        ret = ccall(("arv_camera_select_and_enable_component", libaravis), Nothing, (Ptr{GObject}, Cstring, Cint, Ptr{Ptr{GError}}), instance, _component, _disable_others, err)
+        check_err(err)
+        nothing
+    end
+    function select_component(instance::ArvCamera, _component::Union{AbstractString, Symbol}, _flags)
+        m_component_id = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_select_component", libaravis), Cint, (Ptr{GObject}, Cstring, UInt32, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _component, _flags, m_component_id, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        _component_id = m_component_id[]
+        (ret2, _component_id)
+    end
+    function set_access_check_policy(instance::ArvCamera, _policy)
+        ret = ccall(("arv_camera_set_access_check_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_acquisition_mode(instance::ArvCamera, _value)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_acquisition_mode", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_binning(instance::ArvCamera, _dx::Integer, _dy::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_binning", libaravis), Nothing, (Ptr{GObject}, Int32, Int32, Ptr{Ptr{GError}}), instance, _dx, _dy, err)
+        check_err(err)
+        nothing
+    end
+    function set_black_level(instance::ArvCamera, _blacklevel::Real)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_black_level", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _blacklevel, err)
+        check_err(err)
+        nothing
+    end
+    function set_black_level_auto(instance::ArvCamera, _auto_mode)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_black_level_auto", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _auto_mode, err)
+        check_err(err)
+        nothing
+    end
+    function set_boolean(instance::ArvCamera, _feature::Union{AbstractString, Symbol}, _value::Bool)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_boolean", libaravis), Nothing, (Ptr{GObject}, Cstring, Cint, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_chunk_mode(instance::ArvCamera, _is_active::Bool)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_chunk_mode", libaravis), Nothing, (Ptr{GObject}, Cint, Ptr{Ptr{GError}}), instance, _is_active, err)
+        check_err(err)
+        nothing
+    end
+    function set_chunk_state(instance::ArvCamera, _chunk::Union{AbstractString, Symbol}, _is_enabled::Bool)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_chunk_state", libaravis), Nothing, (Ptr{GObject}, Cstring, Cint, Ptr{Ptr{GError}}), instance, _chunk, _is_enabled, err)
+        check_err(err)
+        nothing
+    end
+    function set_chunks(instance::ArvCamera, _chunk_list::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_set_chunks", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _chunk_list, err)
+        check_err(err)
+        nothing
+    end
+    function set_exposure_mode(instance::ArvCamera, _mode)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_exposure_mode", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _mode, err)
+        check_err(err)
+        nothing
+    end
+    function set_exposure_time(instance::ArvCamera, _exposure_time_us::Real)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_exposure_time", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _exposure_time_us, err)
+        check_err(err)
+        nothing
+    end
+    function set_exposure_time_auto(instance::ArvCamera, _auto_mode)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_exposure_time_auto", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _auto_mode, err)
+        check_err(err)
+        nothing
+    end
+    function set_float(instance::ArvCamera, _feature::Union{AbstractString, Symbol}, _value::Real)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_float", libaravis), Nothing, (Ptr{GObject}, Cstring, Float64, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_frame_count(instance::ArvCamera, _frame_count::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_frame_count", libaravis), Nothing, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _frame_count, err)
+        check_err(err)
+        nothing
+    end
+    function set_frame_rate(instance::ArvCamera, _frame_rate::Real)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_frame_rate", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _frame_rate, err)
+        check_err(err)
+        nothing
+    end
+    function set_gain(instance::ArvCamera, _gain::Real)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_gain", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _gain, err)
+        check_err(err)
+        nothing
+    end
+    function set_gain_auto(instance::ArvCamera, _auto_mode)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_gain_auto", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _auto_mode, err)
+        check_err(err)
+        nothing
+    end
+    function set_integer(instance::ArvCamera, _feature::Union{AbstractString, Symbol}, _value::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_integer", libaravis), Nothing, (Ptr{GObject}, Cstring, Int64, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_pixel_format(instance::ArvCamera, _format::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_pixel_format", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _format, err)
+        check_err(err)
+        nothing
+    end
+    function set_pixel_format_from_string(instance::ArvCamera, _format::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_set_pixel_format_from_string", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _format, err)
+        check_err(err)
+        nothing
+    end
+    function set_range_check_policy(instance::ArvCamera, _policy)
+        ret = ccall(("arv_camera_set_range_check_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_region(instance::ArvCamera, _x::Integer, _y::Integer, _width::Integer, _height::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_region", libaravis), Nothing, (Ptr{GObject}, Int32, Int32, Int32, Int32, Ptr{Ptr{GError}}), instance, _x, _y, _width, _height, err)
+        check_err(err)
+        nothing
+    end
+    function set_register_cache_policy(instance::ArvCamera, _policy)
+        ret = ccall(("arv_camera_set_register_cache_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_string(instance::ArvCamera, _feature::Union{AbstractString, Symbol}, _value::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_set_string", libaravis), Nothing, (Ptr{GObject}, Cstring, Cstring, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_trigger(instance::ArvCamera, _source::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_set_trigger", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _source, err)
+        check_err(err)
+        nothing
+    end
+    function set_trigger_source(instance::ArvCamera, _source::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_set_trigger_source", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _source, err)
+        check_err(err)
+        nothing
+    end
+    function software_trigger(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_software_trigger", libaravis), Nothing, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        nothing
+    end
+    function start_acquisition(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_start_acquisition", libaravis), Nothing, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        nothing
+    end
+    function stop_acquisition(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_stop_acquisition", libaravis), Nothing, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        nothing
+    end
+    function uv_get_bandwidth(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_uv_get_bandwidth", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function uv_get_bandwidth_bounds(instance::ArvCamera)
+        m_min = Ref{UInt32}()
+        m_max = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_uv_get_bandwidth_bounds", libaravis), Nothing, (Ptr{GObject}, Ptr{UInt32}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function uv_is_bandwidth_control_available(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_uv_is_bandwidth_control_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function uv_set_bandwidth(instance::ArvCamera, _bandwidth::Integer)
+        err = err_buf()
+        ret = ccall(("arv_camera_uv_set_bandwidth", libaravis), Nothing, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _bandwidth, err)
+        check_err(err)
+        nothing
+    end
+    function uv_set_usb_mode(instance::ArvCamera, _usb_mode)
+        ret = ccall(("arv_camera_uv_set_usb_mode", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _usb_mode)
+        nothing
+    end
+    function ChunkParser_new(_xml::Union{AbstractString, Symbol}, _size::Integer)
+        ret = ccall(("arv_chunk_parser_new", libaravis), Ptr{GObject}, (Cstring, UInt64), _xml, _size)
+        ret2 = ArvChunkParserLeaf(ret, true)
+        ret2
+    end
+    function get_boolean_value(instance::ArvChunkParser, _buffer::ArvBuffer, _chunk::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_chunk_parser_get_boolean_value", libaravis), Cint, (Ptr{GObject}, Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _buffer, _chunk, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_float_value(instance::ArvChunkParser, _buffer::ArvBuffer, _chunk::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_chunk_parser_get_float_value", libaravis), Float64, (Ptr{GObject}, Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _buffer, _chunk, err)
+        check_err(err)
+        ret
+    end
+    function get_integer_value(instance::ArvChunkParser, _buffer::ArvBuffer, _chunk::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_chunk_parser_get_integer_value", libaravis), Int64, (Ptr{GObject}, Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _buffer, _chunk, err)
+        check_err(err)
+        ret
+    end
+    function get_string_value(instance::ArvChunkParser, _buffer::ArvBuffer, _chunk::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_chunk_parser_get_string_value", libaravis), Cstring, (Ptr{GObject}, Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _buffer, _chunk, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function create_chunk_parser(instance::ArvDevice)
+        ret = ccall(("arv_device_create_chunk_parser", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvChunkParser, ret, true)
+        ret2
+    end
+    function dup_available_enumeration_feature_values(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_device_dup_available_enumeration_feature_values", libaravis), Ptr{Int64}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
+        check_err(err)
+        ret2 = begin
+                arrtemp = collect(unsafe_wrap(Vector{Int64}, ret, m_n_values[]))
+                GLib.g_free(ret)
+                arrtemp
+            end
+        _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_enumeration_feature_values_as_display_names(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_device_dup_available_enumeration_feature_values_as_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_enumeration_feature_values_as_strings(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_device_dup_available_enumeration_feature_values_as_strings", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        _n_values = m_n_values[]
+        ret2
+    end
+    function execute_command(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_execute_command", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        nothing
+    end
+    function get_boolean_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_value = Ref{Cint}()
+        err = err_buf()
+        ret = ccall(("arv_device_get_boolean_feature_value_gi", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Cint}, Ptr{Ptr{GError}}), instance, _feature, m_value, err)
+        check_err(err)
+        _value = m_value[]
+        _value = convert(Bool, _value)
+        _value
+    end
+    function get_feature(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        ret = ccall(("arv_device_get_feature", libaravis), Ptr{GObject}, (Ptr{GObject}, Cstring), instance, _feature)
+        ret2 = convert(ArvGcNode, ret, false)
+        ret2
+    end
+    function get_feature_access_mode(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        ret = ccall(("arv_device_get_feature_access_mode", libaravis), UInt32, (Ptr{GObject}, Cstring), instance, _feature)
+        ret2 = GcAccessMode(ret)
+        ret2
+    end
+    function get_float_feature_bounds(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_min = Ref{Float64}()
+        m_max = Ref{Float64}()
+        err = err_buf()
+        ret = ccall(("arv_device_get_float_feature_bounds", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Float64}, Ptr{Float64}, Ptr{Ptr{GError}}), instance, _feature, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_float_feature_increment(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_get_float_feature_increment", libaravis), Float64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_float_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_get_float_feature_value", libaravis), Float64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_genicam(instance::ArvDevice)
+        ret = ccall(("arv_device_get_genicam", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvGc, ret, false)
+        ret2
+    end
+    function get_genicam_xml(instance::ArvDevice)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_device_get_genicam_xml", libaravis), Cstring, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
+        ret2 = string_or_nothing(ret, false)
+        _size = m_size[]
+        (ret2, _size)
+    end
+    function get_integer_feature_bounds(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_min = Ref{Int64}()
+        m_max = Ref{Int64}()
+        err = err_buf()
+        ret = ccall(("arv_device_get_integer_feature_bounds", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Int64}, Ptr{Int64}, Ptr{Ptr{GError}}), instance, _feature, m_min, m_max, err)
+        check_err(err)
+        _min = m_min[]
+        _max = m_max[]
+        (_min, _max)
+    end
+    function get_integer_feature_increment(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_get_integer_feature_increment", libaravis), Int64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_integer_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_get_integer_feature_value", libaravis), Int64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret
+    end
+    function get_string_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_get_string_feature_value", libaravis), Cstring, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function is_enumeration_entry_available(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _entry::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_is_enumeration_entry_available", libaravis), Cint, (Ptr{GObject}, Cstring, Cstring, Ptr{Ptr{GError}}), instance, _feature, _entry, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_feature_available(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_is_feature_available", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_feature_implemented(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_is_feature_implemented", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function read_memory(instance::ArvDevice, _address::Integer, _size::Integer, _buffer::Maybe(Nothing))
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_device_read_memory", libaravis), Cint, (Ptr{GObject}, UInt64, UInt32, Ptr{Nothing}, Ptr{Ptr{GError}}), instance, _address, _size, _buffer_maybe, err)
+        check_err(err)
+        nothing
+    end
+    function read_register(instance::ArvDevice, _address::Integer)
+        m_value = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_device_read_register", libaravis), Cint, (Ptr{GObject}, UInt64, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _address, m_value, err)
+        check_err(err)
+        _value = m_value[]
+        _value
+    end
+    function set_access_check_policy(instance::ArvDevice, _policy)
+        ret = ccall(("arv_device_set_access_check_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_boolean_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _value::Bool)
+        err = err_buf()
+        ret = ccall(("arv_device_set_boolean_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Cint, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_features_from_string(instance::ArvDevice, _string::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_set_features_from_string", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _string, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_float_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _value::Real)
+        err = err_buf()
+        ret = ccall(("arv_device_set_float_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Float64, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_integer_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _value::Integer)
+        err = err_buf()
+        ret = ccall(("arv_device_set_integer_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Int64, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_range_check_policy(instance::ArvDevice, _policy)
+        ret = ccall(("arv_device_set_range_check_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_register_cache_policy(instance::ArvDevice, _policy)
+        ret = ccall(("arv_device_set_register_cache_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_string_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _value::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_device_set_string_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Cstring, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function write_memory(instance::ArvDevice, _address::Integer, _size::Integer, _buffer::Maybe(Nothing))
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_device_write_memory", libaravis), Cint, (Ptr{GObject}, UInt64, UInt32, Ptr{Nothing}, Ptr{Ptr{GError}}), instance, _address, _size, _buffer_maybe, err)
+        check_err(err)
+        nothing
+    end
+    function write_register(instance::ArvDevice, _address::Integer, _value::Integer)
+        err = err_buf()
+        ret = ccall(("arv_device_write_register", libaravis), Cint, (Ptr{GObject}, UInt64, UInt32, Ptr{Ptr{GError}}), instance, _address, _value, err)
+        check_err(err)
+        nothing
+    end
+    function get_data(instance::ArvDomCharacterData)
+        ret = ccall(("arv_dom_character_data_get_data", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function set_data(instance::ArvDomCharacterData, _value::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_character_data_set_data", libaravis), Nothing, (Ptr{GObject}, Cstring), instance, _value)
+        nothing
+    end
+    function DomDocument_new_from_memory(_buffer::Maybe(Nothing), _size::Integer)
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_dom_document_new_from_memory", libaravis), Ptr{GObject}, (Ptr{Nothing}, Int32, Ptr{Ptr{GError}}), _buffer_maybe, _size, err)
+        check_err(err)
+        ret2 = convert(ArvDomDocument, ret, true)
+        ret2
+    end
+    function DomDocument_new_from_path(_path::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_dom_document_new_from_path", libaravis), Ptr{GObject}, (Cstring, Ptr{Ptr{GError}}), _path, err)
+        check_err(err)
+        ret2 = convert(ArvDomDocument, ret, true)
+        ret2
+    end
+    function DomDocument_new_from_url(_url::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_dom_document_new_from_url", libaravis), Ptr{GObject}, (Cstring, Ptr{Ptr{GError}}), _url, err)
+        check_err(err)
+        ret2 = convert(ArvDomDocument, ret, true)
+        ret2
+    end
+    function append_from_memory(instance::ArvDomDocument, _node::ArvDomNode, _buffer::Maybe(Nothing), _size::Integer)
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_dom_document_append_from_memory", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}, Ptr{Nothing}, Int32, Ptr{Ptr{GError}}), instance, _node, _buffer_maybe, _size, err)
+        check_err(err)
+        nothing
+    end
+    function create_element(instance::ArvDomDocument, _tag_name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_document_create_element", libaravis), Ptr{GObject}, (Ptr{GObject}, Cstring), instance, _tag_name)
+        ret2 = convert(ArvDomElement, ret, true)
+        ret2
+    end
+    function create_text_node(instance::ArvDomDocument, _data::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_document_create_text_node", libaravis), Ptr{GObject}, (Ptr{GObject}, Cstring), instance, _data)
+        ret2 = convert(ArvDomText, ret, true)
+        ret2
+    end
+    function get_document_element(instance::ArvDomDocument)
+        ret = ccall(("arv_dom_document_get_document_element", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomElement, ret, false)
+        ret2
+    end
+    function get_href_data(instance::ArvDomDocument, _href::Union{AbstractString, Symbol}, _size::UInt64)
+        ret = ccall(("arv_dom_document_get_href_data", libaravis), Ptr{Nothing}, (Ptr{GObject}, Cstring, Ptr{UInt64}), instance, _href, _size)
+        ret2 = convert(Nothing, ret)
+        ret2
+    end
+    function get_url(instance::ArvDomDocument)
+        ret = ccall(("arv_dom_document_get_url", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function set_path(instance::ArvDomDocument, _path::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_document_set_path", libaravis), Nothing, (Ptr{GObject}, Cstring), instance, _path)
+        nothing
+    end
+    function set_url(instance::ArvDomDocument, _url::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_document_set_url", libaravis), Nothing, (Ptr{GObject}, Cstring), instance, _url)
+        nothing
+    end
+    function DomDocumentFragment_new()
+        ret = ccall(("arv_dom_document_fragment_new", libaravis), Ptr{GObject}, ())
+        ret2 = convert(ArvDomDocumentFragment, ret, true)
+        ret2
+    end
+    function get_attribute(instance::ArvDomElement, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_element_get_attribute", libaravis), Cstring, (Ptr{GObject}, Cstring), instance, _name)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_tag_name(instance::ArvDomElement)
+        ret = ccall(("arv_dom_element_get_tag_name", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function set_attribute(instance::ArvDomElement, _name::Union{AbstractString, Symbol}, _attribute_value::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_element_set_attribute", libaravis), Nothing, (Ptr{GObject}, Cstring, Cstring), instance, _name, _attribute_value)
+        nothing
+    end
+    function get_item(instance::ArvDomNamedNodeMap, _index::Integer)
+        ret = ccall(("arv_dom_named_node_map_get_item", libaravis), Ptr{GObject}, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function get_length(instance::ArvDomNamedNodeMap)
+        ret = ccall(("arv_dom_named_node_map_get_length", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_named_item(instance::ArvDomNamedNodeMap, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_named_node_map_get_named_item", libaravis), Ptr{GObject}, (Ptr{GObject}, Cstring), instance, _name)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function remove_named_item(instance::ArvDomNamedNodeMap, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_named_node_map_remove_named_item", libaravis), Ptr{GObject}, (Ptr{GObject}, Cstring), instance, _name)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function set_named_item(instance::ArvDomNamedNodeMap, _item::ArvDomNode)
+        ret = ccall(("arv_dom_named_node_map_set_named_item", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{GObject}), instance, _item)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function append_child(instance::ArvDomNode, _new_child::ArvDomNode)
+        _new_child = GLib.glib_ref(_new_child)
+        ret = ccall(("arv_dom_node_append_child", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{GObject}), instance, _new_child)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function changed(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_changed", libaravis), Nothing, (Ptr{GObject},), instance)
+        nothing
+    end
+    function get_child_nodes(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_child_nodes", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomNodeList, ret, false)
+        ret2
+    end
+    function get_first_child(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_first_child", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function get_last_child(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_last_child", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function get_next_sibling(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_next_sibling", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function get_node_name(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_node_name", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_node_type(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_node_type", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = DomNodeType(ret)
+        ret2
+    end
+    function get_node_value(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_node_value", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_owner_document(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_owner_document", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomDocument, ret, false)
+        ret2
+    end
+    function get_parent_node(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_parent_node", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function get_previous_sibling(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_get_previous_sibling", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function has_child_nodes(instance::ArvDomNode)
+        ret = ccall(("arv_dom_node_has_child_nodes", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function insert_before(instance::ArvDomNode, _new_child::ArvDomNode, _ref_child::ArvDomNode)
+        _new_child = GLib.glib_ref(_new_child)
+        ret = ccall(("arv_dom_node_insert_before", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{GObject}, Ptr{GObject}), instance, _new_child, _ref_child)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function remove_child(instance::ArvDomNode, _old_child::ArvDomNode)
+        ret = ccall(("arv_dom_node_remove_child", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{GObject}), instance, _old_child)
+        ret2 = convert(ArvDomNode, ret, true)
+        ret2
+    end
+    function replace_child(instance::ArvDomNode, _new_child::ArvDomNode, _old_child::ArvDomNode)
+        _new_child = GLib.glib_ref(_new_child)
+        ret = ccall(("arv_dom_node_replace_child", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{GObject}, Ptr{GObject}), instance, _new_child, _old_child)
+        ret2 = convert(ArvDomNode, ret, true)
+        ret2
+    end
+    function set_node_value(instance::ArvDomNode, _new_value::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_node_set_node_value", libaravis), Nothing, (Ptr{GObject}, Cstring), instance, _new_value)
+        nothing
+    end
+    function DomNodeChildList_new(_parent_node::ArvDomNode)
+        ret = ccall(("arv_dom_node_child_list_new", libaravis), Ptr{GObject}, (Ptr{GObject},), _parent_node)
+        ret2 = ArvDomNodeChildListLeaf(ret, true)
+        ret2
+    end
+    function get_item(instance::ArvDomNodeList, _index::Integer)
+        ret = ccall(("arv_dom_node_list_get_item", libaravis), Ptr{GObject}, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = convert(ArvDomNode, ret, false)
+        ret2
+    end
+    function get_length(instance::ArvDomNodeList)
+        ret = ccall(("arv_dom_node_list_get_length", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function DomText_new(_data::Union{AbstractString, Symbol})
+        ret = ccall(("arv_dom_text_new", libaravis), Ptr{GObject}, (Cstring,), _data)
+        ret2 = ArvDomTextLeaf(ret, true)
+        ret2
+    end
+    function Evaluator_new(_expression::Maybe(Union{AbstractString, Symbol}))
+        _expression_maybe = nothing_to_null(_expression)
+        ret = ccall(("arv_evaluator_new", libaravis), Ptr{GObject}, (Cstring,), _expression_maybe)
+        ret2 = ArvEvaluatorLeaf(ret, true)
+        ret2
+    end
+    function evaluate_as_double(instance::ArvEvaluator)
+        err = err_buf()
+        ret = ccall(("arv_evaluator_evaluate_as_double", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function evaluate_as_int64(instance::ArvEvaluator)
+        err = err_buf()
+        ret = ccall(("arv_evaluator_evaluate_as_int64", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_constant(instance::ArvEvaluator, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_evaluator_get_constant", libaravis), Cstring, (Ptr{GObject}, Cstring), instance, _name)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_expression(instance::ArvEvaluator)
+        ret = ccall(("arv_evaluator_get_expression", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_sub_expression(instance::ArvEvaluator, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_evaluator_get_sub_expression", libaravis), Cstring, (Ptr{GObject}, Cstring), instance, _name)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function set_constant(instance::ArvEvaluator, _name::Union{AbstractString, Symbol}, _constant::Maybe(Union{AbstractString, Symbol}))
+        _constant_maybe = nothing_to_null(_constant)
+        ret = ccall(("arv_evaluator_set_constant", libaravis), Nothing, (Ptr{GObject}, Cstring, Cstring), instance, _name, _constant_maybe)
+        nothing
+    end
+    function set_double_variable(instance::ArvEvaluator, _name::Union{AbstractString, Symbol}, _v_double::Real)
+        ret = ccall(("arv_evaluator_set_double_variable", libaravis), Nothing, (Ptr{GObject}, Cstring, Float64), instance, _name, _v_double)
+        nothing
+    end
+    function set_expression(instance::ArvEvaluator, _expression::Union{AbstractString, Symbol})
+        ret = ccall(("arv_evaluator_set_expression", libaravis), Nothing, (Ptr{GObject}, Cstring), instance, _expression)
+        nothing
+    end
+    function set_int64_variable(instance::ArvEvaluator, _name::Union{AbstractString, Symbol}, _v_int64::Integer)
+        ret = ccall(("arv_evaluator_set_int64_variable", libaravis), Nothing, (Ptr{GObject}, Cstring, Int64), instance, _name, _v_int64)
+        nothing
+    end
+    function set_sub_expression(instance::ArvEvaluator, _name::Union{AbstractString, Symbol}, _expression::Maybe(Union{AbstractString, Symbol}))
+        _expression_maybe = nothing_to_null(_expression)
+        ret = ccall(("arv_evaluator_set_sub_expression", libaravis), Nothing, (Ptr{GObject}, Cstring, Cstring), instance, _name, _expression_maybe)
+        nothing
+    end
+    function FakeCamera_new(_serial_number::Union{AbstractString, Symbol})
+        ret = ccall(("arv_fake_camera_new", libaravis), Ptr{GObject}, (Cstring,), _serial_number)
+        ret2 = ArvFakeCameraLeaf(ret, true)
+        ret2
+    end
+    function FakeCamera_new_full(_serial_number::Union{AbstractString, Symbol}, _genicam_filename::Union{AbstractString, Symbol})
+        ret = ccall(("arv_fake_camera_new_full", libaravis), Ptr{GObject}, (Cstring, Cstring), _serial_number, _genicam_filename)
+        ret2 = ArvFakeCameraLeaf(ret, true)
+        ret2
+    end
+    function check_and_acknowledge_software_trigger(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_check_and_acknowledge_software_trigger", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function fill_buffer(instance::ArvFakeCamera, _buffer::ArvBuffer)
+        m_packet_size = Ref{UInt32}()
+        ret = ccall(("arv_fake_camera_fill_buffer", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}, Ptr{UInt32}), instance, _buffer, m_packet_size)
+        _packet_size = m_packet_size[]
+        _packet_size
+    end
+    function get_acquisition_status(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_get_acquisition_status", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_control_channel_privilege(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_get_control_channel_privilege", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_genicam_xml(instance::ArvFakeCamera)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_fake_camera_get_genicam_xml", libaravis), Cstring, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
+        ret2 = string_or_nothing(ret, false)
+        _size = m_size[]
+        (ret2, _size)
+    end
+    function get_heartbeat_timeout(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_get_heartbeat_timeout", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_payload(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_get_payload", libaravis), UInt64, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_sleep_time_for_next_frame(instance::ArvFakeCamera)
+        m_next_timestamp_us = Ref{UInt64}()
+        ret = ccall(("arv_fake_camera_get_sleep_time_for_next_frame", libaravis), UInt64, (Ptr{GObject}, Ptr{UInt64}), instance, m_next_timestamp_us)
+        _next_timestamp_us = m_next_timestamp_us[]
+        (ret, _next_timestamp_us)
+    end
+    function get_stream_address(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_get_stream_address", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(GSocketAddress, ret, true)
+        ret2
+    end
+    function is_in_free_running_mode(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_is_in_free_running_mode", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_in_software_trigger_mode(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_is_in_software_trigger_mode", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function read_memory(instance::ArvFakeCamera, _address::Integer, _size::Integer, _buffer::Maybe(Nothing))
+        _buffer_maybe = nothing_to_null(_buffer)
+        ret = ccall(("arv_fake_camera_read_memory", libaravis), Cint, (Ptr{GObject}, UInt32, UInt32, Ptr{Nothing}), instance, _address, _size, _buffer_maybe)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function read_register(instance::ArvFakeCamera, _address::Integer)
+        m_value = Ref{UInt32}()
+        ret = ccall(("arv_fake_camera_read_register", libaravis), Cint, (Ptr{GObject}, UInt32, Ptr{UInt32}), instance, _address, m_value)
+        ret2 = convert(Bool, ret)
+        _value = m_value[]
+        (ret2, _value)
+    end
+    function set_control_channel_privilege(instance::ArvFakeCamera, _privilege::Integer)
+        ret = ccall(("arv_fake_camera_set_control_channel_privilege", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _privilege)
+        nothing
+    end
+    function set_inet_address(instance::ArvFakeCamera, _address::GInetAddress)
+        ret = ccall(("arv_fake_camera_set_inet_address", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}), instance, _address)
+        nothing
+    end
+    function set_trigger_frequency(instance::ArvFakeCamera, _frequency::Real)
+        ret = ccall(("arv_fake_camera_set_trigger_frequency", libaravis), Nothing, (Ptr{GObject}, Float64), instance, _frequency)
+        nothing
+    end
+    function wait_for_next_frame(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_wait_for_next_frame", libaravis), Nothing, (Ptr{GObject},), instance)
+        nothing
+    end
+    function write_memory(instance::ArvFakeCamera, _address::Integer, _size::Integer, _buffer::Maybe(Nothing))
+        _buffer_maybe = nothing_to_null(_buffer)
+        ret = ccall(("arv_fake_camera_write_memory", libaravis), Cint, (Ptr{GObject}, UInt32, UInt32, Ptr{Nothing}), instance, _address, _size, _buffer_maybe)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function write_register(instance::ArvFakeCamera, _address::Integer, _value::Integer)
+        ret = ccall(("arv_fake_camera_write_register", libaravis), Cint, (Ptr{GObject}, UInt32, UInt32), instance, _address, _value)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function FakeDevice_new(_serial_number::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_fake_device_new", libaravis), Ptr{GObject}, (Cstring, Ptr{Ptr{GError}}), _serial_number, err)
+        check_err(err)
+        ret2 = ArvFakeDeviceLeaf(ret, true)
+        ret2
+    end
+    function get_fake_camera(instance::ArvFakeDevice)
+        ret = ccall(("arv_fake_device_get_fake_camera", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvFakeCamera, ret, false)
+        ret2
+    end
+    function Gc_new(_device::ArvDevice, _xml::Maybe(Nothing), _size::Integer)
+        _xml_maybe = nothing_to_null(_xml)
+        ret = ccall(("arv_gc_new", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{Nothing}, UInt64), _device, _xml_maybe, _size)
+        ret2 = ArvGcLeaf(ret, true)
+        ret2
+    end
+    function Gc_p_value_indexed_node_new()
+        ret = ccall(("arv_gc_p_value_indexed_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcLeaf(ret, true)
+        ret2
+    end
+    function invalidator_has_changed(_self::ArvGcInvalidatorNode)
+        ret = ccall(("arv_gc_invalidator_has_changed", libaravis), Cint, (Ptr{GObject},), _self)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_access_check_policy(instance::ArvGc)
+        ret = ccall(("arv_gc_get_access_check_policy", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = AccessCheckPolicy(ret)
+        ret2
+    end
+    function get_buffer(instance::ArvGc)
+        ret = ccall(("arv_gc_get_buffer", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvBuffer, ret, false)
+        ret2
+    end
+    function get_device(instance::ArvGc)
+        ret = ccall(("arv_gc_get_device", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvDevice, ret, false)
+        ret2
+    end
+    function get_node(instance::ArvGc, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_gc_get_node", libaravis), Ptr{GObject}, (Ptr{GObject}, Cstring), instance, _name)
+        ret2 = convert(ArvGcNode, ret, false)
+        ret2
+    end
+    function get_range_check_policy(instance::ArvGc)
+        ret = ccall(("arv_gc_get_range_check_policy", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = RangeCheckPolicy(ret)
+        ret2
+    end
+    function get_register_cache_policy(instance::ArvGc)
+        ret = ccall(("arv_gc_get_register_cache_policy", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = RegisterCachePolicy(ret)
+        ret2
+    end
+    function register_feature_node(instance::ArvGc, _node::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_register_feature_node", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}), instance, _node)
+        nothing
+    end
+    function set_access_check_policy(instance::ArvGc, _policy)
+        ret = ccall(("arv_gc_set_access_check_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_buffer(instance::ArvGc, _buffer::ArvBuffer)
+        ret = ccall(("arv_gc_set_buffer", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}), instance, _buffer)
+        nothing
+    end
+    function set_range_check_policy(instance::ArvGc, _policy)
+        ret = ccall(("arv_gc_set_range_check_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_register_cache_policy(instance::ArvGc, _policy)
+        ret = ccall(("arv_gc_set_register_cache_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function GcBoolean_new()
+        ret = ccall(("arv_gc_boolean_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcBooleanLeaf(ret, true)
+        ret2
+    end
+    function get_value(instance::ArvGcBoolean)
+        m_value = Ref{Cint}()
+        err = err_buf()
+        ret = ccall(("arv_gc_boolean_get_value_gi", libaravis), Nothing, (Ptr{GObject}, Ptr{Cint}, Ptr{Ptr{GError}}), instance, m_value, err)
+        check_err(err)
+        _value = m_value[]
+        _value = convert(Bool, _value)
+        _value
+    end
+    function set_value(instance::ArvGcBoolean, _v_boolean::Bool)
+        err = err_buf()
+        ret = ccall(("arv_gc_boolean_set_value", libaravis), Nothing, (Ptr{GObject}, Cint, Ptr{Ptr{GError}}), instance, _v_boolean, err)
+        check_err(err)
+        nothing
+    end
+    function GcCategory_new()
+        ret = ccall(("arv_gc_category_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcCategoryLeaf(ret, true)
+        ret2
+    end
+    function get_features(instance::ArvGcCategory)
+        ret = ccall(("arv_gc_category_get_features", libaravis), Ptr{GLib._GSList{Cstring}}, (Ptr{GObject},), instance)
+        ret
+    end
+    function GcCommand_new()
+        ret = ccall(("arv_gc_command_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcCommandLeaf(ret, true)
+        ret2
+    end
+    function execute(instance::ArvGcCommand)
+        err = err_buf()
+        ret = ccall(("arv_gc_command_execute", libaravis), Nothing, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        nothing
+    end
+    function GcConverterNode_new()
+        ret = ccall(("arv_gc_converter_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcConverterNodeLeaf(ret, true)
+        ret2
+    end
+    function GcEnumEntry_new()
+        ret = ccall(("arv_gc_enum_entry_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcEnumEntryLeaf(ret, true)
+        ret2
+    end
+    function get_value(instance::ArvGcEnumEntry)
+        err = err_buf()
+        ret = ccall(("arv_gc_enum_entry_get_value", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function GcEnumeration_new()
+        ret = ccall(("arv_gc_enumeration_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcEnumerationLeaf(ret, true)
+        ret2
+    end
+    function dup_available_display_names(instance::ArvGcEnumeration)
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_gc_enumeration_dup_available_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_values, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_int_values(instance::ArvGcEnumeration)
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_gc_enumeration_dup_available_int_values", libaravis), Ptr{Int64}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_values, err)
+        check_err(err)
+        ret2 = begin
+                arrtemp = copy(unsafe_wrap(Vector{Int64}, ret, m_n_values[]))
+                GLib.g_free(ret)
+                arrtemp
+            end
+        _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_string_values(instance::ArvGcEnumeration)
+        m_n_values = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_gc_enumeration_dup_available_string_values", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_values, err)
+        check_err(err)
+        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        _n_values = m_n_values[]
+        ret2
+    end
+    function get_entries(instance::ArvGcEnumeration)
+        ret = ccall(("arv_gc_enumeration_get_entries", libaravis), Ptr{GLib._GSList{Ptr{GObject}}}, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_int_value(instance::ArvGcEnumeration)
+        err = err_buf()
+        ret = ccall(("arv_gc_enumeration_get_int_value", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_string_value(instance::ArvGcEnumeration)
+        err = err_buf()
+        ret = ccall(("arv_gc_enumeration_get_string_value", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function set_int_value(instance::ArvGcEnumeration, _value::Integer)
+        err = err_buf()
+        ret = ccall(("arv_gc_enumeration_set_int_value", libaravis), Cint, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _value, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_string_value(instance::ArvGcEnumeration, _value::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_gc_enumeration_set_string_value", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _value, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_actual_access_mode(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_actual_access_mode", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcAccessMode(ret)
+        ret2
+    end
+    function get_description(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_description", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_display_name(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_display_name", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_imposed_access_mode(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_imposed_access_mode", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcAccessMode(ret)
+        ret2
+    end
+    function get_name(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_name", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_name_space(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_name_space", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcNameSpace(ret)
+        ret2
+    end
+    function get_tooltip(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_tooltip", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_value_as_string(instance::ArvGcFeatureNode)
+        err = err_buf()
+        ret = ccall(("arv_gc_feature_node_get_value_as_string", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_visibility(instance::ArvGcFeatureNode)
+        ret = ccall(("arv_gc_feature_node_get_visibility", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcVisibility(ret)
+        ret2
+    end
+    function is_available(instance::ArvGcFeatureNode)
+        err = err_buf()
+        ret = ccall(("arv_gc_feature_node_is_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_implemented(instance::ArvGcFeatureNode)
+        err = err_buf()
+        ret = ccall(("arv_gc_feature_node_is_implemented", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function is_locked(instance::ArvGcFeatureNode)
+        err = err_buf()
+        ret = ccall(("arv_gc_feature_node_is_locked", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_value_from_string(instance::ArvGcFeatureNode, _string::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_gc_feature_node_set_value_from_string", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _string, err)
+        check_err(err)
+        nothing
+    end
+    function GcFloatNode_new()
+        ret = ccall(("arv_gc_float_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcFloatNodeLeaf(ret, true)
+        ret2
+    end
+    function GcFloatRegNode_new()
+        ret = ccall(("arv_gc_float_reg_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcFloatRegNodeLeaf(ret, true)
+        ret2
+    end
+    function GcGroupNode_new()
+        ret = ccall(("arv_gc_group_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcGroupNodeLeaf(ret, true)
+        ret2
+    end
+    function GcIndexNode_new()
+        ret = ccall(("arv_gc_index_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcIndexNodeLeaf(ret, true)
+        ret2
+    end
+    function get_index(instance::ArvGcIndexNode, _default_offset::Integer)
+        err = err_buf()
+        ret = ccall(("arv_gc_index_node_get_index", libaravis), Int64, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _default_offset, err)
+        check_err(err)
+        ret
+    end
+    function GcIntConverterNode_new()
+        ret = ccall(("arv_gc_int_converter_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcIntConverterNodeLeaf(ret, true)
+        ret2
+    end
+    function GcIntRegNode_new()
+        ret = ccall(("arv_gc_int_reg_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcIntRegNodeLeaf(ret, true)
+        ret2
+    end
+    function GcIntSwissKnifeNode_new()
+        ret = ccall(("arv_gc_int_swiss_knife_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcIntSwissKnifeNodeLeaf(ret, true)
+        ret2
+    end
+    function GcIntegerNode_new()
+        ret = ccall(("arv_gc_integer_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcIntegerNodeLeaf(ret, true)
+        ret2
+    end
+    function GcInvalidatorNode_new()
+        ret = ccall(("arv_gc_invalidator_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcInvalidatorNodeLeaf(ret, true)
+        ret2
+    end
+    function GcMaskedIntRegNode_new()
+        ret = ccall(("arv_gc_masked_int_reg_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcMaskedIntRegNodeLeaf(ret, true)
+        ret2
+    end
+    function get_genicam(instance::ArvGcNode)
+        ret = ccall(("arv_gc_node_get_genicam", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvGc, ret, false)
+        ret2
+    end
+    function GcPort_new()
+        ret = ccall(("arv_gc_port_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPortLeaf(ret, true)
+        ret2
+    end
+    function read(instance::ArvGcPort, _buffer::Maybe(Nothing), _address::Integer, _length::Integer)
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_gc_port_read", libaravis), Nothing, (Ptr{GObject}, Ptr{Nothing}, UInt64, UInt64, Ptr{Ptr{GError}}), instance, _buffer_maybe, _address, _length, err)
+        check_err(err)
+        nothing
+    end
+    function write(instance::ArvGcPort, _buffer::Maybe(Nothing), _address::Integer, _length::Integer)
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_gc_port_write", libaravis), Nothing, (Ptr{GObject}, Ptr{Nothing}, UInt64, UInt64, Ptr{Ptr{GError}}), instance, _buffer_maybe, _address, _length, err)
+        check_err(err)
+        nothing
+    end
+    function GcPropertyNode_new_access_mode()
+        ret = ccall(("arv_gc_property_node_new_access_mode", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_address()
+        ret = ccall(("arv_gc_property_node_new_address", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_bit()
+        ret = ccall(("arv_gc_property_node_new_bit", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_cachable()
+        ret = ccall(("arv_gc_property_node_new_cachable", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_chunk_id()
+        ret = ccall(("arv_gc_property_node_new_chunk_id", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_command_value()
+        ret = ccall(("arv_gc_property_node_new_command_value", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_constant()
+        ret = ccall(("arv_gc_property_node_new_constant", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_description()
+        ret = ccall(("arv_gc_property_node_new_description", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_display_name()
+        ret = ccall(("arv_gc_property_node_new_display_name", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_display_notation()
+        ret = ccall(("arv_gc_property_node_new_display_notation", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_display_precision()
+        ret = ccall(("arv_gc_property_node_new_display_precision", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_endianness()
+        ret = ccall(("arv_gc_property_node_new_endianness", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_event_id()
+        ret = ccall(("arv_gc_property_node_new_event_id", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_expression()
+        ret = ccall(("arv_gc_property_node_new_expression", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_formula()
+        ret = ccall(("arv_gc_property_node_new_formula", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_formula_from()
+        ret = ccall(("arv_gc_property_node_new_formula_from", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_formula_to()
+        ret = ccall(("arv_gc_property_node_new_formula_to", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_imposed_access_mode()
+        ret = ccall(("arv_gc_property_node_new_imposed_access_mode", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_increment()
+        ret = ccall(("arv_gc_property_node_new_increment", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_is_linear()
+        ret = ccall(("arv_gc_property_node_new_is_linear", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_length()
+        ret = ccall(("arv_gc_property_node_new_length", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_lsb()
+        ret = ccall(("arv_gc_property_node_new_lsb", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_maximum()
+        ret = ccall(("arv_gc_property_node_new_maximum", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_minimum()
+        ret = ccall(("arv_gc_property_node_new_minimum", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_msb()
+        ret = ccall(("arv_gc_property_node_new_msb", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_off_value()
+        ret = ccall(("arv_gc_property_node_new_off_value", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_on_value()
+        ret = ccall(("arv_gc_property_node_new_on_value", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_address()
+        ret = ccall(("arv_gc_property_node_new_p_address", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_command_value()
+        ret = ccall(("arv_gc_property_node_new_p_command_value", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_feature()
+        ret = ccall(("arv_gc_property_node_new_p_feature", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_increment()
+        ret = ccall(("arv_gc_property_node_new_p_increment", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_is_available()
+        ret = ccall(("arv_gc_property_node_new_p_is_available", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_is_implemented()
+        ret = ccall(("arv_gc_property_node_new_p_is_implemented", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_is_locked()
+        ret = ccall(("arv_gc_property_node_new_p_is_locked", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_length()
+        ret = ccall(("arv_gc_property_node_new_p_length", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_maximum()
+        ret = ccall(("arv_gc_property_node_new_p_maximum", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_minimum()
+        ret = ccall(("arv_gc_property_node_new_p_minimum", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_port()
+        ret = ccall(("arv_gc_property_node_new_p_port", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_selected()
+        ret = ccall(("arv_gc_property_node_new_p_selected", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_value()
+        ret = ccall(("arv_gc_property_node_new_p_value", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_value_default()
+        ret = ccall(("arv_gc_property_node_new_p_value_default", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_variable()
+        ret = ccall(("arv_gc_property_node_new_p_variable", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_polling_time()
+        ret = ccall(("arv_gc_property_node_new_polling_time", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_representation()
+        ret = ccall(("arv_gc_property_node_new_representation", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_sign()
+        ret = ccall(("arv_gc_property_node_new_sign", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_slope()
+        ret = ccall(("arv_gc_property_node_new_slope", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_streamable()
+        ret = ccall(("arv_gc_property_node_new_streamable", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_tooltip()
+        ret = ccall(("arv_gc_property_node_new_tooltip", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_unit()
+        ret = ccall(("arv_gc_property_node_new_unit", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_value()
+        ret = ccall(("arv_gc_property_node_new_value", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_value_default()
+        ret = ccall(("arv_gc_property_node_new_value_default", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_visibility()
+        ret = ccall(("arv_gc_property_node_new_visibility", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function get_access_mode(instance::ArvGcPropertyNode, _default_value)
+        ret = ccall(("arv_gc_property_node_get_access_mode", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret2 = GcAccessMode(ret)
+        ret2
+    end
+    function get_cachable(instance::ArvGcPropertyNode, _default_value)
+        ret = ccall(("arv_gc_property_node_get_cachable", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret2 = GcCachable(ret)
+        ret2
+    end
+    function get_display_notation(instance::ArvGcPropertyNode, _default_value)
+        ret = ccall(("arv_gc_property_node_get_display_notation", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret2 = GcDisplayNotation(ret)
+        ret2
+    end
+    function get_display_precision(instance::ArvGcPropertyNode, _default_value::Integer)
+        ret = ccall(("arv_gc_property_node_get_display_precision", libaravis), Int64, (Ptr{GObject}, Int64), instance, _default_value)
+        ret
+    end
+    function get_double(instance::ArvGcPropertyNode)
+        err = err_buf()
+        ret = ccall(("arv_gc_property_node_get_double", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_endianness(instance::ArvGcPropertyNode, _default_value::Integer)
+        ret = ccall(("arv_gc_property_node_get_endianness", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret
+    end
+    function get_int64(instance::ArvGcPropertyNode)
+        err = err_buf()
+        ret = ccall(("arv_gc_property_node_get_int64", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_linked_node(instance::ArvGcPropertyNode)
+        ret = ccall(("arv_gc_property_node_get_linked_node", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvGcNode, ret, false)
+        ret2
+    end
+    function get_lsb(instance::ArvGcPropertyNode, _default_value::Integer)
+        ret = ccall(("arv_gc_property_node_get_lsb", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret
+    end
+    function get_msb(instance::ArvGcPropertyNode, _default_value::Integer)
+        ret = ccall(("arv_gc_property_node_get_msb", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret
+    end
+    function get_name(instance::ArvGcPropertyNode)
+        ret = ccall(("arv_gc_property_node_get_name", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_node_type(instance::ArvGcPropertyNode)
+        ret = ccall(("arv_gc_property_node_get_node_type", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcPropertyNodeType(ret)
+        ret2
+    end
+    function get_representation(instance::ArvGcPropertyNode, _default_value)
+        ret = ccall(("arv_gc_property_node_get_representation", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret2 = GcRepresentation(ret)
+        ret2
+    end
+    function get_sign(instance::ArvGcPropertyNode, _default_value)
+        ret = ccall(("arv_gc_property_node_get_sign", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret2 = GcSignedness(ret)
+        ret2
+    end
+    function get_streamable(instance::ArvGcPropertyNode, _default_value)
+        ret = ccall(("arv_gc_property_node_get_streamable", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret2 = GcStreamable(ret)
+        ret2
+    end
+    function get_string(instance::ArvGcPropertyNode)
+        err = err_buf()
+        ret = ccall(("arv_gc_property_node_get_string", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_visibility(instance::ArvGcPropertyNode, _default_value)
+        ret = ccall(("arv_gc_property_node_get_visibility", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret2 = GcVisibility(ret)
+        ret2
+    end
+    function set_double(instance::ArvGcPropertyNode, _v_double::Real)
+        err = err_buf()
+        ret = ccall(("arv_gc_property_node_set_double", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _v_double, err)
+        check_err(err)
+        nothing
+    end
+    function set_int64(instance::ArvGcPropertyNode, _v_int64::Integer)
+        err = err_buf()
+        ret = ccall(("arv_gc_property_node_set_int64", libaravis), Nothing, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _v_int64, err)
+        check_err(err)
+        nothing
+    end
+    function set_string(instance::ArvGcPropertyNode, _string::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_gc_property_node_set_string", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _string, err)
+        check_err(err)
+        nothing
+    end
+    function GcRegisterDescriptionNode_new()
+        ret = ccall(("arv_gc_register_description_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcRegisterDescriptionNodeLeaf(ret, true)
+        ret2
+    end
+    function check_schema_version(instance::ArvGcRegisterDescriptionNode, _required_major::Integer, _required_minor::Integer, _required_subminor::Integer)
+        ret = ccall(("arv_gc_register_description_node_check_schema_version", libaravis), Cint, (Ptr{GObject}, UInt32, UInt32, UInt32), instance, _required_major, _required_minor, _required_subminor)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function compare_schema_version(instance::ArvGcRegisterDescriptionNode, _major::Integer, _minor::Integer, _subminor::Integer)
+        ret = ccall(("arv_gc_register_description_node_compare_schema_version", libaravis), Int32, (Ptr{GObject}, UInt32, UInt32, UInt32), instance, _major, _minor, _subminor)
+        ret
+    end
+    function get_major_version(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_major_version", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_minor_version(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_minor_version", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_model_name(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_model_name", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, true)
+        ret2
+    end
+    function get_schema_major_version(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_schema_major_version", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_schema_minor_version(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_schema_minor_version", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_schema_subminor_version(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_schema_subminor_version", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_subminor_version(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_subminor_version", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_vendor_name(instance::ArvGcRegisterDescriptionNode)
+        ret = ccall(("arv_gc_register_description_node_get_vendor_name", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, true)
+        ret2
+    end
+    function GcRegisterNode_new()
+        ret = ccall(("arv_gc_register_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcRegisterNodeLeaf(ret, true)
+        ret2
+    end
+    function GcStringNode_new()
+        ret = ccall(("arv_gc_string_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcStringNodeLeaf(ret, true)
+        ret2
+    end
+    function GcStringRegNode_new()
+        ret = ccall(("arv_gc_string_reg_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcStringRegNodeLeaf(ret, true)
+        ret2
+    end
+    function GcStructEntryNode_new()
+        ret = ccall(("arv_gc_struct_entry_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcStructEntryNodeLeaf(ret, true)
+        ret2
+    end
+    function GcStructRegNode_new()
+        ret = ccall(("arv_gc_struct_reg_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcStructRegNodeLeaf(ret, true)
+        ret2
+    end
+    function GcSwissKnifeNode_new()
+        ret = ccall(("arv_gc_swiss_knife_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcSwissKnifeNodeLeaf(ret, true)
+        ret2
+    end
+    function GcValueIndexedNode_new()
+        ret = ccall(("arv_gc_value_indexed_node_new", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcValueIndexedNodeLeaf(ret, true)
+        ret2
+    end
+    function get_index(instance::ArvGcValueIndexedNode)
+        ret = ccall(("arv_gc_value_indexed_node_get_index", libaravis), Int64, (Ptr{GObject},), instance)
+        ret
+    end
+    function GvDevice_new(_interface_address::GInetAddress, _device_address::GInetAddress)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_new", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{GObject}, Ptr{Ptr{GError}}), _interface_address, _device_address, err)
+        check_err(err)
+        ret2 = ArvGvDeviceLeaf(ret, true)
+        ret2
+    end
+    function auto_packet_size(instance::ArvGvDevice)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_auto_packet_size", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_current_ip(instance::ArvGvDevice)
+        m_ip = Ref{Ptr{GObject}}()
+        m_mask = Ref{Ptr{GObject}}()
+        m_gateway = Ref{Ptr{GObject}}()
+        err = err_buf()
+        ret = ccall(("arv_gv_device_get_current_ip", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GObject}}, Ptr{Ptr{GObject}}, Ptr{Ptr{GObject}}, Ptr{Ptr{GError}}), instance, m_ip, m_mask, m_gateway, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        _ip = m_ip[]
+        _ip = convert(GInetAddress, _ip, true)
+        _mask = m_mask[]
+        _mask = convert(GInetAddressMask, _mask, true)
+        _gateway = m_gateway[]
+        _gateway = convert(GInetAddress, _gateway, true)
+        (ret2, _ip, _mask, _gateway)
+    end
+    function get_device_address(instance::ArvGvDevice)
+        ret = ccall(("arv_gv_device_get_device_address", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(GSocketAddress, ret, false)
+        ret2
+    end
+    function get_interface_address(instance::ArvGvDevice)
+        ret = ccall(("arv_gv_device_get_interface_address", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(GSocketAddress, ret, false)
+        ret2
+    end
+    function get_ip_configuration_mode(instance::ArvGvDevice)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_get_ip_configuration_mode", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = GvIpConfigurationMode(ret)
+        ret2
+    end
+    function get_packet_size(instance::ArvGvDevice)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_get_packet_size", libaravis), UInt32, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_persistent_ip(instance::ArvGvDevice)
+        m_ip = Ref{Ptr{GObject}}()
+        m_mask = Ref{Ptr{GObject}}()
+        m_gateway = Ref{Ptr{GObject}}()
+        err = err_buf()
+        ret = ccall(("arv_gv_device_get_persistent_ip", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GObject}}, Ptr{Ptr{GObject}}, Ptr{Ptr{GObject}}, Ptr{Ptr{GError}}), instance, m_ip, m_mask, m_gateway, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        _ip = m_ip[]
+        _ip = convert(GInetAddress, _ip, true)
+        _mask = m_mask[]
+        _mask = convert(GInetAddressMask, _mask, true)
+        _gateway = m_gateway[]
+        _gateway = convert(GInetAddress, _gateway, true)
+        (ret2, _ip, _mask, _gateway)
+    end
+    function get_stream_options(instance::ArvGvDevice)
+        ret = ccall(("arv_gv_device_get_stream_options", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GvStreamOption(ret)
+        ret2
+    end
+    function get_timestamp_tick_frequency(instance::ArvGvDevice)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_get_timestamp_tick_frequency", libaravis), UInt64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function is_controller(instance::ArvGvDevice)
+        ret = ccall(("arv_gv_device_is_controller", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function leave_control(instance::ArvGvDevice)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_leave_control", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_ip_configuration_mode(instance::ArvGvDevice, _mode)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_set_ip_configuration_mode", libaravis), Cint, (Ptr{GObject}, UInt32, Ptr{Ptr{GError}}), instance, _mode, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_packet_size(instance::ArvGvDevice, _packet_size::Integer)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_set_packet_size", libaravis), Nothing, (Ptr{GObject}, Int32, Ptr{Ptr{GError}}), instance, _packet_size, err)
+        check_err(err)
+        nothing
+    end
+    function set_packet_size_adjustment(instance::ArvGvDevice, _adjustment)
+        ret = ccall(("arv_gv_device_set_packet_size_adjustment", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _adjustment)
+        nothing
+    end
+    function set_persistent_ip(instance::ArvGvDevice, _ip::Maybe(GInetAddress), _mask::Maybe(GInetAddressMask), _gateway::Maybe(GInetAddress))
+        _ip_maybe = nothing_to_null(_ip)
+        _mask_maybe = nothing_to_null(_mask)
+        _gateway_maybe = nothing_to_null(_gateway)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_set_persistent_ip", libaravis), Cint, (Ptr{GObject}, Ptr{GObject}, Ptr{GObject}, Ptr{GObject}, Ptr{Ptr{GError}}), instance, _ip_maybe, _mask_maybe, _gateway_maybe, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_persistent_ip_from_string(instance::ArvGvDevice, _ip::Maybe(Union{AbstractString, Symbol}), _mask::Maybe(Union{AbstractString, Symbol}), _gateway::Maybe(Union{AbstractString, Symbol}))
+        _ip_maybe = nothing_to_null(_ip)
+        _mask_maybe = nothing_to_null(_mask)
+        _gateway_maybe = nothing_to_null(_gateway)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_set_persistent_ip_from_string", libaravis), Cint, (Ptr{GObject}, Cstring, Cstring, Cstring, Ptr{Ptr{GError}}), instance, _ip_maybe, _mask_maybe, _gateway_maybe, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function set_stream_options(instance::ArvGvDevice, _options)
+        ret = ccall(("arv_gv_device_set_stream_options", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _options)
+        nothing
+    end
+    function take_control(instance::ArvGvDevice)
+        err = err_buf()
+        ret = ccall(("arv_gv_device_take_control", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function GvFakeCamera_new(_interface_name::Maybe(Union{AbstractString, Symbol}), _serial_number::Maybe(Union{AbstractString, Symbol}))
+        _interface_name_maybe = nothing_to_null(_interface_name)
+        _serial_number_maybe = nothing_to_null(_serial_number)
+        ret = ccall(("arv_gv_fake_camera_new", libaravis), Ptr{GObject}, (Cstring, Cstring), _interface_name_maybe, _serial_number_maybe)
+        ret2 = ArvGvFakeCameraLeaf(ret, true)
+        ret2
+    end
+    function GvFakeCamera_new_full(_interface_name::Maybe(Union{AbstractString, Symbol}), _serial_number::Maybe(Union{AbstractString, Symbol}), _genicam_filename::Maybe(Union{AbstractString, Symbol}))
+        _interface_name_maybe = nothing_to_null(_interface_name)
+        _serial_number_maybe = nothing_to_null(_serial_number)
+        _genicam_filename_maybe = nothing_to_null(_genicam_filename)
+        ret = ccall(("arv_gv_fake_camera_new_full", libaravis), Ptr{GObject}, (Cstring, Cstring, Cstring), _interface_name_maybe, _serial_number_maybe, _genicam_filename_maybe)
+        ret2 = ArvGvFakeCameraLeaf(ret, true)
+        ret2
+    end
+    function get_fake_camera(instance::ArvGvFakeCamera)
+        ret = ccall(("arv_gv_fake_camera_get_fake_camera", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvFakeCamera, ret, false)
+        ret2
+    end
+    function is_running(instance::ArvGvFakeCamera)
+        ret = ccall(("arv_gv_fake_camera_is_running", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_port(instance::ArvGvStream)
+        ret = ccall(("arv_gv_stream_get_port", libaravis), UInt16, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_statistics(instance::ArvGvStream)
+        m_n_resent_packets = Ref{UInt64}()
+        m_n_missing_packets = Ref{UInt64}()
+        ret = ccall(("arv_gv_stream_get_statistics", libaravis), Nothing, (Ptr{GObject}, Ptr{UInt64}, Ptr{UInt64}), instance, m_n_resent_packets, m_n_missing_packets)
+        _n_resent_packets = m_n_resent_packets[]
+        _n_missing_packets = m_n_missing_packets[]
+        (_n_resent_packets, _n_missing_packets)
+    end
+    function get_device_address(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_address", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_id(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_id", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_manufacturer_info(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_manufacturer_info", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_model(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_model", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_physical_id(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_physical_id", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_protocol(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_protocol", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_serial_nbr(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_serial_nbr", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_device_vendor(instance::ArvInterface, _index::Integer)
+        ret = ccall(("arv_interface_get_device_vendor", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _index)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_n_devices(instance::ArvInterface)
+        ret = ccall(("arv_interface_get_n_devices", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function open_device(instance::ArvInterface, _device_id::Maybe(Union{AbstractString, Symbol}))
+        _device_id_maybe = nothing_to_null(_device_id)
+        err = err_buf()
+        ret = ccall(("arv_interface_open_device", libaravis), Ptr{GObject}, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _device_id_maybe, err)
+        check_err(err)
+        ret2 = convert(ArvDevice, ret, true)
+        ret2
+    end
+    function update_device_list(instance::ArvInterface)
+        ret = ccall(("arv_interface_update_device_list", libaravis), Nothing, (Ptr{GObject},), instance)
+        nothing
+    end
+    function get_emit_signals(instance::ArvStream)
+        ret = ccall(("arv_stream_get_emit_signals", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_info_double(instance::ArvStream, _id::Integer)
+        ret = ccall(("arv_stream_get_info_double", libaravis), Float64, (Ptr{GObject}, UInt32), instance, _id)
+        ret
+    end
+    function get_info_double_by_name(instance::ArvStream, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_stream_get_info_double_by_name", libaravis), Float64, (Ptr{GObject}, Cstring), instance, _name)
+        ret
+    end
+    function get_info_name(instance::ArvStream, _id::Integer)
+        ret = ccall(("arv_stream_get_info_name", libaravis), Cstring, (Ptr{GObject}, UInt32), instance, _id)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_info_type(instance::ArvStream, _id::Integer)
+        ret = ccall(("arv_stream_get_info_type", libaravis), UInt64, (Ptr{GObject}, UInt32), instance, _id)
+        ret
+    end
+    function get_info_uint64(instance::ArvStream, _id::Integer)
+        ret = ccall(("arv_stream_get_info_uint64", libaravis), UInt64, (Ptr{GObject}, UInt32), instance, _id)
+        ret
+    end
+    function get_info_uint64_by_name(instance::ArvStream, _name::Union{AbstractString, Symbol})
+        ret = ccall(("arv_stream_get_info_uint64_by_name", libaravis), UInt64, (Ptr{GObject}, Cstring), instance, _name)
+        ret
+    end
+    function get_n_buffers(instance::ArvStream)
+        m_n_input_buffers = Ref{Int32}()
+        m_n_output_buffers = Ref{Int32}()
+        ret = ccall(("arv_stream_get_n_buffers", libaravis), Nothing, (Ptr{GObject}, Ptr{Int32}, Ptr{Int32}), instance, m_n_input_buffers, m_n_output_buffers)
+        _n_input_buffers = m_n_input_buffers[]
+        _n_output_buffers = m_n_output_buffers[]
+        (_n_input_buffers, _n_output_buffers)
+    end
+    function get_n_infos(instance::ArvStream)
+        ret = ccall(("arv_stream_get_n_infos", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_statistics(instance::ArvStream)
+        m_n_completed_buffers = Ref{UInt64}()
+        m_n_failures = Ref{UInt64}()
+        m_n_underruns = Ref{UInt64}()
+        ret = ccall(("arv_stream_get_statistics", libaravis), Nothing, (Ptr{GObject}, Ptr{UInt64}, Ptr{UInt64}, Ptr{UInt64}), instance, m_n_completed_buffers, m_n_failures, m_n_underruns)
+        _n_completed_buffers = m_n_completed_buffers[]
+        _n_failures = m_n_failures[]
+        _n_underruns = m_n_underruns[]
+        (_n_completed_buffers, _n_failures, _n_underruns)
+    end
+    function pop_buffer(instance::ArvStream)
+        ret = ccall(("arv_stream_pop_buffer", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvBuffer, ret, true)
+        ret2
+    end
+    function push_buffer(instance::ArvStream, _buffer::ArvBuffer)
+        _buffer = GLib.glib_ref(_buffer)
+        ret = ccall(("arv_stream_push_buffer", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}), instance, _buffer)
+        nothing
+    end
+    function set_emit_signals(instance::ArvStream, _emit_signals::Bool)
+        ret = ccall(("arv_stream_set_emit_signals", libaravis), Nothing, (Ptr{GObject}, Cint), instance, _emit_signals)
+        nothing
+    end
+    function start_thread(instance::ArvStream)
+        ret = ccall(("arv_stream_start_thread", libaravis), Nothing, (Ptr{GObject},), instance)
+        nothing
+    end
+    function stop_thread(instance::ArvStream, _delete_buffers::Bool)
+        ret = ccall(("arv_stream_stop_thread", libaravis), UInt32, (Ptr{GObject}, Cint), instance, _delete_buffers)
+        ret
+    end
+    function timeout_pop_buffer(instance::ArvStream, _timeout::Integer)
+        ret = ccall(("arv_stream_timeout_pop_buffer", libaravis), Ptr{GObject}, (Ptr{GObject}, UInt64), instance, _timeout)
+        ret2 = convert(ArvBuffer, ret, true)
+        ret2
+    end
+    function try_pop_buffer(instance::ArvStream)
+        ret = ccall(("arv_stream_try_pop_buffer", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+        ret2 = convert(ArvBuffer, ret, true)
+        ret2
+    end
+    function XmlSchema_new_from_file(_file::GFile)
+        ret = ccall(("arv_xml_schema_new_from_file", libaravis), Ptr{GObject}, (Ptr{GObject},), _file)
+        ret2 = ArvXmlSchemaLeaf(ret, true)
+        ret2
+    end
+    function XmlSchema_new_from_memory(_buffer::Union{AbstractString, Symbol}, _size::Integer)
+        ret = ccall(("arv_xml_schema_new_from_memory", libaravis), Ptr{GObject}, (Cstring, UInt64), _buffer, _size)
+        ret2 = ArvXmlSchemaLeaf(ret, true)
+        ret2
+    end
+    function XmlSchema_new_from_path(_path::Union{AbstractString, Symbol})
+        ret = ccall(("arv_xml_schema_new_from_path", libaravis), Ptr{GObject}, (Cstring,), _path)
+        ret2 = ArvXmlSchemaLeaf(ret, true)
+        ret2
+    end
+    function validate(instance::ArvXmlSchema, _xml::Maybe(Nothing), _size::Integer, _line::Int32, _column::Int32)
+        _xml_maybe = nothing_to_null(_xml)
+        err = err_buf()
+        ret = ccall(("arv_xml_schema_validate", libaravis), Cint, (Ptr{GObject}, Ptr{Nothing}, UInt64, Ptr{Int32}, Ptr{Int32}, Ptr{Ptr{GError}}), instance, _xml_maybe, _size, _line, _column, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+end))
+end
