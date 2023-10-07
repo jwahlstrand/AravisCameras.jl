@@ -7,6 +7,8 @@ using Glib_jll
 
 using CEnum, BitFlags, Aravis_jll
 
+export update_device_list
+
 import Base: push!, pop!
 
 eval(include("gen/aravis_consts"))
@@ -28,7 +30,7 @@ let skiplist = [:device_id,
                 :interface_flags,
                 :string] # conflicts with Base exports
     for func in filter(x->startswith(string(x),"get_"),Base.names(G_,all=true))
-        ms=methods(getfield(Aravis.G_,func))
+        ms=methods(getfield(AravisCameras.G_,func))
         v=Symbol(string(func)[5:end])
         v in skiplist && continue
         for m in ms
@@ -38,7 +40,7 @@ let skiplist = [:device_id,
     end
 
     for func in filter(x->startswith(string(x),"set_"),Base.names(G_,all=true))
-        ms=methods(getfield(Aravis.G_,func))
+        ms=methods(getfield(AravisCameras.G_,func))
         v=Symbol(string(func)[5:end])
         v in skiplist && continue
         for m in ms
@@ -76,7 +78,7 @@ end
 
 # GI-generated versions don't return nothing if NULL
 function pop!(s::ArvStream)
-    ret = ccall(("arv_stream_pop_buffer", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
+    ret = ccall(("arv_stream_pop_buffer", libaravis), Ptr{GObject}, (Ptr{GObject},), s)
     convert(ArvBuffer, ret, true)
 end
 
