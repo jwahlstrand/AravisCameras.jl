@@ -2,6 +2,7 @@ module AravisCameras
 
 using Gtk4
 using Gtk4.GLib
+using ColorTypes, FixedPointNumbers
 
 using Glib_jll
 
@@ -9,7 +10,7 @@ using CEnum, BitFlags, Aravis_jll
 
 export update_device_list
 
-import Base: push!, pop!
+import Base: push!, pop!, length
 
 eval(include("gen/aravis_consts"))
 eval(include("gen/aravis_structs"))
@@ -88,6 +89,39 @@ function try_pop_buffer(instance::ArvStream)
         return nothing
     end
     convert(ArvBuffer, ret, false)
+end
+
+function image(b::ArvBuffer)
+    d=G_.get_data(b)
+    w=G_.get_image_width(b)
+    h=G_.get_image_height(b)
+    format = image_pixel_format(b)
+    if format == PIXEL_FORMAT_BAYER_RG_8
+        @assert length(d) == w*h
+        img = Array{RGB{N0f8}}(undef,w ÷ 2,h ÷ 2)
+        d2=reinterpret(N0f8,reshape(d,(w,h)))
+        for i=1:(w ÷ 2)
+            for j=1:(h ÷ 2)
+                img[i,j]=RGB{N0f8}(d2[2*i-1,2*j-1],(float(d2[2*i-1,2*j])+float(d2[2*i,2*j-1]))/2,d2[2*i,2*j])
+            end
+        end
+    elseif format == PIXEL_FORMAT_BAYER_RG_12
+        @assert length(d) == 2*w*h
+        d2=reinterpret(UInt16,d)
+        img = Array{RGB{N4f12}}(undef,w ÷ 2,h ÷ 2)
+        d3=reinterpret(N4f12,reshape(d2,(w,h)))
+        for i=1:(w ÷ 2)
+            for j=1:(h ÷ 2)
+                img[i,j]=RGB{N4f12}(d3[2*i-1,2*j-1],(float(d3[2*i-1,2*j])+float(d3[2*i,2*j-1]))/2,d3[2*i,2*j])
+            end
+        end
+    elseif format == PIXEL_FORMAT_MONO_8
+        @assert length(d) == w*h
+        img = copy(reinterpret(N0f8,reshape(d,(w,h))))
+    else
+        error("Pixel format not supported.")
+    end
+    img
 end
 
 function __init__()
