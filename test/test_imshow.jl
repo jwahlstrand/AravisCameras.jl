@@ -46,11 +46,6 @@ function activate(app)
         name = cam_list[selected(sel)][2]
 
         global camera = ArvCamera(name)
-
-        width, height = AravisCameras.sensor_size(camera)
-        mps = AravisCameras.G_.gv_auto_packet_size(camera)
-        ps = AravisCameras.G_.gv_get_packet_size(camera)
-
         global stream = AravisCameras.create_stream(camera)
         if stream !== nothing
             stream.packet_timeout = 20*1000
@@ -62,18 +57,20 @@ function activate(app)
             return nothing
         end
 
+        AravisCameras.G_.set_pixel_format(camera, AravisCameras.PIXEL_FORMAT_MONO_8)
+        AravisCameras.G_.gv_set_packet_size(camera, 1500)
+        AravisCameras.G_.set_frame_rate(camera, 10)
+        AravisCameras.G_.set_exposure_time(camera,500000)
+        AravisCameras.G_.set_acquisition_mode(camera, AravisCameras.AcquisitionMode_CONTINUOUS)
         AravisCameras.G_.start_acquisition(camera)
-        buf = pop!(stream)
+        
+        global buf = pop!(stream)
         while AravisCameras.G_.get_status(buf) != AravisCameras.BufferStatus_SUCCESS
+            println(AravisCameras.G_.get_status(buf))
             push!(stream, buf)
             println("attempting to get another buffer")
             global buf = pop!(stream)
         end
-        img = AravisCameras.G_.get_data(buf)
-        imwidth = AravisCameras.image_width(buf)
-        imheight = AravisCameras.image_height(buf)
-        format = AravisCameras.image_pixel_format(buf)
-        payload_type = AravisCameras.payload_type(buf)
         img = AravisCameras.image(buf)
         imshow(img)
         AravisCameras.G_.stop_acquisition(camera)

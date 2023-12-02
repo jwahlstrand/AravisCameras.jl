@@ -91,6 +91,33 @@ function try_pop_buffer(instance::ArvStream)
     convert(ArvBuffer, ret, false)
 end
 
+function colortype(b::ArvBuffer)
+    format = image_pixel_format(b)
+    if format == PIXEL_FORMAT_BAYER_RG_8
+        RGB{N0f8}
+    elseif format == PIXEL_FORMAT_BAYER_RG_12
+        RGB{N4f12}
+    elseif format == PIXEL_FORMAT_MONO_8
+        N0f8
+    else
+        nothing
+    end
+end
+
+function imagearray(b::ArvBuffer)
+    w=G_.get_image_width(b)
+    h=G_.get_image_height(b)
+    format = image_pixel_format(b)
+    if format === nothing
+        return nothing
+    end
+    if format == PIXEL_FORMAT_BAYER_RG_8 || format == PIXEL_FORMAT_BAYER_RG_12
+        w = w ÷ 2
+        h = h ÷ 2
+    end
+    Array{colortype(b)}(undef, w, h)
+end
+
 function image(b::ArvBuffer)
     d=G_.get_data(b)
     w=G_.get_image_width(b)

@@ -51,9 +51,9 @@ objects=GI.get_all(ns,GI.GIObjectInfo)
 
 object_skiplist=[]
 
-skiplist=[:get_instance, :set_fill_pattern]
+skiplist=[:get_instance, :set_fill_pattern, :get_value]
 
-GI.all_object_methods!(exprs,ns;skiplist=skiplist,object_skiplist=object_skiplist)
+GI.all_object_methods!(exprs,ns;skiplist=skiplist,object_skiplist=object_skiplist,interface_helpers=false)
 
 GI.write_to_file(path,"aravis_methods",toplevel)
 

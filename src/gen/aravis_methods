@@ -232,7 +232,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_camera_dup_available_components", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_components, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_components[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_components[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_components = m_n_components[]
         ret2
     end
@@ -254,7 +258,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_camera_dup_available_enumerations_as_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_values = m_n_values[]
         ret2
     end
@@ -263,7 +271,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_camera_dup_available_enumerations_as_strings", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_values = m_n_values[]
         ret2
     end
@@ -285,7 +297,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_camera_dup_available_pixel_formats_as_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_pixel_formats, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_pixel_formats[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_pixel_formats[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_pixel_formats = m_n_pixel_formats[]
         ret2
     end
@@ -294,7 +310,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_camera_dup_available_pixel_formats_as_strings", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_pixel_formats, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_pixel_formats[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_pixel_formats[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_pixel_formats = m_n_pixel_formats[]
         ret2
     end
@@ -303,7 +323,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_camera_dup_available_trigger_sources", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_sources, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_sources[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_sources[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_sources = m_n_sources[]
         ret2
     end
@@ -312,7 +336,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_camera_dup_available_triggers", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_triggers, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_triggers[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_triggers[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_triggers = m_n_triggers[]
         ret2
     end
@@ -1193,7 +1221,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_device_dup_available_enumeration_feature_values_as_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_values = m_n_values[]
         ret2
     end
@@ -1202,7 +1234,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_device_dup_available_enumeration_feature_values_as_strings", libaravis), Ptr{Cstring}, (Ptr{GObject}, Cstring, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, _feature, m_n_values, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_values = m_n_values[]
         ret2
     end
@@ -1848,15 +1884,6 @@ $(Expr(:toplevel, quote
         ret2 = ArvGcBooleanLeaf(ret, true)
         ret2
     end
-    function get_value(instance::ArvGcBoolean)
-        m_value = Ref{Cint}()
-        err = err_buf()
-        ret = ccall(("arv_gc_boolean_get_value_gi", libaravis), Nothing, (Ptr{GObject}, Ptr{Cint}, Ptr{Ptr{GError}}), instance, m_value, err)
-        check_err(err)
-        _value = m_value[]
-        _value = convert(Bool, _value)
-        _value
-    end
     function set_value(instance::ArvGcBoolean, _v_boolean::Bool)
         err = err_buf()
         ret = ccall(("arv_gc_boolean_set_value", libaravis), Nothing, (Ptr{GObject}, Cint, Ptr{Ptr{GError}}), instance, _v_boolean, err)
@@ -1893,12 +1920,6 @@ $(Expr(:toplevel, quote
         ret2 = ArvGcEnumEntryLeaf(ret, true)
         ret2
     end
-    function get_value(instance::ArvGcEnumEntry)
-        err = err_buf()
-        ret = ccall(("arv_gc_enum_entry_get_value", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
-        check_err(err)
-        ret
-    end
     function GcEnumeration_new()
         ret = ccall(("arv_gc_enumeration_new", libaravis), Ptr{GObject}, ())
         ret2 = ArvGcEnumerationLeaf(ret, true)
@@ -1909,7 +1930,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_gc_enumeration_dup_available_display_names", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_values, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_values = m_n_values[]
         ret2
     end
@@ -1931,7 +1956,11 @@ $(Expr(:toplevel, quote
         err = err_buf()
         ret = ccall(("arv_gc_enumeration_dup_available_string_values", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_values, err)
         check_err(err)
-        ret2 = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), true)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_values[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
         _n_values = m_n_values[]
         ret2
     end

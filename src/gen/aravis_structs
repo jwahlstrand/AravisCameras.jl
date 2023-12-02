@@ -1,6 +1,6 @@
 quote
 $(Expr(:toplevel, quote
-    gtype_wrapper_cache = Dict{Symbol, Type}()
+    const gtype_wrapper_cache = Dict{Symbol, Type}()
     begin
         abstract type ArvBuffer <: GObject end
         mutable struct ArvBufferLeaf <: ArvBuffer
@@ -17,6 +17,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvBuffer) = begin
                 ccall(("arv_buffer_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvBuffer})
+            signalnames(supertype(ArvBuffer))
+        end
     end
     begin
         abstract type ArvCamera <: GObject end
@@ -36,6 +41,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvCamera})
+            signalnames(supertype(ArvCamera))
+        end
+    end
+    begin
         abstract type ArvChunkParser <: GObject end
         mutable struct ArvChunkParserLeaf <: ArvChunkParser
             handle::Ptr{GObject}
@@ -51,6 +61,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvChunkParser) = begin
                 ccall(("arv_chunk_parser_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvChunkParser})
+            signalnames(supertype(ArvChunkParser))
+        end
     end
     begin
         abstract type ArvDevice <: GObject end
@@ -70,6 +85,19 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvDevice})
+            vcat([:control_lost], signalnames(supertype(ArvDevice)))
+        end
+        let d = Dict{Symbol, Tuple{Any, Any}}(:notify => (:Nothing, Any[:(Ptr{GParamSpec})]), :control_lost => (:Nothing, Any[]))
+            function GLib.signal_return_type(::Type{T}, name::Symbol) where T <: ArvDevice
+                eval((d[name])[1])
+            end
+            function GLib.signal_argument_types(::Type{T}, name::Symbol) where T <: ArvDevice
+                Tuple(eval.((d[name])[2]))
+            end
+        end
+    end
+    begin
         abstract type ArvDomNode <: GObject end
         mutable struct ArvDomNodeLeaf <: ArvDomNode
             handle::Ptr{GObject}
@@ -85,6 +113,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvDomNode) = begin
                 ccall(("arv_dom_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvDomNode})
+            signalnames(supertype(ArvDomNode))
+        end
     end
     begin
         abstract type ArvDomCharacterData <: ArvDomNode end
@@ -104,6 +137,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvDomCharacterData})
+            signalnames(supertype(ArvDomCharacterData))
+        end
+    end
+    begin
         abstract type ArvDomDocument <: ArvDomNode end
         mutable struct ArvDomDocumentLeaf <: ArvDomDocument
             handle::Ptr{GObject}
@@ -119,6 +157,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvDomDocument) = begin
                 ccall(("arv_dom_document_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvDomDocument})
+            signalnames(supertype(ArvDomDocument))
+        end
     end
     begin
         abstract type ArvDomDocumentFragment <: ArvDomNode end
@@ -138,6 +181,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvDomDocumentFragment})
+            signalnames(supertype(ArvDomDocumentFragment))
+        end
+    end
+    begin
         abstract type ArvDomElement <: ArvDomNode end
         mutable struct ArvDomElementLeaf <: ArvDomElement
             handle::Ptr{GObject}
@@ -153,6 +201,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvDomElement) = begin
                 ccall(("arv_dom_element_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvDomElement})
+            signalnames(supertype(ArvDomElement))
+        end
     end
     begin
         abstract type ArvDomNamedNodeMap <: GObject end
@@ -172,6 +225,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvDomNamedNodeMap})
+            signalnames(supertype(ArvDomNamedNodeMap))
+        end
+    end
+    begin
         abstract type ArvDomNodeList <: GObject end
         mutable struct ArvDomNodeListLeaf <: ArvDomNodeList
             handle::Ptr{GObject}
@@ -187,6 +245,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvDomNodeList) = begin
                 ccall(("arv_dom_node_list_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvDomNodeList})
+            signalnames(supertype(ArvDomNodeList))
+        end
     end
     begin
         abstract type ArvDomNodeChildList <: ArvDomNodeList end
@@ -206,6 +269,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvDomNodeChildList})
+            signalnames(supertype(ArvDomNodeChildList))
+        end
+    end
+    begin
         abstract type ArvDomText <: ArvDomCharacterData end
         mutable struct ArvDomTextLeaf <: ArvDomText
             handle::Ptr{GObject}
@@ -221,6 +289,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvDomText) = begin
                 ccall(("arv_dom_text_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvDomText})
+            signalnames(supertype(ArvDomText))
+        end
     end
     begin
         abstract type ArvEvaluator <: GObject end
@@ -240,6 +313,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvEvaluator})
+            signalnames(supertype(ArvEvaluator))
+        end
+    end
+    begin
         abstract type ArvFakeCamera <: GObject end
         mutable struct ArvFakeCameraLeaf <: ArvFakeCamera
             handle::Ptr{GObject}
@@ -255,6 +333,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvFakeCamera) = begin
                 ccall(("arv_fake_camera_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvFakeCamera})
+            signalnames(supertype(ArvFakeCamera))
+        end
     end
     begin
         abstract type ArvFakeDevice <: ArvDevice end
@@ -274,6 +357,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvFakeDevice})
+            signalnames(supertype(ArvFakeDevice))
+        end
+    end
+    begin
         abstract type ArvInterface <: GObject end
         mutable struct ArvInterfaceLeaf <: ArvInterface
             handle::Ptr{GObject}
@@ -289,6 +377,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvInterface) = begin
                 ccall(("arv_interface_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvInterface})
+            signalnames(supertype(ArvInterface))
+        end
     end
     begin
         abstract type ArvFakeInterface <: ArvInterface end
@@ -308,6 +401,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvFakeInterface})
+            signalnames(supertype(ArvFakeInterface))
+        end
+    end
+    begin
         abstract type ArvStream <: GObject end
         mutable struct ArvStreamLeaf <: ArvStream
             handle::Ptr{GObject}
@@ -323,6 +421,19 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvStream) = begin
                 ccall(("arv_stream_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvStream})
+            vcat([:new_buffer], signalnames(supertype(ArvStream)))
+        end
+        let d = Dict{Symbol, Tuple{Any, Any}}(:notify => (:Nothing, Any[:(Ptr{GParamSpec})]), :new_buffer => (:Nothing, Any[]))
+            function GLib.signal_return_type(::Type{T}, name::Symbol) where T <: ArvStream
+                eval((d[name])[1])
+            end
+            function GLib.signal_argument_types(::Type{T}, name::Symbol) where T <: ArvStream
+                Tuple(eval.((d[name])[2]))
+            end
+        end
     end
     begin
         abstract type ArvFakeStream <: ArvStream end
@@ -342,6 +453,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvFakeStream})
+            signalnames(supertype(ArvFakeStream))
+        end
+    end
+    begin
         abstract type ArvGc <: ArvDomDocument end
         mutable struct ArvGcLeaf <: ArvGc
             handle::Ptr{GObject}
@@ -357,6 +473,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGc) = begin
                 ccall(("arv_gc_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGc})
+            signalnames(supertype(ArvGc))
+        end
     end
     begin
         abstract type ArvGcNode <: ArvDomElement end
@@ -376,6 +497,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcNode})
+            signalnames(supertype(ArvGcNode))
+        end
+    end
+    begin
         abstract type ArvGcFeatureNode <: ArvGcNode end
         mutable struct ArvGcFeatureNodeLeaf <: ArvGcFeatureNode
             handle::Ptr{GObject}
@@ -391,6 +517,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcFeatureNode) = begin
                 ccall(("arv_gc_feature_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcFeatureNode})
+            signalnames(supertype(ArvGcFeatureNode))
+        end
     end
     begin
         abstract type ArvGcBoolean <: ArvGcFeatureNode end
@@ -410,6 +541,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcBoolean})
+            signalnames(supertype(ArvGcBoolean))
+        end
+    end
+    begin
         abstract type ArvGcCategory <: ArvGcFeatureNode end
         mutable struct ArvGcCategoryLeaf <: ArvGcCategory
             handle::Ptr{GObject}
@@ -425,6 +561,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcCategory) = begin
                 ccall(("arv_gc_category_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcCategory})
+            signalnames(supertype(ArvGcCategory))
+        end
     end
     begin
         abstract type ArvGcCommand <: ArvGcFeatureNode end
@@ -444,6 +585,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcCommand})
+            signalnames(supertype(ArvGcCommand))
+        end
+    end
+    begin
         abstract type ArvGcConverter <: ArvGcFeatureNode end
         mutable struct ArvGcConverterLeaf <: ArvGcConverter
             handle::Ptr{GObject}
@@ -459,6 +605,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcConverter) = begin
                 ccall(("arv_gc_converter_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcConverter})
+            signalnames(supertype(ArvGcConverter))
+        end
     end
     begin
         abstract type ArvGcConverterNode <: ArvGcConverter end
@@ -478,6 +629,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcConverterNode})
+            signalnames(supertype(ArvGcConverterNode))
+        end
+    end
+    begin
         abstract type ArvGcEnumEntry <: ArvGcFeatureNode end
         mutable struct ArvGcEnumEntryLeaf <: ArvGcEnumEntry
             handle::Ptr{GObject}
@@ -493,6 +649,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcEnumEntry) = begin
                 ccall(("arv_gc_enum_entry_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcEnumEntry})
+            signalnames(supertype(ArvGcEnumEntry))
+        end
     end
     begin
         abstract type ArvGcEnumeration <: ArvGcFeatureNode end
@@ -512,6 +673,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcEnumeration})
+            signalnames(supertype(ArvGcEnumeration))
+        end
+    end
+    begin
         abstract type ArvGcFloatNode <: ArvGcFeatureNode end
         mutable struct ArvGcFloatNodeLeaf <: ArvGcFloatNode
             handle::Ptr{GObject}
@@ -527,6 +693,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcFloatNode) = begin
                 ccall(("arv_gc_float_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcFloatNode})
+            signalnames(supertype(ArvGcFloatNode))
+        end
     end
     begin
         abstract type ArvGcRegisterNode <: ArvGcFeatureNode end
@@ -546,6 +717,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcRegisterNode})
+            signalnames(supertype(ArvGcRegisterNode))
+        end
+    end
+    begin
         abstract type ArvGcFloatRegNode <: ArvGcRegisterNode end
         mutable struct ArvGcFloatRegNodeLeaf <: ArvGcFloatRegNode
             handle::Ptr{GObject}
@@ -561,6 +737,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcFloatRegNode) = begin
                 ccall(("arv_gc_float_reg_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcFloatRegNode})
+            signalnames(supertype(ArvGcFloatRegNode))
+        end
     end
     begin
         abstract type ArvGcGroupNode <: ArvGcFeatureNode end
@@ -580,6 +761,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcGroupNode})
+            signalnames(supertype(ArvGcGroupNode))
+        end
+    end
+    begin
         abstract type ArvGcPropertyNode <: ArvGcNode end
         mutable struct ArvGcPropertyNodeLeaf <: ArvGcPropertyNode
             handle::Ptr{GObject}
@@ -595,6 +781,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcPropertyNode) = begin
                 ccall(("arv_gc_property_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcPropertyNode})
+            signalnames(supertype(ArvGcPropertyNode))
+        end
     end
     begin
         abstract type ArvGcIndexNode <: ArvGcPropertyNode end
@@ -614,6 +805,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcIndexNode})
+            signalnames(supertype(ArvGcIndexNode))
+        end
+    end
+    begin
         abstract type ArvGcIntConverterNode <: ArvGcConverter end
         mutable struct ArvGcIntConverterNodeLeaf <: ArvGcIntConverterNode
             handle::Ptr{GObject}
@@ -629,6 +825,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcIntConverterNode) = begin
                 ccall(("arv_gc_int_converter_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcIntConverterNode})
+            signalnames(supertype(ArvGcIntConverterNode))
+        end
     end
     begin
         abstract type ArvGcIntRegNode <: ArvGcRegisterNode end
@@ -648,6 +849,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcIntRegNode})
+            signalnames(supertype(ArvGcIntRegNode))
+        end
+    end
+    begin
         abstract type ArvGcSwissKnife <: ArvGcFeatureNode end
         mutable struct ArvGcSwissKnifeLeaf <: ArvGcSwissKnife
             handle::Ptr{GObject}
@@ -663,6 +869,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcSwissKnife) = begin
                 ccall(("arv_gc_swiss_knife_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcSwissKnife})
+            signalnames(supertype(ArvGcSwissKnife))
+        end
     end
     begin
         abstract type ArvGcIntSwissKnifeNode <: ArvGcSwissKnife end
@@ -682,6 +893,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcIntSwissKnifeNode})
+            signalnames(supertype(ArvGcIntSwissKnifeNode))
+        end
+    end
+    begin
         abstract type ArvGcIntegerNode <: ArvGcFeatureNode end
         mutable struct ArvGcIntegerNodeLeaf <: ArvGcIntegerNode
             handle::Ptr{GObject}
@@ -697,6 +913,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcIntegerNode) = begin
                 ccall(("arv_gc_integer_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcIntegerNode})
+            signalnames(supertype(ArvGcIntegerNode))
+        end
     end
     begin
         abstract type ArvGcInvalidatorNode <: ArvGcPropertyNode end
@@ -716,6 +937,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcInvalidatorNode})
+            signalnames(supertype(ArvGcInvalidatorNode))
+        end
+    end
+    begin
         abstract type ArvGcMaskedIntRegNode <: ArvGcRegisterNode end
         mutable struct ArvGcMaskedIntRegNodeLeaf <: ArvGcMaskedIntRegNode
             handle::Ptr{GObject}
@@ -731,6 +957,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcMaskedIntRegNode) = begin
                 ccall(("arv_gc_masked_int_reg_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcMaskedIntRegNode})
+            signalnames(supertype(ArvGcMaskedIntRegNode))
+        end
     end
     begin
         abstract type ArvGcPort <: ArvGcFeatureNode end
@@ -750,6 +981,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcPort})
+            signalnames(supertype(ArvGcPort))
+        end
+    end
+    begin
         abstract type ArvGcRegisterDescriptionNode <: ArvGcFeatureNode end
         mutable struct ArvGcRegisterDescriptionNodeLeaf <: ArvGcRegisterDescriptionNode
             handle::Ptr{GObject}
@@ -765,6 +1001,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcRegisterDescriptionNode) = begin
                 ccall(("arv_gc_register_description_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcRegisterDescriptionNode})
+            signalnames(supertype(ArvGcRegisterDescriptionNode))
+        end
     end
     begin
         abstract type ArvGcStringNode <: ArvGcFeatureNode end
@@ -784,6 +1025,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcStringNode})
+            signalnames(supertype(ArvGcStringNode))
+        end
+    end
+    begin
         abstract type ArvGcStringRegNode <: ArvGcRegisterNode end
         mutable struct ArvGcStringRegNodeLeaf <: ArvGcStringRegNode
             handle::Ptr{GObject}
@@ -799,6 +1045,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcStringRegNode) = begin
                 ccall(("arv_gc_string_reg_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcStringRegNode})
+            signalnames(supertype(ArvGcStringRegNode))
+        end
     end
     begin
         abstract type ArvGcStructEntryNode <: ArvGcFeatureNode end
@@ -818,6 +1069,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcStructEntryNode})
+            signalnames(supertype(ArvGcStructEntryNode))
+        end
+    end
+    begin
         abstract type ArvGcStructRegNode <: ArvGcRegisterNode end
         mutable struct ArvGcStructRegNodeLeaf <: ArvGcStructRegNode
             handle::Ptr{GObject}
@@ -833,6 +1089,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcStructRegNode) = begin
                 ccall(("arv_gc_struct_reg_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcStructRegNode})
+            signalnames(supertype(ArvGcStructRegNode))
+        end
     end
     begin
         abstract type ArvGcSwissKnifeNode <: ArvGcSwissKnife end
@@ -852,6 +1113,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGcSwissKnifeNode})
+            signalnames(supertype(ArvGcSwissKnifeNode))
+        end
+    end
+    begin
         abstract type ArvGcValueIndexedNode <: ArvGcPropertyNode end
         mutable struct ArvGcValueIndexedNodeLeaf <: ArvGcValueIndexedNode
             handle::Ptr{GObject}
@@ -867,6 +1133,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGcValueIndexedNode) = begin
                 ccall(("arv_gc_value_indexed_node_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGcValueIndexedNode})
+            signalnames(supertype(ArvGcValueIndexedNode))
+        end
     end
     begin
         abstract type ArvGvDevice <: ArvDevice end
@@ -886,6 +1157,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGvDevice})
+            signalnames(supertype(ArvGvDevice))
+        end
+    end
+    begin
         abstract type ArvGvFakeCamera <: GObject end
         mutable struct ArvGvFakeCameraLeaf <: ArvGvFakeCamera
             handle::Ptr{GObject}
@@ -901,6 +1177,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvGvFakeCamera) = begin
                 ccall(("arv_gv_fake_camera_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvGvFakeCamera})
+            signalnames(supertype(ArvGvFakeCamera))
+        end
     end
     begin
         abstract type ArvGvInterface <: ArvInterface end
@@ -920,6 +1201,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGvInterface})
+            signalnames(supertype(ArvGvInterface))
+        end
+    end
+    begin
         abstract type ArvGvStream <: ArvStream end
         mutable struct ArvGvStreamLeaf <: ArvGvStream
             handle::Ptr{GObject}
@@ -937,6 +1223,11 @@ $(Expr(:toplevel, quote
             end
     end
     begin
+        function GLib.signalnames(::Type{ArvGvStream})
+            signalnames(supertype(ArvGvStream))
+        end
+    end
+    begin
         abstract type ArvXmlSchema <: GObject end
         mutable struct ArvXmlSchemaLeaf <: ArvXmlSchema
             handle::Ptr{GObject}
@@ -952,6 +1243,11 @@ $(Expr(:toplevel, quote
         (GLib.g_type(::Type{T}) where T <: ArvXmlSchema) = begin
                 ccall(("arv_xml_schema_get_type", libaravis), GType, ())
             end
+    end
+    begin
+        function GLib.signalnames(::Type{ArvXmlSchema})
+            signalnames(supertype(ArvXmlSchema))
+        end
     end
     begin
         gtype_wrapper_cache_init() = begin

@@ -8,16 +8,16 @@ if n_dev == 0
     @warn("No cameras found")
 end
 
-camera = ArvCamera(AravisCameras.device_id(0))
+camera::ArvCameraLeaf = ArvCamera(AravisCameras.device_id(0))
 width, height = AravisCameras.sensor_size(camera)
 mps = AravisCameras.G_.gv_auto_packet_size(camera)
 ps = AravisCameras.G_.gv_get_packet_size(camera)
 AravisCameras.exposure_time(camera,20000.0)
 
 # uncomment one of these to set a particular pixel format
-#AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_BAYER_RG_8)
+AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_BAYER_RG_8)
 #AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_BAYER_RG_12)
-AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_MONO_8)
+#AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_MONO_8)
 
 println("sensor size: $width, $height")
 println("auto_packet_size: $mps")
@@ -35,7 +35,8 @@ else
 end
 
 AravisCameras.G_.start_acquisition(camera)
-buf = pop!(stream)
+sleep(0.5)
+buf::ArvBuffer = pop!(stream)
 while AravisCameras.G_.get_status(buf) != AravisCameras.BufferStatus_SUCCESS
     push!(stream, buf)
     println("attempting to get another buffer")
@@ -49,5 +50,5 @@ payload_type = AravisCameras.payload_type(buf)
 img = AravisCameras.image(buf)
 println("image width and height: $imwidth, $imheight")
 println("payload type: $payload_type")
-AravisCameras.G_.stop_acquisition(camera)
+#AravisCameras.G_.stop_acquisition(camera)
 
