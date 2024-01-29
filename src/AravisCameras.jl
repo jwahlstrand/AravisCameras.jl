@@ -151,6 +151,8 @@ function image(b::ArvBuffer)
     img
 end
 
+include("gui.jl")
+
 function __init__()
     gtype_wrapper_cache_init()
 end
