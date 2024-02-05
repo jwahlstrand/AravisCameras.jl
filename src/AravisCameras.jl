@@ -10,7 +10,7 @@ using CEnum, BitFlags, Aravis_jll
 
 export update_device_list
 
-import Base: push!, pop!, length
+import Base: push!, pop!, length, unsafe_convert
 
 eval(include("gen/aravis_consts"))
 eval(include("gen/aravis_structs"))
@@ -91,31 +91,49 @@ function try_pop_buffer(instance::ArvStream)
     convert(ArvBuffer, ret, false)
 end
 
+function get_data!(img::Vector{UInt8}, instance::ArvBuffer)
+    m_size = Ref{UInt64}()
+    ret = ccall(("arv_buffer_get_data", libaravis), Ptr{UInt8}, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
+    ret2 = unsafe_wrap(Vector{UInt8}, ret, m_size[])
+    copyto!(img, ret2)
+    nothing
+end
+
+bits_per_pixel(format) = ((format >> 16) & 0xff)
+
+const colortypes = Dict(PIXEL_FORMAT_BAYER_RG_8 => RGB{N0f8},
+                        PIXEL_FORMAT_BAYER_RG_12 => RGB{N4f12},
+                        PIXEL_FORMAT_MONO_8 => N0f8,
+                        PIXEL_FORMAT_MONO_10 => N6f10,
+                        PIXEL_FORMAT_MONO_12 => N4f12,
+                        PIXEL_FORMAT_MONO_14 => N2f14)
+
 function colortype(b::ArvBuffer)
     format = image_pixel_format(b)
-    if format == PIXEL_FORMAT_BAYER_RG_8
-        RGB{N0f8}
-    elseif format == PIXEL_FORMAT_BAYER_RG_12
-        RGB{N4f12}
-    elseif format == PIXEL_FORMAT_MONO_8
-        N0f8
-    else
-        nothing
-    end
+    get(colortypes, format, nothing)
 end
 
 function imagearray(b::ArvBuffer)
-    w=G_.get_image_width(b)
-    h=G_.get_image_height(b)
     format = image_pixel_format(b)
     if format === nothing
         return nothing
     end
+    w=G_.get_image_width(b)
+    h=G_.get_image_height(b)
     if format == PIXEL_FORMAT_BAYER_RG_8 || format == PIXEL_FORMAT_BAYER_RG_12
         w = w ÷ 2
         h = h ÷ 2
     end
     Array{colortype(b)}(undef, w, h)
+end
+
+function rg_convert!(img::Array{RGB{T}},d,w,h) where T
+    d2=reinterpret(T,reshape(d,(w,h)))
+    for i=1:(w ÷ 2)
+        for j=1:(h ÷ 2)
+            img[i,j]=RGB{T}(d2[2*i-1,2*j-1],(float(d2[2*i-1,2*j])+float(d2[2*i,2*j-1]))/2,d2[2*i,2*j])
+        end
+    end
 end
 
 function image(b::ArvBuffer)
@@ -126,27 +144,26 @@ function image(b::ArvBuffer)
     if format == PIXEL_FORMAT_BAYER_RG_8
         @assert length(d) == w*h
         img = Array{RGB{N0f8}}(undef,w ÷ 2,h ÷ 2)
-        d2=reinterpret(N0f8,reshape(d,(w,h)))
-        for i=1:(w ÷ 2)
-            for j=1:(h ÷ 2)
-                img[i,j]=RGB{N0f8}(d2[2*i-1,2*j-1],(float(d2[2*i-1,2*j])+float(d2[2*i,2*j-1]))/2,d2[2*i,2*j])
-            end
-        end
+        rg_convert!(img, d2, w, h)
     elseif format == PIXEL_FORMAT_BAYER_RG_12
-        @assert length(d) == 2*w*h
         d2=reinterpret(UInt16,d)
         img = Array{RGB{N4f12}}(undef,w ÷ 2,h ÷ 2)
-        d3=reinterpret(N4f12,reshape(d2,(w,h)))
-        for i=1:(w ÷ 2)
-            for j=1:(h ÷ 2)
-                img[i,j]=RGB{N4f12}(d3[2*i-1,2*j-1],(float(d3[2*i-1,2*j])+float(d3[2*i,2*j-1]))/2,d3[2*i,2*j])
-            end
-        end
+        rg_convert!(img, d3, w, h)
+    elseif format == PIXEL_FORMAT_RGB_8_PACKED
+        img = copy(reshape(reinterpret(RGB{N0f8},d),(w,h)))
     elseif format == PIXEL_FORMAT_MONO_8
         @assert length(d) == w*h
         img = copy(reinterpret(N0f8,reshape(d,(w,h))))
+    elseif format == PIXEL_FORMAT_MONO_12
+        @assert length(d) == 2*w*h
+        d2=reinterpret(UInt16,d)
+        img = Array{N4f12}(undef, w, h)
+        for i=1:w*h
+            img[i]=reinterpret(N4f12, d2[i])
+        end
     else
-        error("Pixel format not supported.")
+        println("length: $(length(d)), $w, $h")
+        error("Pixel format $format not supported.")
     end
     img
 end

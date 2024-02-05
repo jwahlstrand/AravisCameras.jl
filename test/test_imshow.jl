@@ -57,7 +57,7 @@ function activate(app)
             return nothing
         end
 
-        AravisCameras.G_.set_pixel_format(camera, AravisCameras.PIXEL_FORMAT_MONO_8)
+        AravisCameras.G_.set_pixel_format(camera, AravisCameras.PIXEL_FORMAT_RGB_8_PACKED)
         AravisCameras.G_.gv_set_packet_size(camera, 1500)
         AravisCameras.G_.set_frame_rate(camera, 10)
         AravisCameras.G_.set_exposure_time(camera,500000)

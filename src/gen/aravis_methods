@@ -1884,6 +1884,15 @@ $(Expr(:toplevel, quote
         ret2 = ArvGcBooleanLeaf(ret, true)
         ret2
     end
+    function get_value(instance::ArvGcBoolean)
+        m_value = Ref{Cint}()
+        err = err_buf()
+        ret = ccall(("arv_gc_boolean_get_value_gi", libaravis), Nothing, (Ptr{GObject}, Ptr{Cint}, Ptr{Ptr{GError}}), instance, m_value, err)
+        check_err(err)
+        _value = m_value[]
+        _value = convert(Bool, _value)
+        _value
+    end
     function set_value(instance::ArvGcBoolean, _v_boolean::Bool)
         err = err_buf()
         ret = ccall(("arv_gc_boolean_set_value", libaravis), Nothing, (Ptr{GObject}, Cint, Ptr{Ptr{GError}}), instance, _v_boolean, err)
@@ -1919,6 +1928,12 @@ $(Expr(:toplevel, quote
         ret = ccall(("arv_gc_enum_entry_new", libaravis), Ptr{GObject}, ())
         ret2 = ArvGcEnumEntryLeaf(ret, true)
         ret2
+    end
+    function get_value(instance::ArvGcEnumEntry)
+        err = err_buf()
+        ret = ccall(("arv_gc_enum_entry_get_value", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
     end
     function GcEnumeration_new()
         ret = ccall(("arv_gc_enumeration_new", libaravis), Ptr{GObject}, ())
@@ -2937,6 +2952,173 @@ $(Expr(:toplevel, quote
         check_err(err)
         ret2 = convert(Bool, ret)
         ret2
+    end
+    function get_display_notation(instance::ArvGcFloat)
+        ret = ccall(("arv_gc_float_get_display_notation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcDisplayNotation(ret)
+        ret2
+    end
+    function get_display_precision(instance::ArvGcFloat)
+        ret = ccall(("arv_gc_float_get_display_precision", libaravis), Int64, (Ptr{GObject},), instance)
+        ret
+    end
+    function get_inc(instance::ArvGcFloat)
+        err = err_buf()
+        ret = ccall(("arv_gc_float_get_inc", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_max(instance::ArvGcFloat)
+        err = err_buf()
+        ret = ccall(("arv_gc_float_get_max", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_min(instance::ArvGcFloat)
+        err = err_buf()
+        ret = ccall(("arv_gc_float_get_min", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_representation(instance::ArvGcFloat)
+        ret = ccall(("arv_gc_float_get_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcRepresentation(ret)
+        ret2
+    end
+    function get_unit(instance::ArvGcFloat)
+        ret = ccall(("arv_gc_float_get_unit", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_value(instance::ArvGcFloat)
+        err = err_buf()
+        ret = ccall(("arv_gc_float_get_value", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function impose_max(instance::ArvGcFloat, _maximum::Real)
+        err = err_buf()
+        ret = ccall(("arv_gc_float_impose_max", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _maximum, err)
+        check_err(err)
+        nothing
+    end
+    function impose_min(instance::ArvGcFloat, _minimum::Real)
+        err = err_buf()
+        ret = ccall(("arv_gc_float_impose_min", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _minimum, err)
+        check_err(err)
+        nothing
+    end
+    function set_value(instance::ArvGcFloat, _value::Real)
+        err = err_buf()
+        ret = ccall(("arv_gc_float_set_value", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _value, err)
+        check_err(err)
+        nothing
+    end
+    function get_inc(instance::ArvGcInteger)
+        err = err_buf()
+        ret = ccall(("arv_gc_integer_get_inc", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_max(instance::ArvGcInteger)
+        err = err_buf()
+        ret = ccall(("arv_gc_integer_get_max", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_min(instance::ArvGcInteger)
+        err = err_buf()
+        ret = ccall(("arv_gc_integer_get_min", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_representation(instance::ArvGcInteger)
+        ret = ccall(("arv_gc_integer_get_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcRepresentation(ret)
+        ret2
+    end
+    function get_unit(instance::ArvGcInteger)
+        ret = ccall(("arv_gc_integer_get_unit", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function get_value(instance::ArvGcInteger)
+        err = err_buf()
+        ret = ccall(("arv_gc_integer_get_value", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function impose_max(instance::ArvGcInteger, _maximum::Integer)
+        err = err_buf()
+        ret = ccall(("arv_gc_integer_impose_max", libaravis), Nothing, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _maximum, err)
+        check_err(err)
+        nothing
+    end
+    function impose_min(instance::ArvGcInteger, _minimum::Integer)
+        err = err_buf()
+        ret = ccall(("arv_gc_integer_impose_min", libaravis), Nothing, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _minimum, err)
+        check_err(err)
+        nothing
+    end
+    function set_value(instance::ArvGcInteger, _value::Integer)
+        err = err_buf()
+        ret = ccall(("arv_gc_integer_set_value", libaravis), Nothing, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _value, err)
+        check_err(err)
+        nothing
+    end
+    function get(instance::ArvGcRegister, _buffer::Maybe(Nothing), _length::Integer)
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_gc_register_get", libaravis), Nothing, (Ptr{GObject}, Ptr{Nothing}, UInt64, Ptr{Ptr{GError}}), instance, _buffer_maybe, _length, err)
+        check_err(err)
+        nothing
+    end
+    function get_address(instance::ArvGcRegister)
+        err = err_buf()
+        ret = ccall(("arv_gc_register_get_address", libaravis), UInt64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_length(instance::ArvGcRegister)
+        err = err_buf()
+        ret = ccall(("arv_gc_register_get_length", libaravis), UInt64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function set(instance::ArvGcRegister, _buffer::Maybe(Nothing), _length::Integer)
+        _buffer_maybe = nothing_to_null(_buffer)
+        err = err_buf()
+        ret = ccall(("arv_gc_register_set", libaravis), Nothing, (Ptr{GObject}, Ptr{Nothing}, UInt64, Ptr{Ptr{GError}}), instance, _buffer_maybe, _length, err)
+        check_err(err)
+        nothing
+    end
+    function get_selected_features(instance::ArvGcSelector)
+        ret = ccall(("arv_gc_selector_get_selected_features", libaravis), Ptr{GLib._GSList{Ptr{GObject}}}, (Ptr{GObject},), instance)
+        ret
+    end
+    function is_selector(instance::ArvGcSelector)
+        ret = ccall(("arv_gc_selector_is_selector", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
+    function get_max_length(instance::ArvGcString)
+        err = err_buf()
+        ret = ccall(("arv_gc_string_get_max_length", libaravis), Int64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret
+    end
+    function get_value(instance::ArvGcString)
+        err = err_buf()
+        ret = ccall(("arv_gc_string_get_value", libaravis), Cstring, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = string_or_nothing(ret, false)
+        ret2
+    end
+    function set_value(instance::ArvGcString, _value::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_gc_string_set_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _value, err)
+        check_err(err)
+        nothing
     end
 end))
 end
