@@ -136,6 +136,38 @@ function rg_convert!(img::Array{RGB{T}},d,w,h) where T
     end
 end
 
+Base.size(b::ArvBuffer) = (G_.get_image_width(b), G_.get_image_height(b))
+
+function image!(img, b::ArvBuffer)
+    d=G_.get_data(b)
+    w=G_.get_image_width(b)
+    h=G_.get_image_height(b)
+    format = image_pixel_format(b)
+    if format == PIXEL_FORMAT_BAYER_RG_8
+        @assert length(d) == w*h
+        rg_convert!(img, d2, w, h)
+    elseif format == PIXEL_FORMAT_BAYER_RG_12
+        d2=reinterpret(UInt16,d)
+        rg_convert!(img, d3, w, h)
+    elseif format == PIXEL_FORMAT_RGB_8_PACKED
+        copyto!(img, reshape(reinterpret(RGB{N0f8},d),(w,h)))
+    elseif format == PIXEL_FORMAT_MONO_8
+        @assert length(d) == w*h
+        copyto!(img, reinterpret(N0f8,reshape(d,(w,h))))
+    elseif format == PIXEL_FORMAT_MONO_12
+        @assert length(d) == 2*w*h
+        d2=reinterpret(UInt16,d)
+        for i=1:w*h
+            img[i]=reinterpret(N4f12, d2[i])
+        end
+    else
+        println("length: $(length(d)), $w, $h")
+        error("Pixel format $format not supported.")
+    end
+    nothing
+end
+
+
 function image(b::ArvBuffer)
     d=G_.get_data(b)
     w=G_.get_image_width(b)
@@ -144,11 +176,11 @@ function image(b::ArvBuffer)
     if format == PIXEL_FORMAT_BAYER_RG_8
         @assert length(d) == w*h
         img = Array{RGB{N0f8}}(undef,w ÷ 2,h ÷ 2)
-        rg_convert!(img, d2, w, h)
+        rg_convert!(img, d, w, h)
     elseif format == PIXEL_FORMAT_BAYER_RG_12
         d2=reinterpret(UInt16,d)
         img = Array{RGB{N4f12}}(undef,w ÷ 2,h ÷ 2)
-        rg_convert!(img, d3, w, h)
+        rg_convert!(img, d2, w, h)
     elseif format == PIXEL_FORMAT_RGB_8_PACKED
         img = copy(reshape(reinterpret(RGB{N0f8},d),(w,h)))
     elseif format == PIXEL_FORMAT_MONO_8
