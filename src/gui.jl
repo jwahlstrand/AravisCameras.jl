@@ -158,3 +158,9 @@ end
 function fillbox_ro(box, node::ArvGcFloatNode)
     box[:end] = GtkLabel(string(G_.get_value(ArvGcFloat(node))))
 end
+
+const Visibility = (AravisCameras.GcVisibility_BEGINNER, AravisCameras.GcVisibility_EXPERT, AravisCameras.GcVisibility_GURU)
+
+function visibility_dropdown()
+    GtkDropDown(["Beginner","Expert","Guru"])
+end
