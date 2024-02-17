@@ -1905,8 +1905,9 @@ $(Expr(:toplevel, quote
         ret2
     end
     function get_features(instance::ArvGcCategory)
-        ret = ccall(("arv_gc_category_get_features", libaravis), Ptr{GLib._GSList{Cstring}}, (Ptr{GObject},), instance)
-        ret
+        ret = ccall(("arv_gc_category_get_features", libaravis), Ptr{GLib._GSList{String}}, (Ptr{GObject},), instance)
+        ret2 = GLib.GList(ret, false, false)
+        ret2
     end
     function GcCommand_new()
         ret = ccall(("arv_gc_command_new", libaravis), Ptr{GObject}, ())
@@ -1981,7 +1982,8 @@ $(Expr(:toplevel, quote
     end
     function get_entries(instance::ArvGcEnumeration)
         ret = ccall(("arv_gc_enumeration_get_entries", libaravis), Ptr{GLib._GSList{Ptr{GObject}}}, (Ptr{GObject},), instance)
-        ret
+        ret2 = GLib.GList(ret, false, false)
+        ret2
     end
     function get_int_value(instance::ArvGcEnumeration)
         err = err_buf()
@@ -3094,7 +3096,8 @@ $(Expr(:toplevel, quote
     end
     function get_selected_features(instance::ArvGcSelector)
         ret = ccall(("arv_gc_selector_get_selected_features", libaravis), Ptr{GLib._GSList{Ptr{GObject}}}, (Ptr{GObject},), instance)
-        ret
+        ret2 = GLib.GList(ret, false, false)
+        ret2
     end
     function is_selector(instance::ArvGcSelector)
         ret = ccall(("arv_gc_selector_is_selector", libaravis), Cint, (Ptr{GObject},), instance)
