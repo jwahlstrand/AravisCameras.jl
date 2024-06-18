@@ -174,7 +174,7 @@ function image(b::ArvBuffer)
     h=G_.get_image_height(b)
     format = image_pixel_format(b)
     if format == PIXEL_FORMAT_BAYER_RG_8
-        @assert length(d) == w*h
+        length(d) != w*h && error("For PIXEL_FORMAT_BAYER_RG_8, expected $(w*h) bytes, got $(length(d)) bytes")
         img = Array{RGB{N0f8}}(undef,w ÷ 2,h ÷ 2)
         rg_convert!(img, d, w, h)
     elseif format == PIXEL_FORMAT_BAYER_RG_12
@@ -184,10 +184,10 @@ function image(b::ArvBuffer)
     elseif format == PIXEL_FORMAT_RGB_8_PACKED
         img = copy(reshape(reinterpret(RGB{N0f8},d),(w,h)))
     elseif format == PIXEL_FORMAT_MONO_8
-        @assert length(d) == w*h
+        length(d) != w*h && error("For PIXEL_FORMAT_MONO_8, expected $(w*h) bytes, got $(length(d)) bytes")
         img = copy(reinterpret(N0f8,reshape(d,(w,h))))
     elseif format == PIXEL_FORMAT_MONO_12
-        @assert length(d) == 2*w*h
+        length(d) != 2*w*h && error("For PIXEL_FORMAT_MONO_12, expected $(2*w*h) bytes, got $(length(d)) bytes")
         d2=reinterpret(UInt16,d)
         img = Array{N4f12}(undef, w, h)
         for i=1:w*h

@@ -1,3 +1,6 @@
+printerr(e::Exception) = nothing
+printerr(e::GErrorException) = println(e.message)
+
 _get_node(n, v) = C_NULL
 function _get_node(n::ArvGcCategory, visibility)
     if visibility <= G_.get_visibility(n)
@@ -52,8 +55,12 @@ function fillbox_wo(box, node)
 end
 function _bool_toggled(bptr, node)
     b=convert(GtkToggleButton,bptr)
-    if G_.get_value(node) != b.active
-        G_.set_value(node, b.active)
+    try
+        if G_.get_value(node) != b.active
+            G_.set_value(node, b.active)
+        end
+    catch e
+        printerr(e)
     end
     nothing
 end
@@ -64,7 +71,11 @@ function fillbox_rw(box, node::ArvGcBoolean)
     Gtk4.on_toggled(_bool_toggled, checkbutton, node)
 end
 function fillbox_ro(box, node::ArvGcBoolean)
-    box[:end] = GtkLabel(G_.get_value(node) ? "true" : "false")
+    try
+        box[:end] = GtkLabel(G_.get_value(node) ? "true" : "false")
+    catch e
+        printerr(e)
+    end
 end
 _command_clicked(bptr, node) = G_.execute(node)
 function fillbox_rw(box, node::ArvGcCommand)
@@ -82,7 +93,11 @@ end
 function _enum_selected(ddptr, pars, node)
     dd=convert(GtkDropDown,ddptr)
     str = Gtk4.selected_string(dd)
-    G_.set_value(ArvGcString(node), str)
+    try
+        G_.set_value(ArvGcString(node), str)
+    catch e
+        printerr(e)
+    end
     nothing
 end
 function fillbox_rw(box, node::ArvGcEnumeration)
@@ -93,18 +108,24 @@ function fillbox_rw(box, node::ArvGcEnumeration)
         Gtk4.GLib.on_notify(_enum_selected, dd, "notify::selected", node)
         box[:end] = dd
     catch e
+        printerr(e)
     end
 end
 function fillbox_ro(box, node::ArvGcEnumeration)
     try
         box[:end] = GtkLabel(G_.get_value(ArvGcString(node)))
     catch e
+        printerr(e)
     end
 end
 function _int_changed(sbptr, node)
     sb = convert(GtkSpinButton, sbptr)::GtkSpinButtonLeaf
     val = Gtk4.G_.get_value_as_int(sb)
-    G_.set_value(ArvGcInteger(node), val)
+    try
+        G_.set_value(ArvGcInteger(node), val)
+    catch e
+        printerr(e)
+    end
     nothing
 end
 function fillbox_rw(box, node::ArvGcIntegerNode)
@@ -125,16 +146,24 @@ function fillbox_rw(box, node::ArvGcIntegerNode)
         box[:end] = sb
         Gtk4.on_value_changed(_int_changed,sb,node)
     catch e
-        println("error during int:", e)
+        printerr(e)
     end
 end
 function fillbox_ro(box, node::ArvGcIntegerNode)
-    box[:end] = GtkLabel(string(G_.get_value(ArvGcInteger(node))))
+    try
+        box[:end] = GtkLabel(string(G_.get_value(ArvGcInteger(node))))
+    catch e
+        printerr(e)
+    end
 end
 function _float_changed(sbptr, node)
     sb = convert(GtkSpinButton, sbptr)::GtkSpinButtonLeaf
     val = Gtk4.G_.get_value(sb)
-    G_.set_value(ArvGcInteger(node), val)
+    try
+        G_.set_value(ArvGcInteger(node), val)
+    catch e
+        printerr(e)
+    end
     nothing
 end
 function fillbox_rw(box, node::ArvGcFloatNode)
@@ -152,15 +181,17 @@ function fillbox_rw(box, node::ArvGcFloatNode)
         box[:end] = sb
         Gtk4.on_value_changed(_float_changed, sb, node)
     catch e
-        println("error during float:", e)
+        printerr(e)
     end
 end
 function fillbox_ro(box, node::ArvGcFloatNode)
-    box[:end] = GtkLabel(string(G_.get_value(ArvGcFloat(node))))
+    try
+        box[:end] = GtkLabel(string(G_.get_value(ArvGcFloat(node))))
+    catch e
+        printerr(e)
+    end
 end
 
 const Visibility = (AravisCameras.GcVisibility_BEGINNER, AravisCameras.GcVisibility_EXPERT, AravisCameras.GcVisibility_GURU)
 
-function visibility_dropdown()
-    GtkDropDown(["Beginner","Expert","Guru"])
-end
+visibility_dropdown() = GtkDropDown(["Beginner","Expert","Guru"])
