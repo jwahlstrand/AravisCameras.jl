@@ -1447,11 +1447,17 @@ $(Expr(:toplevel, quote
     function ArvXmlSchema(_path::Union{AbstractString, Symbol})
         G_.XmlSchema_new_from_path(_path)
     end
-    mutable struct ArvZip
-        handle::Ptr{ArvZip}
+    begin
+        mutable struct ArvZip
+            handle::Ptr{ArvZip}
+        end
+        const ArvZipLike = ArvZip
     end
-    mutable struct ArvZipFile
-        handle::Ptr{ArvZipFile}
+    begin
+        mutable struct ArvZipFile
+            handle::Ptr{ArvZipFile}
+        end
+        const ArvZipFileLike = ArvZipFile
     end
     gboxed_cache_init() = begin
             append!(GLib.gboxed_types, gboxed_types)

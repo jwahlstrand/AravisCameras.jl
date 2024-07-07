@@ -8,19 +8,7 @@ path="../src/gen"
 
 ns = GINamespace(:Aravis,"0.8")
 
-## constants, enums, and flags
-
-const_mod = Expr(:block)
-
-const_exports = Expr(:export)
-
-c = GI.all_const_exprs!(const_mod, const_exports, ns; skiplist= [])
-push!(const_mod.args, const_exports)
-
-push!(exprs, const_mod)
-
-## export constants, enums, and flags code
-GI.write_to_file(path,"aravis_consts",toplevel)
+GI.export_consts!(ns, path, "aravis"; export_constants = false)
 
 ## structs and objects
 

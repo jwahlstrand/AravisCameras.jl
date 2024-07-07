@@ -343,7 +343,6 @@ $(Expr(:toplevel, quote
                     ccall(("arv_gv_stream_option_get_type", libaravis), GType, ())
                 end
         end
-        export AccessCheckPolicy, AcquisitionMode, Auto, BufferPartDataType, BufferPayloadType, BufferStatus, ChunkParserError, ComponentSelectionFlags, DeviceError, DomNodeType, ExposureMode, GcAccessMode, GcCachable, GcDisplayNotation, GcError, GcIsLinear, GcNameSpace, GcPropertyNodeType, GcRepresentation, GcSignedness, GcStreamable, GcVisibility, GvIpConfigurationMode, GvPacketSizeAdjustment, GvStreamPacketResend, GvStreamSocketBuffer, RangeCheckPolicy, RegisterCachePolicy, StreamCallbackType, UvUsbMode, XmlSchemaError, GvInterfaceFlags, GvStreamOption
     end
 end))
 end

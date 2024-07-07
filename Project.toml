@@ -19,5 +19,5 @@ Cameras = "6410b9bd-72f2-532f-9386-433801972073"
 AravisCamerasCamerasExt = "Cameras"
 
 [compat]
-Gtk4 = ">=0.6.2"
-julia = "1.9"
+Gtk4 = "0.7"
+julia = "1.10"
