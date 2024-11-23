@@ -15,9 +15,9 @@ ps = AravisCameras.G_.gv_get_packet_size(camera)
 AravisCameras.exposure_time(camera,20000.0)
 
 # uncomment one of these to set a particular pixel format
-AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_BAYER_RG_8)
+#AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_BAYER_RG_8)
 #AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_BAYER_RG_12)
-#AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_MONO_8)
+AravisCameras.pixel_format(camera,AravisCameras.PIXEL_FORMAT_MONO_8)
 
 println("sensor size: $width, $height")
 println("auto_packet_size: $mps")

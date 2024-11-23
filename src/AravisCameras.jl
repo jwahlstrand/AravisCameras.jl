@@ -21,6 +21,7 @@ using Glib_jll, Aravis_jll
 
 using Gtk4.GLib, Gtk4
 using ..AravisCameras
+import AravisCameras: AcquisitionMode, Auto, BufferPayloadType, BufferStatus, ChunkParserError, DeviceError, DomNodeType, ExposureMode, GcAccessMode, GcCachable, GcDisplayNotation, GcError, GcIsLinear, GcNameSpace, GcPropertyNodeType, GcRepresentation, GcSignedness, GcStreamable, GcVisibility, GvPacketSizeAdjustment, GvStreamOption, GvStreamPacketResend, GvStreamSocketBuffer, RangeCheckPolicy, RegisterCachePolicy, StreamCallbackType, UvUsbMode, XmlSchemaError
 
 eval(include("gen/aravis_methods"))
 eval(include("gen/aravis_functions"))
@@ -155,7 +156,10 @@ function image!(img, b::ArvBuffer)
         @assert length(d) == w*h
         copyto!(img, reinterpret(N0f8,reshape(d,(w,h))))
     elseif format == PIXEL_FORMAT_MONO_12
-        @assert length(d) == 2*w*h
+        if length(d) != 2*w*h
+            println("size issue: length(d) = $(length(d)) but 2*w*h = $(2*w*h)")
+            return nothing
+        end
         d2=reinterpret(UInt16,d)
         for i=1:w*h
             img[i]=reinterpret(N4f12, d2[i])
@@ -199,6 +203,14 @@ function image(b::ArvBuffer)
     end
     img
 end
+
+function acquisition(instance::ArvCamera, _timeout::Integer)
+    err = err_buf()
+    ret = ccall(("arv_camera_acquisition", libaravis), Ptr{GObject}, (Ptr{GObject}, UInt64, Ptr{Ptr{GError}}), instance, _timeout, err)
+    check_err(err)
+    convert_if_not_null(ArvBuffer, ret, true)
+end
+acquisition(instance::ArvCamera) = acquisition(instance, 0)
 
 include("gui.jl")
 

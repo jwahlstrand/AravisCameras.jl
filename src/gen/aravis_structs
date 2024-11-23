@@ -1,5 +1,21 @@
 quote
 $(Expr(:toplevel, quote
+    const gboxed_types = Any[]
+    begin
+        mutable struct ArvZip
+            handle::Ptr{ArvZip}
+        end
+        const ArvZipLike = ArvZip
+    end
+    begin
+        mutable struct ArvZipFile
+            handle::Ptr{ArvZipFile}
+        end
+        const ArvZipFileLike = ArvZipFile
+    end
+    gboxed_cache_init() = begin
+            append!(GLib.gboxed_types, gboxed_types)
+        end
     struct ArvGcFloat <: GInterface
         handle::Ptr{GObject}
         gc::Any
@@ -1447,21 +1463,12 @@ $(Expr(:toplevel, quote
     function ArvXmlSchema(_path::Union{AbstractString, Symbol})
         G_.XmlSchema_new_from_path(_path)
     end
-    begin
-        mutable struct ArvZip
-            handle::Ptr{ArvZip}
-        end
-        const ArvZipLike = ArvZip
+    function on_control_lost(f, object::ArvDevice, user_data = object, after = false)
+        GLib.signal_connect_generic(f, object, "control-lost", Nothing, (), after, user_data)
     end
-    begin
-        mutable struct ArvZipFile
-            handle::Ptr{ArvZipFile}
-        end
-        const ArvZipFileLike = ArvZipFile
+    function on_new_buffer(f, object::ArvStream, user_data = object, after = false)
+        GLib.signal_connect_generic(f, object, "new-buffer", Nothing, (), after, user_data)
     end
-    gboxed_cache_init() = begin
-            append!(GLib.gboxed_types, gboxed_types)
-        end
-    export ArvGcFloat, ArvGcInteger, ArvGcRegister, ArvGcSelector, ArvGcString, ArvBuffer, ArvBufferLeaf, ArvCamera, ArvCameraLeaf, ArvChunkParser, ArvChunkParserLeaf, ArvDevice, ArvDomCharacterData, ArvDomDocument, ArvDomDocumentFragment, ArvDomElement, ArvDomNamedNodeMap, ArvDomNode, ArvDomNodeChildList, ArvDomNodeChildListLeaf, ArvDomNodeList, ArvDomText, ArvDomTextLeaf, ArvEvaluator, ArvEvaluatorLeaf, ArvFakeCamera, ArvFakeCameraLeaf, ArvFakeDevice, ArvFakeDeviceLeaf, ArvFakeInterface, ArvFakeInterfaceLeaf, ArvFakeStream, ArvFakeStreamLeaf, ArvGc, ArvGcLeaf, ArvGcBoolean, ArvGcBooleanLeaf, ArvGcCategory, ArvGcCategoryLeaf, ArvGcCommand, ArvGcCommandLeaf, ArvGcConverter, ArvGcConverterNode, ArvGcConverterNodeLeaf, ArvGcEnumEntry, ArvGcEnumEntryLeaf, ArvGcEnumeration, ArvGcEnumerationLeaf, ArvGcFeatureNode, ArvGcFloatNode, ArvGcFloatNodeLeaf, ArvGcFloatRegNode, ArvGcFloatRegNodeLeaf, ArvGcGroupNode, ArvGcGroupNodeLeaf, ArvGcIndexNode, ArvGcIndexNodeLeaf, ArvGcIntConverterNode, ArvGcIntConverterNodeLeaf, ArvGcIntRegNode, ArvGcIntRegNodeLeaf, ArvGcIntSwissKnifeNode, ArvGcIntSwissKnifeNodeLeaf, ArvGcIntegerNode, ArvGcIntegerNodeLeaf, ArvGcInvalidatorNode, ArvGcInvalidatorNodeLeaf, ArvGcMaskedIntRegNode, ArvGcMaskedIntRegNodeLeaf, ArvGcNode, ArvGcPort, ArvGcPortLeaf, ArvGcPropertyNode, ArvGcPropertyNodeLeaf, ArvGcRegisterDescriptionNode, ArvGcRegisterDescriptionNodeLeaf, ArvGcRegisterNode, ArvGcRegisterNodeLeaf, ArvGcStringNode, ArvGcStringNodeLeaf, ArvGcStringRegNode, ArvGcStringRegNodeLeaf, ArvGcStructEntryNode, ArvGcStructEntryNodeLeaf, ArvGcStructRegNode, ArvGcStructRegNodeLeaf, ArvGcSwissKnife, ArvGcSwissKnifeNode, ArvGcSwissKnifeNodeLeaf, ArvGcValueIndexedNode, ArvGcValueIndexedNodeLeaf, ArvGvDevice, ArvGvDeviceLeaf, ArvGvFakeCamera, ArvGvFakeCameraLeaf, ArvGvInterface, ArvGvInterfaceLeaf, ArvGvStream, ArvGvStreamLeaf, ArvInterface, ArvStream, ArvXmlSchema, ArvXmlSchemaLeaf, ArvZip, ArvZipFile
+    export ArvZip, ArvZipFile, ArvGcFloat, ArvGcInteger, ArvGcRegister, ArvGcSelector, ArvGcString, ArvBuffer, ArvBufferLeaf, ArvCamera, ArvCameraLeaf, ArvChunkParser, ArvChunkParserLeaf, ArvDevice, ArvDomCharacterData, ArvDomDocument, ArvDomDocumentFragment, ArvDomElement, ArvDomNamedNodeMap, ArvDomNode, ArvDomNodeChildList, ArvDomNodeChildListLeaf, ArvDomNodeList, ArvDomText, ArvDomTextLeaf, ArvEvaluator, ArvEvaluatorLeaf, ArvFakeCamera, ArvFakeCameraLeaf, ArvFakeDevice, ArvFakeDeviceLeaf, ArvFakeInterface, ArvFakeInterfaceLeaf, ArvFakeStream, ArvFakeStreamLeaf, ArvGc, ArvGcLeaf, ArvGcBoolean, ArvGcBooleanLeaf, ArvGcCategory, ArvGcCategoryLeaf, ArvGcCommand, ArvGcCommandLeaf, ArvGcConverter, ArvGcConverterNode, ArvGcConverterNodeLeaf, ArvGcEnumEntry, ArvGcEnumEntryLeaf, ArvGcEnumeration, ArvGcEnumerationLeaf, ArvGcFeatureNode, ArvGcFloatNode, ArvGcFloatNodeLeaf, ArvGcFloatRegNode, ArvGcFloatRegNodeLeaf, ArvGcGroupNode, ArvGcGroupNodeLeaf, ArvGcIndexNode, ArvGcIndexNodeLeaf, ArvGcIntConverterNode, ArvGcIntConverterNodeLeaf, ArvGcIntRegNode, ArvGcIntRegNodeLeaf, ArvGcIntSwissKnifeNode, ArvGcIntSwissKnifeNodeLeaf, ArvGcIntegerNode, ArvGcIntegerNodeLeaf, ArvGcInvalidatorNode, ArvGcInvalidatorNodeLeaf, ArvGcMaskedIntRegNode, ArvGcMaskedIntRegNodeLeaf, ArvGcNode, ArvGcPort, ArvGcPortLeaf, ArvGcPropertyNode, ArvGcPropertyNodeLeaf, ArvGcRegisterDescriptionNode, ArvGcRegisterDescriptionNodeLeaf, ArvGcRegisterNode, ArvGcRegisterNodeLeaf, ArvGcStringNode, ArvGcStringNodeLeaf, ArvGcStringRegNode, ArvGcStringRegNodeLeaf, ArvGcStructEntryNode, ArvGcStructEntryNodeLeaf, ArvGcStructRegNode, ArvGcStructRegNodeLeaf, ArvGcSwissKnife, ArvGcSwissKnifeNode, ArvGcSwissKnifeNodeLeaf, ArvGcValueIndexedNode, ArvGcValueIndexedNodeLeaf, ArvGvDevice, ArvGvDeviceLeaf, ArvGvFakeCamera, ArvGvFakeCameraLeaf, ArvGvInterface, ArvGvInterfaceLeaf, ArvGvStream, ArvGvStreamLeaf, ArvInterface, ArvStream, ArvXmlSchema, ArvXmlSchemaLeaf
 end))
 end

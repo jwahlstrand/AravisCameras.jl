@@ -34,6 +34,22 @@ $(Expr(:toplevel, quote
         ret = ccall(("arv_buffer_get_frame_id", libaravis), UInt64, (Ptr{GObject},), instance)
         ret
     end
+    function get_gendc_data(instance::ArvBuffer)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_buffer_get_gendc_data", libaravis), Ptr{UInt8}, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
+        ret2 = collect(unsafe_wrap(Vector{UInt8}, ret, m_size[]))
+        _size = m_size[]
+        _size = convert(Maybe(Integer), _size)
+        ret2
+    end
+    function get_gendc_descriptor(instance::ArvBuffer)
+        m_size = Ref{UInt64}()
+        ret = ccall(("arv_buffer_get_gendc_descriptor", libaravis), Ptr{UInt8}, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
+        ret2 = collect(unsafe_wrap(Vector{UInt8}, ret, m_size[]))
+        _size = m_size[]
+        _size = convert(Maybe(Integer), _size)
+        ret2
+    end
     function get_image_data(instance::ArvBuffer)
         m_size = Ref{UInt64}()
         ret = ccall(("arv_buffer_get_image_data", libaravis), Ptr{UInt8}, (Ptr{GObject}, Ptr{UInt64}), instance, m_size)
@@ -169,6 +185,11 @@ $(Expr(:toplevel, quote
         ret2 = convert(Bool, ret)
         ret2
     end
+    function has_gendc(instance::ArvBuffer)
+        ret = ccall(("arv_buffer_has_gendc", libaravis), Cint, (Ptr{GObject},), instance)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
     function set_frame_id(instance::ArvBuffer, _frame_id::Integer)
         ret = ccall(("arv_buffer_set_frame_id", libaravis), Nothing, (Ptr{GObject}, UInt64), instance, _frame_id)
         nothing
@@ -202,13 +223,6 @@ $(Expr(:toplevel, quote
         check_err(err)
         nothing
     end
-    function acquisition(instance::ArvCamera, _timeout::Integer)
-        err = err_buf()
-        ret = ccall(("arv_camera_acquisition", libaravis), Ptr{GObject}, (Ptr{GObject}, UInt64, Ptr{Ptr{GError}}), instance, _timeout, err)
-        check_err(err)
-        ret2 = convert(ArvBuffer, ret, true)
-        ret2
-    end
     function are_chunks_available(instance::ArvCamera)
         err = err_buf()
         ret = ccall(("arv_camera_are_chunks_available", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
@@ -225,6 +239,19 @@ $(Expr(:toplevel, quote
     function create_chunk_parser(instance::ArvCamera)
         ret = ccall(("arv_camera_create_chunk_parser", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
         ret2 = convert(ArvChunkParser, ret, true)
+        ret2
+    end
+    function dup_available_black_levels(instance::ArvCamera)
+        m_n_selectors = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_black_levels", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_selectors, err)
+        check_err(err)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_selectors[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
+        _n_selectors = m_n_selectors[]
         ret2
     end
     function dup_available_components(instance::ArvCamera)
@@ -277,6 +304,19 @@ $(Expr(:toplevel, quote
                 arrtemp
             end
         _n_values = m_n_values[]
+        ret2
+    end
+    function dup_available_gains(instance::ArvCamera)
+        m_n_selectors = Ref{UInt32}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_available_gains", libaravis), Ptr{Cstring}, (Ptr{GObject}, Ptr{UInt32}, Ptr{Ptr{GError}}), instance, m_n_selectors, err)
+        check_err(err)
+        ret2 = begin
+                arrtemp = bytestring.(unsafe_wrap(Vector{Cstring}, ret, m_n_selectors[]), false)
+                GLib.g_free(ret)
+                arrtemp
+            end
+        _n_selectors = m_n_selectors[]
         ret2
     end
     function dup_available_pixel_formats(instance::ArvCamera)
@@ -343,6 +383,15 @@ $(Expr(:toplevel, quote
             end
         _n_triggers = m_n_triggers[]
         ret2
+    end
+    function dup_register(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        m_length = Ref{UInt64}()
+        err = err_buf()
+        ret = ccall(("arv_camera_dup_register", libaravis), Ptr{Nothing}, (Ptr{GObject}, Cstring, Ptr{UInt64}, Ptr{Ptr{GError}}), instance, _feature, m_length, err)
+        check_err(err)
+        ret2 = convert(Nothing, ret)
+        _length = m_length[]
+        (ret2, _length)
     end
     function execute_command(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
         err = err_buf()
@@ -455,6 +504,16 @@ $(Expr(:toplevel, quote
         _max = m_max[]
         (_min, _max)
     end
+    function get_exposure_time_representation(instance::ArvCamera)
+        ret = ccall(("arv_camera_get_exposure_time_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcRepresentation(ret)
+        ret2
+    end
+    function get_feature_representation(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
+        ret = ccall(("arv_camera_get_feature_representation", libaravis), UInt32, (Ptr{GObject}, Cstring), instance, _feature)
+        ret2 = GcRepresentation(ret)
+        ret2
+    end
     function get_float(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
         err = err_buf()
         ret = ccall(("arv_camera_get_float", libaravis), Float64, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
@@ -509,6 +568,13 @@ $(Expr(:toplevel, quote
         _max = m_max[]
         (_min, _max)
     end
+    function get_frame_rate_enable(instance::ArvCamera)
+        err = err_buf()
+        ret = ccall(("arv_camera_get_frame_rate_enable", libaravis), Cint, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
+        check_err(err)
+        ret2 = convert(Bool, ret)
+        ret2
+    end
     function get_gain(instance::ArvCamera)
         err = err_buf()
         ret = ccall(("arv_camera_get_gain", libaravis), Float64, (Ptr{GObject}, Ptr{Ptr{GError}}), instance, err)
@@ -531,6 +597,11 @@ $(Expr(:toplevel, quote
         _min = m_min[]
         _max = m_max[]
         (_min, _max)
+    end
+    function get_gain_representation(instance::ArvCamera)
+        ret = ccall(("arv_camera_get_gain_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret2 = GcRepresentation(ret)
+        ret2
     end
     function get_height_bounds(instance::ArvCamera)
         m_min = Ref{Int32}()
@@ -957,6 +1028,12 @@ $(Expr(:toplevel, quote
         check_err(err)
         nothing
     end
+    function select_black_level(instance::ArvCamera, _selector::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_select_black_level", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _selector, err)
+        check_err(err)
+        nothing
+    end
     function select_component(instance::ArvCamera, _component::Union{AbstractString, Symbol}, _flags)
         m_component_id = Ref{UInt32}()
         err = err_buf()
@@ -965,6 +1042,12 @@ $(Expr(:toplevel, quote
         ret2 = convert(Bool, ret)
         _component_id = m_component_id[]
         (ret2, _component_id)
+    end
+    function select_gain(instance::ArvCamera, _selector::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_camera_select_gain", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _selector, err)
+        check_err(err)
+        nothing
     end
     function set_access_check_policy(instance::ArvCamera, _policy)
         ret = ccall(("arv_camera_set_access_check_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
@@ -1054,6 +1137,12 @@ $(Expr(:toplevel, quote
         check_err(err)
         nothing
     end
+    function set_frame_rate_enable(instance::ArvCamera, _enable::Bool)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_frame_rate_enable", libaravis), Nothing, (Ptr{GObject}, Cint, Ptr{Ptr{GError}}), instance, _enable, err)
+        check_err(err)
+        nothing
+    end
     function set_gain(instance::ArvCamera, _gain::Real)
         err = err_buf()
         ret = ccall(("arv_camera_set_gain", libaravis), Nothing, (Ptr{GObject}, Float64, Ptr{Ptr{GError}}), instance, _gain, err)
@@ -1091,6 +1180,13 @@ $(Expr(:toplevel, quote
     function set_region(instance::ArvCamera, _x::Integer, _y::Integer, _width::Integer, _height::Integer)
         err = err_buf()
         ret = ccall(("arv_camera_set_region", libaravis), Nothing, (Ptr{GObject}, Int32, Int32, Int32, Int32, Ptr{Ptr{GError}}), instance, _x, _y, _width, _height, err)
+        check_err(err)
+        nothing
+    end
+    function set_register(instance::ArvCamera, _feature::Union{AbstractString, Symbol}, _length::Integer, _value::Maybe(Nothing))
+        _value_maybe = nothing_to_null(_value)
+        err = err_buf()
+        ret = ccall(("arv_camera_set_register", libaravis), Nothing, (Ptr{GObject}, Cstring, UInt64, Ptr{Nothing}, Ptr{Ptr{GError}}), instance, _feature, _length, _value_maybe, err)
         check_err(err)
         nothing
     end
@@ -1242,6 +1338,15 @@ $(Expr(:toplevel, quote
         _n_values = m_n_values[]
         ret2
     end
+    function dup_register_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_length = Ref{UInt64}()
+        err = err_buf()
+        ret = ccall(("arv_device_dup_register_feature_value", libaravis), Ptr{Nothing}, (Ptr{GObject}, Cstring, Ptr{UInt64}, Ptr{Ptr{GError}}), instance, _feature, m_length, err)
+        check_err(err)
+        ret2 = convert(Nothing, ret)
+        _length = m_length[]
+        (ret2, _length)
+    end
     function execute_command(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
         err = err_buf()
         ret = ccall(("arv_device_execute_command", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _feature, err)
@@ -1266,6 +1371,19 @@ $(Expr(:toplevel, quote
         ret = ccall(("arv_device_get_feature_access_mode", libaravis), UInt32, (Ptr{GObject}, Cstring), instance, _feature)
         ret2 = GcAccessMode(ret)
         ret2
+    end
+    function get_feature_representation(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        ret = ccall(("arv_device_get_feature_representation", libaravis), UInt32, (Ptr{GObject}, Cstring), instance, _feature)
+        ret2 = GcRepresentation(ret)
+        ret2
+    end
+    function get_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
+        m_value = Ref{_GValue}()
+        err = err_buf()
+        ret = ccall(("arv_device_get_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{_GValue}, Ptr{Ptr{GError}}), instance, _feature, m_value, err)
+        check_err(err)
+        _value = m_value[]
+        _value
     end
     function get_float_feature_bounds(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
         m_min = Ref{Float64}()
@@ -1376,6 +1494,12 @@ $(Expr(:toplevel, quote
         check_err(err)
         nothing
     end
+    function set_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _value::GValueLike)
+        err = err_buf()
+        ret = ccall(("arv_device_set_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Ptr{_GValue}, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
     function set_features_from_string(instance::ArvDevice, _string::Union{AbstractString, Symbol})
         err = err_buf()
         ret = ccall(("arv_device_set_features_from_string", libaravis), Cint, (Ptr{GObject}, Cstring, Ptr{Ptr{GError}}), instance, _string, err)
@@ -1401,6 +1525,13 @@ $(Expr(:toplevel, quote
     end
     function set_register_cache_policy(instance::ArvDevice, _policy)
         ret = ccall(("arv_device_set_register_cache_policy", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _policy)
+        nothing
+    end
+    function set_register_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _length::Integer, _value::Maybe(Nothing))
+        _value_maybe = nothing_to_null(_value)
+        err = err_buf()
+        ret = ccall(("arv_device_set_register_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, UInt64, Ptr{Nothing}, Ptr{Ptr{GError}}), instance, _feature, _length, _value_maybe, err)
+        check_err(err)
         nothing
     end
     function set_string_feature_value(instance::ArvDevice, _feature::Union{AbstractString, Symbol}, _value::Union{AbstractString, Symbol})
@@ -1731,6 +1862,11 @@ $(Expr(:toplevel, quote
         ret2 = string_or_nothing(ret, false)
         _size = m_size[]
         (ret2, _size)
+    end
+    function get_genicam_xml_url(instance::ArvFakeCamera)
+        ret = ccall(("arv_fake_camera_get_genicam_xml_url", libaravis), Cstring, (Ptr{GObject},), instance)
+        ret2 = string_or_nothing(ret, false)
+        ret2
     end
     function get_heartbeat_timeout(instance::ArvFakeCamera)
         ret = ccall(("arv_fake_camera_get_heartbeat_timeout", libaravis), UInt32, (Ptr{GObject},), instance)
@@ -2261,6 +2397,11 @@ $(Expr(:toplevel, quote
         ret2 = ArvGcPropertyNodeLeaf(ret, true)
         ret2
     end
+    function GcPropertyNode_new_is_deprecated()
+        ret = ccall(("arv_gc_property_node_new_is_deprecated", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
     function GcPropertyNode_new_is_linear()
         ret = ccall(("arv_gc_property_node_new_is_linear", libaravis), Ptr{GObject}, ())
         ret2 = ArvGcPropertyNodeLeaf(ret, true)
@@ -2303,6 +2444,16 @@ $(Expr(:toplevel, quote
     end
     function GcPropertyNode_new_p_address()
         ret = ccall(("arv_gc_property_node_new_p_address", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_alias()
+        ret = ccall(("arv_gc_property_node_new_p_alias", libaravis), Ptr{GObject}, ())
+        ret2 = ArvGcPropertyNodeLeaf(ret, true)
+        ret2
+    end
+    function GcPropertyNode_new_p_cast_alias()
+        ret = ccall(("arv_gc_property_node_new_p_cast_alias", libaravis), Ptr{GObject}, ())
         ret2 = ArvGcPropertyNodeLeaf(ret, true)
         ret2
     end
@@ -3067,6 +3218,15 @@ $(Expr(:toplevel, quote
         ret = ccall(("arv_gc_integer_set_value", libaravis), Nothing, (Ptr{GObject}, Int64, Ptr{Ptr{GError}}), instance, _value, err)
         check_err(err)
         nothing
+    end
+    function dup(instance::ArvGcRegister)
+        m_length = Ref{UInt64}()
+        err = err_buf()
+        ret = ccall(("arv_gc_register_dup", libaravis), Ptr{Nothing}, (Ptr{GObject}, Ptr{UInt64}, Ptr{Ptr{GError}}), instance, m_length, err)
+        check_err(err)
+        ret2 = convert(Nothing, ret)
+        _length = m_length[]
+        (ret2, _length)
     end
     function get(instance::ArvGcRegister, _buffer::Maybe(Nothing), _length::Integer)
         _buffer_maybe = nothing_to_null(_buffer)
