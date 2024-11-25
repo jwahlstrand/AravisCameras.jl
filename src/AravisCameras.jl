@@ -21,7 +21,7 @@ using Glib_jll, Aravis_jll
 
 using Gtk4.GLib, Gtk4
 using ..AravisCameras
-import AravisCameras: AcquisitionMode, Auto, BufferPayloadType, BufferStatus, ChunkParserError, DeviceError, DomNodeType, ExposureMode, GcAccessMode, GcCachable, GcDisplayNotation, GcError, GcIsLinear, GcNameSpace, GcPropertyNodeType, GcRepresentation, GcSignedness, GcStreamable, GcVisibility, GvPacketSizeAdjustment, GvStreamOption, GvStreamPacketResend, GvStreamSocketBuffer, RangeCheckPolicy, RegisterCachePolicy, StreamCallbackType, UvUsbMode, XmlSchemaError
+import AravisCameras: AccessCheckPolicy, AcquisitionMode, Auto, BufferPartDataType, BufferPayloadType, BufferStatus, ChunkParserError, ComponentSelectionFlags, DeviceError, DomNodeType, ExposureMode, GcAccessMode, GcCachable, GcDisplayNotation, GcError, GcIsLinear, GcNameSpace, GcPropertyNodeType, GcRepresentation, GcSignedness, GcStreamable, GcVisibility, GvIpConfigurationMode, GvPacketSizeAdjustment, GvStreamPacketResend, GvStreamSocketBuffer, RangeCheckPolicy, RegisterCachePolicy, StreamCallbackType, UvUsbMode, XmlSchemaError, GvInterfaceFlags, GvStreamOption
 
 eval(include("gen/aravis_methods"))
 eval(include("gen/aravis_functions"))
