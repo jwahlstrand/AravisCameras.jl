@@ -58,7 +58,10 @@ update_device_list() = G_.update_device_list()
 
 ArvCamera(name::AbstractString) = G_.Camera_new(name)
 
-push!(s::ArvStream, b::ArvBuffer) = (G_.push_buffer(s, b); s)
+function push!(s::ArvStream, b::ArvBuffer)
+    ccall(("arv_stream_push_buffer", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}), s, b)
+    s
+end
 
 function ArvStreamCallback(user_data, typ, buffer)
     f = user_data
@@ -67,21 +70,28 @@ function ArvStreamCallback(user_data, typ, buffer)
 end
 
 function create_stream(cam::ArvCamera)
-    ret = ccall(("arv_camera_create_stream_full", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Ptr{GError}}), cam, C_NULL, C_NULL, C_NULL, C_NULL)
+    err = GLib.err_buf()
+    ret = ccall(("arv_camera_create_stream_full", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Ptr{GError}}), cam, C_NULL, C_NULL, C_NULL, err)
+    check_err(err)
     ArvStreamLeaf(ret, true)
 end
 
 function create_stream(cam::ArvCamera, callback::Function)
     cfunc = @cfunction(ArvStreamCallback, Cvoid, (Ref{Function}, Cint, Ptr{GObject}))
     ref, deref = GLib.gc_ref_closure(match)
-    ret = ccall(("arv_camera_create_stream_full", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Ptr{GError}}), cam, cfunc, ref, deref, C_NULL)
+    err = GLib.err_buf()
+    ret = ccall(("arv_camera_create_stream_full", libaravis), Ptr{GObject}, (Ptr{GObject}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Nothing}, Ptr{Ptr{GError}}), cam, cfunc, ref, deref, err)
+    check_err(err)
     ArvStreamLeaf(ret, true)
 end
 
 # GI-generated versions don't return nothing if NULL
 function pop!(s::ArvStream)
     ret = ccall(("arv_stream_pop_buffer", libaravis), Ptr{GObject}, (Ptr{GObject},), s)
-    convert(ArvBuffer, ret, true)
+    if ret == C_NULL
+        return nothing
+    end
+    convert(ArvBuffer, ret, false)
 end
 
 function try_pop_buffer(instance::ArvStream)
