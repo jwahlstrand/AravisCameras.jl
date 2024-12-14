@@ -24,7 +24,8 @@ object_constructor_skiplist=[:new_from_url,:new_access_mode,:new_address,:new_bi
                              :new_tooltip,:new_unit,:new_value,:new_display_notation,:new_display_precision,
                              :new_event_id,:new_imposed_access_mode,:new_is_linear,:new_p_selected,
                              :new_p_value_default,:new_p_variable,:new_representation,:new_slope,:new_streamable,
-                             :new_value_default,:new_visibility, :new_is_deprecated, :new_p_alias, :new_p_cast_alias]
+                             :new_value_default,:new_visibility, :new_is_deprecated, :new_p_alias, :new_p_cast_alias,
+                             :new_allocate]
 struct_skiplist = GI.export_struct_exprs!(ns,path,"aravis", struct_skiplist, []; object_constructor_skiplist)
 
 object_method_skiplist=[:get_instance, :set_fill_pattern, :acquisition]

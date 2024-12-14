@@ -147,6 +147,12 @@ function rg_convert!(img::Array{RGB{T}},d,w,h) where T
     end
 end
 
+function ArvBuffer(_size::Integer)
+    ret = ccall(("arv_buffer_new_allocate", libaravis), Ptr{GObject}, (UInt64,), _size)
+    Gtk4.GLib.glib_ref(ret)
+    ArvBufferLeaf(ret, true)
+end
+
 Base.size(b::ArvBuffer) = (G_.get_image_width(b), G_.get_image_height(b))
 
 function image!(img, b::ArvBuffer)

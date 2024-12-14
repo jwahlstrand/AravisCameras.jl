@@ -16,41 +16,11 @@ $(Expr(:toplevel, quote
     gboxed_cache_init() = begin
             append!(GLib.gboxed_types, gboxed_types)
         end
-    struct ArvGcFloat <: GInterface
-        handle::Ptr{GObject}
-        gc::Any
-        ArvGcFloat(x::GObject) = begin
-                new(unsafe_convert(Ptr{GObject}, x), x)
-            end
-    end
-    struct ArvGcInteger <: GInterface
-        handle::Ptr{GObject}
-        gc::Any
-        ArvGcInteger(x::GObject) = begin
-                new(unsafe_convert(Ptr{GObject}, x), x)
-            end
-    end
-    struct ArvGcRegister <: GInterface
-        handle::Ptr{GObject}
-        gc::Any
-        ArvGcRegister(x::GObject) = begin
-                new(unsafe_convert(Ptr{GObject}, x), x)
-            end
-    end
-    struct ArvGcSelector <: GInterface
-        handle::Ptr{GObject}
-        gc::Any
-        ArvGcSelector(x::GObject) = begin
-                new(unsafe_convert(Ptr{GObject}, x), x)
-            end
-    end
-    struct ArvGcString <: GInterface
-        handle::Ptr{GObject}
-        gc::Any
-        ArvGcString(x::GObject) = begin
-                new(unsafe_convert(Ptr{GObject}, x), x)
-            end
-    end
+    GLib.@Giface ArvGcFloat libaravis arv_gc_float_get_type
+    GLib.@Giface ArvGcInteger libaravis arv_gc_integer_get_type
+    GLib.@Giface ArvGcRegister libaravis arv_gc_register_get_type
+    GLib.@Giface ArvGcSelector libaravis arv_gc_selector_get_type
+    GLib.@Giface ArvGcString libaravis arv_gc_string_get_type
     const gtype_wrapper_cache = Dict{Symbol, Type}()
     begin
         abstract type ArvBuffer <: GObject end
@@ -1307,9 +1277,6 @@ $(Expr(:toplevel, quote
     end
     function ArvBuffer(_size::Integer, _preallocated::Maybe(Nothing))
         G_.Buffer_new(_size, _preallocated)
-    end
-    function ArvBuffer(_size::Integer)
-        G_.Buffer_new_allocate(_size)
     end
     function ArvBuffer(_size::Integer, _preallocated::Maybe(Nothing), _user_data::Maybe(Nothing), _user_data_destroy_func::Maybe(Function))
         G_.Buffer_new_full(_size, _preallocated, _user_data, _user_data_destroy_func)
