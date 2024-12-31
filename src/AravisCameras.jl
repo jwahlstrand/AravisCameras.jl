@@ -59,7 +59,7 @@ update_device_list() = G_.update_device_list()
 ArvCamera(name::AbstractString) = G_.Camera_new(name)
 
 function push!(s::ArvStream, b::ArvBuffer)
-    ccall(("arv_stream_push_buffer", libaravis), Nothing, (Ptr{GObject}, Ptr{GObject}), s, b)
+    G_.push_buffer(s,b)
     s
 end
 
@@ -91,7 +91,7 @@ function pop!(s::ArvStream)
     if ret == C_NULL
         return nothing
     end
-    convert(ArvBuffer, ret, false)
+    convert(ArvBuffer, ret, true)
 end
 
 function try_pop_buffer(instance::ArvStream)
@@ -99,7 +99,15 @@ function try_pop_buffer(instance::ArvStream)
     if ret == C_NULL
         return nothing
     end
-    convert(ArvBuffer, ret, false)
+    convert(ArvBuffer, ret, true)
+end
+
+function timeout_pop_buffer(instance::ArvStream, _timeout::Integer)
+    ret = ccall(("arv_stream_timeout_pop_buffer", libaravis), Ptr{GObject}, (Ptr{GObject}, UInt64), instance, _timeout)
+    if ret == C_NULL
+        return nothing
+    end
+    convert(ArvBuffer, ret, true)
 end
 
 function get_data!(img::Vector{UInt8}, instance::ArvBuffer)
@@ -149,7 +157,6 @@ end
 
 function ArvBuffer(_size::Integer)
     ret = ccall(("arv_buffer_new_allocate", libaravis), Ptr{GObject}, (UInt64,), _size)
-    Gtk4.GLib.glib_ref(ret)
     ArvBufferLeaf(ret, true)
 end
 
