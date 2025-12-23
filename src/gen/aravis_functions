@@ -1,5 +1,4 @@
-quote
-$(Expr(:toplevel, quote
+begin
     function acquisition_mode_from_string(_string::Union{AbstractString, Symbol})
         ret = ccall(("arv_acquisition_mode_from_string", libaravis), UInt32, (Cstring,), _string)
         ret2 = AcquisitionMode(ret)
@@ -38,7 +37,7 @@ $(Expr(:toplevel, quote
         nothing
     end
     function dom_implementation_add_document_type(_qualified_name::Union{AbstractString, Symbol}, _document_type::Integer)
-        ret = ccall(("arv_dom_implementation_add_document_type", libaravis), Nothing, (Cstring, UInt64), _qualified_name, _document_type)
+        ret = ccall(("arv_dom_implementation_add_document_type", libaravis), Nothing, (Cstring, GType), _qualified_name, _document_type)
         nothing
     end
     function dom_implementation_cleanup()
@@ -169,5 +168,4 @@ $(Expr(:toplevel, quote
         ret = ccall(("arv_xml_schema_error_quark", libaravis), UInt32, ())
         ret
     end
-end))
 end

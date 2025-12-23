@@ -1,348 +1,210 @@
-quote
-$(Expr(:toplevel, quote
-    begin
-        const FAKE_CAMERA_ACQUISITION_FRAME_RATE_DEFAULT = 25.0
-        const FAKE_CAMERA_BINNING_HORIZONTAL_DEFAULT = 1
-        const FAKE_CAMERA_BINNING_VERTICAL_DEFAULT = 1
-        const FAKE_CAMERA_EXPOSURE_TIME_US_DEFAULT = 10000.0
-        const FAKE_CAMERA_HEIGHT_DEFAULT = 512
-        const FAKE_CAMERA_MEMORY_SIZE = 65536
-        const FAKE_CAMERA_REGISTER_ACQUISITION = 292
-        const FAKE_CAMERA_REGISTER_ACQUISITION_FRAME_PERIOD_US = 312
-        const FAKE_CAMERA_REGISTER_ACQUISITION_MODE = 300
-        const FAKE_CAMERA_REGISTER_ACQUISITION_START_OFFSET = 32
-        const FAKE_CAMERA_REGISTER_BINNING_HORIZONTAL = 264
-        const FAKE_CAMERA_REGISTER_BINNING_VERTICAL = 268
-        const FAKE_CAMERA_REGISTER_EXPOSURE_TIME_US = 288
-        const FAKE_CAMERA_REGISTER_FRAME_START_OFFSET = 0
-        const FAKE_CAMERA_REGISTER_GAIN_MODE = 276
-        const FAKE_CAMERA_REGISTER_GAIN_RAW = 272
-        const FAKE_CAMERA_REGISTER_HEIGHT = 260
-        const FAKE_CAMERA_REGISTER_PIXEL_FORMAT = 296
-        const FAKE_CAMERA_REGISTER_SENSOR_HEIGHT = 280
-        const FAKE_CAMERA_REGISTER_SENSOR_WIDTH = 284
-        const FAKE_CAMERA_REGISTER_TEST = 496
-        const FAKE_CAMERA_REGISTER_TRIGGER_ACTIVATION = 776
-        const FAKE_CAMERA_REGISTER_TRIGGER_MODE = 768
-        const FAKE_CAMERA_REGISTER_TRIGGER_SOFTWARE = 780
-        const FAKE_CAMERA_REGISTER_TRIGGER_SOURCE = 772
-        const FAKE_CAMERA_REGISTER_WIDTH = 256
-        const FAKE_CAMERA_REGISTER_X_OFFSET = 304
-        const FAKE_CAMERA_REGISTER_Y_OFFSET = 308
-        const FAKE_CAMERA_SENSOR_HEIGHT = 2048
-        const FAKE_CAMERA_SENSOR_WIDTH = 2048
-        const FAKE_CAMERA_TEST_REGISTER_DEFAULT = 305419896
-        const FAKE_CAMERA_WIDTH_DEFAULT = 512
-        const GV_FAKE_CAMERA_DEFAULT_INTERFACE = "127.0.0.1"
-        const GV_FAKE_CAMERA_DEFAULT_SERIAL_NUMBER = "GV01"
-        const PIXEL_FORMAT_BAYER_BG_10 = 0x0110000f
-        const PIXEL_FORMAT_BAYER_BG_10P = 0x010a0052
-        const PIXEL_FORMAT_BAYER_BG_10_PACKED = 0x010c0029
-        const PIXEL_FORMAT_BAYER_BG_12 = 0x01100013
-        const PIXEL_FORMAT_BAYER_BG_12P = 0x010c0053
-        const PIXEL_FORMAT_BAYER_BG_12_PACKED = 0x010c002d
-        const PIXEL_FORMAT_BAYER_BG_16 = 0x01100031
-        const PIXEL_FORMAT_BAYER_BG_8 = 0x0108000b
-        const PIXEL_FORMAT_BAYER_GB_10 = 0x0110000e
-        const PIXEL_FORMAT_BAYER_GB_10P = 0x010a0054
-        const PIXEL_FORMAT_BAYER_GB_10_PACKED = 0x010c0028
-        const PIXEL_FORMAT_BAYER_GB_12 = 0x01100012
-        const PIXEL_FORMAT_BAYER_GB_12P = 0x010c0055
-        const PIXEL_FORMAT_BAYER_GB_12_PACKED = 0x010c002c
-        const PIXEL_FORMAT_BAYER_GB_16 = 0x01100030
-        const PIXEL_FORMAT_BAYER_GB_8 = 0x0108000a
-        const PIXEL_FORMAT_BAYER_GR_10 = 0x0110000c
-        const PIXEL_FORMAT_BAYER_GR_10P = 0x010a0056
-        const PIXEL_FORMAT_BAYER_GR_10_PACKED = 0x010c0026
-        const PIXEL_FORMAT_BAYER_GR_12 = 0x01100010
-        const PIXEL_FORMAT_BAYER_GR_12P = 0x010c0057
-        const PIXEL_FORMAT_BAYER_GR_12_PACKED = 0x010c002a
-        const PIXEL_FORMAT_BAYER_GR_16 = 0x0110002e
-        const PIXEL_FORMAT_BAYER_GR_8 = 0x01080008
-        const PIXEL_FORMAT_BAYER_RG_10 = 0x0110000d
-        const PIXEL_FORMAT_BAYER_RG_10P = 0x010a0058
-        const PIXEL_FORMAT_BAYER_RG_10_PACKED = 0x010c0027
-        const PIXEL_FORMAT_BAYER_RG_12 = 0x01100011
-        const PIXEL_FORMAT_BAYER_RG_12P = 0x010c0059
-        const PIXEL_FORMAT_BAYER_RG_12_PACKED = 0x010c002b
-        const PIXEL_FORMAT_BAYER_RG_16 = 0x0110002f
-        const PIXEL_FORMAT_BAYER_RG_8 = 0x01080009
-        const PIXEL_FORMAT_BGRA_8_PACKED = 0x02200017
-        const PIXEL_FORMAT_BGR_10_PACKED = 0x02300019
-        const PIXEL_FORMAT_BGR_12_PACKED = 0x0230001b
-        const PIXEL_FORMAT_BGR_8_PACKED = 0x02180015
-        const PIXEL_FORMAT_COORD3D_ABC_10P = 0x021e00db
-        const PIXEL_FORMAT_COORD3D_ABC_10P_PLANAR = 0x021e00dc
-        const PIXEL_FORMAT_COORD3D_ABC_12P = 0x022400de
-        const PIXEL_FORMAT_COORD3D_ABC_12P_PLANAR = 0x022400df
-        const PIXEL_FORMAT_COORD3D_ABC_16 = 0x023000b9
-        const PIXEL_FORMAT_COORD3D_ABC_16_PLANAR = 0x023000ba
-        const PIXEL_FORMAT_COORD3D_ABC_32F = 0x026000c0
-        const PIXEL_FORMAT_COORD3D_ABC_32F_PLANAR = 0x026000c1
-        const PIXEL_FORMAT_COORD3D_ABC_8 = 0x021800b2
-        const PIXEL_FORMAT_COORD3D_ABC_8_PLANAR = 0x021800b3
-        const PIXEL_FORMAT_COORD3D_AC_10P = 0x021400f0
-        const PIXEL_FORMAT_COORD3D_AC_10P_PLANAR = 0x021400f1
-        const PIXEL_FORMAT_COORD3D_AC_12P = 0x021800f2
-        const PIXEL_FORMAT_COORD3D_AC_12P_PLANAR = 0x021800f3
-        const PIXEL_FORMAT_COORD3D_AC_16 = 0x022000bb
-        const PIXEL_FORMAT_COORD3D_AC_16_PLANAR = 0x022000bc
-        const PIXEL_FORMAT_COORD3D_AC_32F = 0x024000c2
-        const PIXEL_FORMAT_COORD3D_AC_32F_PLANAR = 0x024000c3
-        const PIXEL_FORMAT_COORD3D_AC_8 = 0x021000b4
-        const PIXEL_FORMAT_COORD3D_AC_8_PLANAR = 0x021000b5
-        const PIXEL_FORMAT_COORD3D_A_10P = 0x010a00d5
-        const PIXEL_FORMAT_COORD3D_A_12P = 0x010c00d8
-        const PIXEL_FORMAT_COORD3D_A_16 = 0x011000b6
-        const PIXEL_FORMAT_COORD3D_A_32F = 0x012000bd
-        const PIXEL_FORMAT_COORD3D_A_8 = 0x010800af
-        const PIXEL_FORMAT_COORD3D_B_10P = 0x010a00d6
-        const PIXEL_FORMAT_COORD3D_B_12P = 0x010c00d9
-        const PIXEL_FORMAT_COORD3D_B_16 = 0x011000b7
-        const PIXEL_FORMAT_COORD3D_B_32F = 0x012000be
-        const PIXEL_FORMAT_COORD3D_B_8 = 0x010800b0
-        const PIXEL_FORMAT_COORD3D_C_10P = 0x010a00d7
-        const PIXEL_FORMAT_COORD3D_C_12P = 0x010c00da
-        const PIXEL_FORMAT_COORD3D_C_16 = 0x011000b8
-        const PIXEL_FORMAT_COORD3D_C_32F = 0x012000bf
-        const PIXEL_FORMAT_COORD3D_C_8 = 0x010800b1
-        const PIXEL_FORMAT_CUSTOM_BAYER_BG_12_PACKED = 0x810c0004
-        const PIXEL_FORMAT_CUSTOM_BAYER_BG_16 = 0x81100009
-        const PIXEL_FORMAT_CUSTOM_BAYER_GB_12_PACKED = 0x810c0003
-        const PIXEL_FORMAT_CUSTOM_BAYER_GB_16 = 0x81100008
-        const PIXEL_FORMAT_CUSTOM_BAYER_GR_12_PACKED = 0x810c0001
-        const PIXEL_FORMAT_CUSTOM_BAYER_GR_16 = 0x81100006
-        const PIXEL_FORMAT_CUSTOM_BAYER_RG_12_PACKED = 0x810c0002
-        const PIXEL_FORMAT_CUSTOM_BAYER_RG_16 = 0x81100007
-        const PIXEL_FORMAT_CUSTOM_YUV_422_YUYV_PACKED = 0x82100005
-        const PIXEL_FORMAT_DATA_16 = 0x01100118
-        const PIXEL_FORMAT_DATA_16S = 0x01100119
-        const PIXEL_FORMAT_DATA_32 = 0x0120011a
-        const PIXEL_FORMAT_DATA_32F = 0x0120011c
-        const PIXEL_FORMAT_DATA_32S = 0x0120011b
-        const PIXEL_FORMAT_DATA_64 = 0x0140011d
-        const PIXEL_FORMAT_DATA_64F = 0x0140011f
-        const PIXEL_FORMAT_DATA_64S = 0x0140011e
-        const PIXEL_FORMAT_DATA_8 = 0x01080116
-        const PIXEL_FORMAT_DATA_8S = 0x01080117
-        const PIXEL_FORMAT_MONO_10 = 0x01100003
-        const PIXEL_FORMAT_MONO_10_PACKED = 0x010c0004
-        const PIXEL_FORMAT_MONO_12 = 0x01100005
-        const PIXEL_FORMAT_MONO_12_PACKED = 0x010c0006
-        const PIXEL_FORMAT_MONO_14 = 0x01100025
-        const PIXEL_FORMAT_MONO_16 = 0x01100007
-        const PIXEL_FORMAT_MONO_8 = 0x01080001
-        const PIXEL_FORMAT_MONO_8_SIGNED = 0x01080002
-        const PIXEL_FORMAT_RGBA_8_PACKED = 0x02200016
-        const PIXEL_FORMAT_RGB_10_PACKED = 0x02300018
-        const PIXEL_FORMAT_RGB_10_PLANAR = 0x02300022
-        const PIXEL_FORMAT_RGB_12_PACKED = 0x0230001a
-        const PIXEL_FORMAT_RGB_12_PLANAR = 0x02300023
-        const PIXEL_FORMAT_RGB_16_PLANAR = 0x02300024
-        const PIXEL_FORMAT_RGB_8_PACKED = 0x02180014
-        const PIXEL_FORMAT_RGB_8_PLANAR = 0x02180021
-        const PIXEL_FORMAT_YUV_411_PACKED = 0x020c001e
-        const PIXEL_FORMAT_YUV_422_PACKED = 0x0210001f
-        const PIXEL_FORMAT_YUV_422_YUYV_PACKED = 0x02100032
-        const PIXEL_FORMAT_YUV_444_PACKED = 0x02180020
-        begin
-            @cenum AccessCheckPolicy::Int32 AccessCheckPolicy_DISABLE = 0 AccessCheckPolicy_ENABLE = 1 AccessCheckPolicy_DEFAULT = 0
-            (GLib.g_type(::Type{T}) where T <: AccessCheckPolicy) = begin
-                    ccall(("arv_access_check_policy_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum AcquisitionMode::Int32 AcquisitionMode_CONTINUOUS = 0 AcquisitionMode_SINGLE_FRAME = 1 AcquisitionMode_MULTI_FRAME = 2
-            (GLib.g_type(::Type{T}) where T <: AcquisitionMode) = begin
-                    ccall(("arv_acquisition_mode_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum Auto::Int32 Auto_OFF = 0 Auto_ONCE = 1 Auto_CONTINUOUS = 2
-            (GLib.g_type(::Type{T}) where T <: Auto) = begin
-                    ccall(("arv_auto_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum BufferPartDataType::UInt16 BufferPartDataType_UNKNOWN = 0xffff BufferPartDataType_2D_IMAGE = 0x0001 BufferPartDataType_2D_PLANE_BIPLANAR = 0x0002 BufferPartDataType_2D_PLANE_TRIPLANAR = 0x0003 BufferPartDataType_2D_PLANE_QUADPLANAR = 0x0004 BufferPartDataType_3D_IMAGE = 0x0005 BufferPartDataType_3D_PLANE_BIPLANAR = 0x0006 BufferPartDataType_3D_PLANE_TRIPLANAR = 0x0007 BufferPartDataType_3D_PLANE_QUADPLANAR = 0x0008 BufferPartDataType_CONFIDENCE_MAP = 0x0009 BufferPartDataType_CHUNK_DATA = 0x000a BufferPartDataType_JPEG = 0x000b BufferPartDataType_JPEG2000 = 0x000c BufferPartDataType_DEVICE_SPECIFIC = 0x8000
-            (GLib.g_type(::Type{T}) where T <: BufferPartDataType) = begin
-                    ccall(("arv_buffer_part_data_type_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum BufferPayloadType::UInt16 BufferPayloadType_UNKNOWN = 0xffff BufferPayloadType_NO_DATA = 0x0000 BufferPayloadType_IMAGE = 0x0001 BufferPayloadType_RAWDATA = 0x0002 BufferPayloadType_FILE = 0x0003 BufferPayloadType_CHUNK_DATA = 0x0004 BufferPayloadType_EXTENDED_CHUNK_DATA = 0x0005 BufferPayloadType_JPEG = 0x0006 BufferPayloadType_JPEG2000 = 0x0007 BufferPayloadType_H264 = 0x0008 BufferPayloadType_MULTIZONE_IMAGE = 0x0009 BufferPayloadType_MULTIPART = 0x000a BufferPayloadType_GENDC_CONTAINER = 0x000b BufferPayloadType_GENDC_COMPONENT_DATA = 0x000c
-            (GLib.g_type(::Type{T}) where T <: BufferPayloadType) = begin
-                    ccall(("arv_buffer_payload_type_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum BufferStatus::UInt16 BufferStatus_UNKNOWN = 0xffff BufferStatus_SUCCESS = 0x0000 BufferStatus_CLEARED = 0x0001 BufferStatus_TIMEOUT = 0x0002 BufferStatus_MISSING_PACKETS = 0x0003 BufferStatus_WRONG_PACKET_ID = 0x0004 BufferStatus_SIZE_MISMATCH = 0x0005 BufferStatus_FILLING = 0x0006 BufferStatus_ABORTED = 0x0007 BufferStatus_PAYLOAD_NOT_SUPPORTED = 0x0008
-            (GLib.g_type(::Type{T}) where T <: BufferStatus) = begin
-                    ccall(("arv_buffer_status_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum ChunkParserError::Int32 ChunkParserError_INVALID_FEATURE_TYPE = 0 ChunkParserError_BUFFER_NOT_FOUND = 1 ChunkParserError_CHUNK_NOT_FOUND = 2
-            (GLib.g_type(::Type{T}) where T <: ChunkParserError) = begin
-                    ccall(("arv_chunk_parser_error_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum ComponentSelectionFlags::Int32 ComponentSelectionFlags_NONE = 0 ComponentSelectionFlags_ENABLE = 1 ComponentSelectionFlags_DISABLE = 2 ComponentSelectionFlags_EXCLUSIVE_ENABLE = 3 ComponentSelectionFlags_ENABLE_ALL = 4
-            (GLib.g_type(::Type{T}) where T <: ComponentSelectionFlags) = begin
-                    ccall(("arv_component_selection_flags_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum DeviceError::Int32 DeviceError_WRONG_FEATURE = 0 DeviceError_FEATURE_NOT_FOUND = 1 DeviceError_NOT_CONNECTED = 2 DeviceError_PROTOCOL_ERROR = 3 DeviceError_TRANSFER_ERROR = 4 DeviceError_TIMEOUT = 5 DeviceError_NOT_FOUND = 6 DeviceError_INVALID_PARAMETER = 7 DeviceError_GENICAM_NOT_FOUND = 8 DeviceError_NO_STREAM_CHANNEL = 9 DeviceError_NOT_CONTROLLER = 10 DeviceError_UNKNOWN = 11 DeviceError_PROTOCOL_ERROR_NOT_IMPLEMENTED = 12 DeviceError_PROTOCOL_ERROR_INVALID_PARAMETER = 13 DeviceError_PROTOCOL_ERROR_INVALID_ADDRESS = 14 DeviceError_PROTOCOL_ERROR_WRITE_PROTECT = 15 DeviceError_PROTOCOL_ERROR_BAD_ALIGNMENT = 16 DeviceError_PROTOCOL_ERROR_ACCESS_DENIED = 17 DeviceError_PROTOCOL_ERROR_BUSY = 18
-            (GLib.g_type(::Type{T}) where T <: DeviceError) = begin
-                    ccall(("arv_device_error_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum DomNodeType::Int32 DomNodeType_ELEMENT_NODE = 1 DomNodeType_ATTRIBUTE_NODE = 2 DomNodeType_TEXT_NODE = 3 DomNodeType_CDATA_SECTION_NODE = 4 DomNodeType_ENTITY_REFERENCE_NODE = 5 DomNodeType_ENTITY_NODE = 6 DomNodeType_PROCESSING_INSTRUCTION_NODE = 7 DomNodeType_COMMENT_NODE = 8 DomNodeType_DOCUMENT_NODE = 9 DomNodeType_DOCUMENT_TYPE_NODE = 10 DomNodeType_DOCUMENT_FRAGMENT_NODE = 11 DomNodeType_NOTATION_NODE = 12
-            (GLib.g_type(::Type{T}) where T <: DomNodeType) = begin
-                    ccall(("arv_dom_node_type_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum ExposureMode::Int32 ExposureMode_OFF = 0 ExposureMode_TIMED = 1 ExposureMode_TRIGGER_WIDTH = 2 ExposureMode_TRIGGER_CONTROLLED = 3
-            (GLib.g_type(::Type{T}) where T <: ExposureMode) = begin
-                    ccall(("arv_exposure_mode_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcAccessMode::UInt16 GcAccessMode_UNDEFINED = 0xffff GcAccessMode_RO = 0x0000 GcAccessMode_WO = 0x0001 GcAccessMode_RW = 0x0002
-            (GLib.g_type(::Type{T}) where T <: GcAccessMode) = begin
-                    ccall(("arv_gc_access_mode_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcCachable::UInt16 GcCachable_UNDEFINED = 0xffff GcCachable_NO_CACHE = 0x0000 GcCachable_WRITE_THROUGH = 0x0001 GcCachable_WRITE_AROUND = 0x0002
-            (GLib.g_type(::Type{T}) where T <: GcCachable) = begin
-                    ccall(("arv_gc_cachable_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcDisplayNotation::UInt16 GcDisplayNotation_UNDEFINED = 0xffff GcDisplayNotation_AUTOMATIC = 0x0000 GcDisplayNotation_FIXED = 0x0001 GcDisplayNotation_SCIENTIFIC = 0x0002
-            (GLib.g_type(::Type{T}) where T <: GcDisplayNotation) = begin
-                    ccall(("arv_gc_display_notation_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcError::Int32 GcError_PROPERTY_NOT_DEFINED = 0 GcError_PVALUE_NOT_DEFINED = 1 GcError_INVALID_PVALUE = 2 GcError_EMPTY_ENUMERATION = 3 GcError_OUT_OF_RANGE = 4 GcError_NO_DEVICE_SET = 5 GcError_NO_EVENT_IMPLEMENTATION = 6 GcError_NODE_NOT_FOUND = 7 GcError_ENUM_ENTRY_NOT_FOUND = 8 GcError_INVALID_LENGTH = 9 GcError_READ_ONLY = 10 GcError_SET_FROM_STRING_UNDEFINED = 11 GcError_GET_AS_STRING_UNDEFINED = 12 GcError_INVALID_BIT_RANGE = 13 GcError_INVALID_SYNTAX = 14
-            (GLib.g_type(::Type{T}) where T <: GcError) = begin
-                    ccall(("arv_gc_error_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcIsLinear::UInt16 GcIsLinear_UNDEFINED = 0xffff GcIsLinear_NO = 0x0000 GcIsLinear_YES = 0x0001
-            (GLib.g_type(::Type{T}) where T <: GcIsLinear) = begin
-                    ccall(("arv_gc_is_linear_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcNameSpace::UInt16 GcNameSpace_UNDEFINED = 0xffff GcNameSpace_STANDARD = 0x0000 GcNameSpace_CUSTOM = 0x0001
-            (GLib.g_type(::Type{T}) where T <: GcNameSpace) = begin
-                    ccall(("arv_gc_name_space_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcPropertyNodeType::Int32 GcPropertyNodeType_UNKNOWN = 0 GcPropertyNodeType_VALUE = 1 GcPropertyNodeType_ADDRESS = 2 GcPropertyNodeType_DESCRIPTION = 3 GcPropertyNodeType_VISIBILITY = 4 GcPropertyNodeType_TOOLTIP = 5 GcPropertyNodeType_DISPLAY_NAME = 6 GcPropertyNodeType_MINIMUM = 7 GcPropertyNodeType_MAXIMUM = 8 GcPropertyNodeType_SLOPE = 9 GcPropertyNodeType_INCREMENT = 10 GcPropertyNodeType_IS_LINEAR = 11 GcPropertyNodeType_REPRESENTATION = 12 GcPropertyNodeType_DISPLAY_NOTATION = 13 GcPropertyNodeType_DISPLAY_PRECISION = 14 GcPropertyNodeType_UNIT = 15 GcPropertyNodeType_ON_VALUE = 16 GcPropertyNodeType_OFF_VALUE = 17 GcPropertyNodeType_LENGTH = 18 GcPropertyNodeType_FORMULA = 19 GcPropertyNodeType_FORMULA_TO = 20 GcPropertyNodeType_FORMULA_FROM = 21 GcPropertyNodeType_EXPRESSION = 22 GcPropertyNodeType_CONSTANT = 23 GcPropertyNodeType_ACCESS_MODE = 24 GcPropertyNodeType_IMPOSED_ACCESS_MODE = 25 GcPropertyNodeType_CACHABLE = 26 GcPropertyNodeType_POLLING_TIME = 27 GcPropertyNodeType_ENDIANNESS = 28 GcPropertyNodeType_SIGN = 29 GcPropertyNodeType_LSB = 30 GcPropertyNodeType_MSB = 31 GcPropertyNodeType_BIT = 32 GcPropertyNodeType_COMMAND_VALUE = 33 GcPropertyNodeType_CHUNK_ID = 34 GcPropertyNodeType_EVENT_ID = 35 GcPropertyNodeType_VALUE_INDEXED = 36 GcPropertyNodeType_VALUE_DEFAULT = 37 GcPropertyNodeType_STREAMABLE = 38 GcPropertyNodeType_IS_DEPRECATED = 39 GcPropertyNodeType_P_UNKNONW = 1000 GcPropertyNodeType_P_FEATURE = 1001 GcPropertyNodeType_P_VALUE = 1002 GcPropertyNodeType_P_ADDRESS = 1003 GcPropertyNodeType_P_IS_IMPLEMENTED = 1004 GcPropertyNodeType_P_IS_LOCKED = 1005 GcPropertyNodeType_P_IS_AVAILABLE = 1006 GcPropertyNodeType_P_SELECTED = 1007 GcPropertyNodeType_P_MINIMUM = 1008 GcPropertyNodeType_P_MAXIMUM = 1009 GcPropertyNodeType_P_INCREMENT = 1010 GcPropertyNodeType_P_INDEX = 1011 GcPropertyNodeType_P_LENGTH = 1012 GcPropertyNodeType_P_PORT = 1013 GcPropertyNodeType_P_VARIABLE = 1014 GcPropertyNodeType_P_INVALIDATOR = 1015 GcPropertyNodeType_P_COMMAND_VALUE = 1016 GcPropertyNodeType_P_VALUE_INDEXED = 1017 GcPropertyNodeType_P_VALUE_DEFAULT = 1018 GcPropertyNodeType_P_ALIAS = 1019 GcPropertyNodeType_P_CAST_ALIAS = 1020
-            (GLib.g_type(::Type{T}) where T <: GcPropertyNodeType) = begin
-                    ccall(("arv_gc_property_node_type_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcRepresentation::UInt16 GcRepresentation_UNDEFINED = 0xffff GcRepresentation_LINEAR = 0x0000 GcRepresentation_LOGARITHMIC = 0x0001 GcRepresentation_BOOLEAN = 0x0002 GcRepresentation_PURE_NUMBER = 0x0003 GcRepresentation_HEX_NUMBER = 0x0004 GcRepresentation_IPV4_ADDRESS = 0x0005 GcRepresentation_MAC_ADDRESS = 0x0006
-            (GLib.g_type(::Type{T}) where T <: GcRepresentation) = begin
-                    ccall(("arv_gc_representation_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcSignedness::UInt16 GcSignedness_UNDEFINED = 0xffff GcSignedness_SIGNED = 0x0000 GcSignedness_UNSIGNED = 0x0001
-            (GLib.g_type(::Type{T}) where T <: GcSignedness) = begin
-                    ccall(("arv_gc_signedness_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcStreamable::UInt16 GcStreamable_UNDEFINED = 0xffff GcStreamable_NO = 0x0000 GcStreamable_YES = 0x0001
-            (GLib.g_type(::Type{T}) where T <: GcStreamable) = begin
-                    ccall(("arv_gc_streamable_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GcVisibility::UInt16 GcVisibility_UNDEFINED = 0xffff GcVisibility_INVISIBLE = 0x0000 GcVisibility_GURU = 0x0001 GcVisibility_EXPERT = 0x0002 GcVisibility_BEGINNER = 0x0003
-            (GLib.g_type(::Type{T}) where T <: GcVisibility) = begin
-                    ccall(("arv_gc_visibility_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GvIpConfigurationMode::Int32 GvIpConfigurationMode_NONE = 0 GvIpConfigurationMode_PERSISTENT_IP = 1 GvIpConfigurationMode_DHCP = 2 GvIpConfigurationMode_LLA = 3 GvIpConfigurationMode_FORCE_IP = 4
-            (GLib.g_type(::Type{T}) where T <: GvIpConfigurationMode) = begin
-                    ccall(("arv_gv_ip_configuration_mode_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GvPacketSizeAdjustment::Int32 GvPacketSizeAdjustment_NEVER = 0 GvPacketSizeAdjustment_ON_FAILURE_ONCE = 1 GvPacketSizeAdjustment_ON_FAILURE = 2 GvPacketSizeAdjustment_ONCE = 3 GvPacketSizeAdjustment_ALWAYS = 4 GvPacketSizeAdjustment_DEFAULT = 1
-            (GLib.g_type(::Type{T}) where T <: GvPacketSizeAdjustment) = begin
-                    ccall(("arv_gv_packet_size_adjustment_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GvStreamPacketResend::Int32 GvStreamPacketResend_NEVER = 0 GvStreamPacketResend_ALWAYS = 1
-            (GLib.g_type(::Type{T}) where T <: GvStreamPacketResend) = begin
-                    ccall(("arv_gv_stream_packet_resend_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum GvStreamSocketBuffer::Int32 GvStreamSocketBuffer_FIXED = 0 GvStreamSocketBuffer_AUTO = 1
-            (GLib.g_type(::Type{T}) where T <: GvStreamSocketBuffer) = begin
-                    ccall(("arv_gv_stream_socket_buffer_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum RangeCheckPolicy::Int32 RangeCheckPolicy_DISABLE = 0 RangeCheckPolicy_ENABLE = 1 RangeCheckPolicy_DEBUG = 2 RangeCheckPolicy_DEFAULT = 0
-            (GLib.g_type(::Type{T}) where T <: RangeCheckPolicy) = begin
-                    ccall(("arv_range_check_policy_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum RegisterCachePolicy::Int32 RegisterCachePolicy_DISABLE = 0 RegisterCachePolicy_ENABLE = 1 RegisterCachePolicy_DEBUG = 2 RegisterCachePolicy_DEFAULT = 0
-            (GLib.g_type(::Type{T}) where T <: RegisterCachePolicy) = begin
-                    ccall(("arv_register_cache_policy_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum StreamCallbackType::Int32 StreamCallbackType_INIT = 0 StreamCallbackType_EXIT = 1 StreamCallbackType_START_BUFFER = 2 StreamCallbackType_BUFFER_DONE = 3
-            (GLib.g_type(::Type{T}) where T <: StreamCallbackType) = begin
-                    ccall(("arv_stream_callback_type_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum UvUsbMode::Int32 UvUsbMode_SYNC = 0 UvUsbMode_ASYNC = 1 UvUsbMode_DEFAULT = 1
-            (GLib.g_type(::Type{T}) where T <: UvUsbMode) = begin
-                    ccall(("arv_uv_usb_mode_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @cenum XmlSchemaError::Int32 XmlSchemaError_STRUCTURE = 0
-            (GLib.g_type(::Type{T}) where T <: XmlSchemaError) = begin
-                    ccall(("arv_xml_schema_error_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @bitflag GvInterfaceFlags::UInt32 GvInterfaceFlags_ACK = 1 GvInterfaceFlags_NONE = 0
-            (GLib.g_type(::Type{T}) where T <: GvInterfaceFlags) = begin
-                    ccall(("arv_gv_interface_flags_get_type", libaravis), GType, ())
-                end
-        end
-        begin
-            @bitflag GvStreamOption::UInt32 GvStreamOption_NONE = 0 GvStreamOption_PACKET_SOCKET_DISABLED = 1
-            (GLib.g_type(::Type{T}) where T <: GvStreamOption) = begin
-                    ccall(("arv_gv_stream_option_get_type", libaravis), GType, ())
-                end
-        end
-    end
-end))
-end
+const FAKE_CAMERA_ACQUISITION_FRAME_RATE_DEFAULT = 25.0
+const FAKE_CAMERA_BINNING_HORIZONTAL_DEFAULT = 1
+const FAKE_CAMERA_BINNING_VERTICAL_DEFAULT = 1
+const FAKE_CAMERA_EXPOSURE_TIME_US_DEFAULT = 10000.0
+const FAKE_CAMERA_HEIGHT_DEFAULT = 512
+const FAKE_CAMERA_MEMORY_SIZE = 65536
+const FAKE_CAMERA_REGISTER_ACQUISITION = 292
+const FAKE_CAMERA_REGISTER_ACQUISITION_FRAME_PERIOD_US = 312
+const FAKE_CAMERA_REGISTER_ACQUISITION_MODE = 300
+const FAKE_CAMERA_REGISTER_ACQUISITION_START_OFFSET = 32
+const FAKE_CAMERA_REGISTER_BINNING_HORIZONTAL = 264
+const FAKE_CAMERA_REGISTER_BINNING_VERTICAL = 268
+const FAKE_CAMERA_REGISTER_EXPOSURE_TIME_US = 288
+const FAKE_CAMERA_REGISTER_FRAME_START_OFFSET = 0
+const FAKE_CAMERA_REGISTER_GAIN_MODE = 276
+const FAKE_CAMERA_REGISTER_GAIN_RAW = 272
+const FAKE_CAMERA_REGISTER_HEIGHT = 260
+const FAKE_CAMERA_REGISTER_PIXEL_FORMAT = 296
+const FAKE_CAMERA_REGISTER_SENSOR_HEIGHT = 280
+const FAKE_CAMERA_REGISTER_SENSOR_WIDTH = 284
+const FAKE_CAMERA_REGISTER_TEST = 496
+const FAKE_CAMERA_REGISTER_TRIGGER_ACTIVATION = 776
+const FAKE_CAMERA_REGISTER_TRIGGER_MODE = 768
+const FAKE_CAMERA_REGISTER_TRIGGER_SOFTWARE = 780
+const FAKE_CAMERA_REGISTER_TRIGGER_SOURCE = 772
+const FAKE_CAMERA_REGISTER_WIDTH = 256
+const FAKE_CAMERA_REGISTER_X_OFFSET = 304
+const FAKE_CAMERA_REGISTER_Y_OFFSET = 308
+const FAKE_CAMERA_SENSOR_HEIGHT = 2048
+const FAKE_CAMERA_SENSOR_WIDTH = 2048
+const FAKE_CAMERA_TEST_REGISTER_DEFAULT = 305419896
+const FAKE_CAMERA_WIDTH_DEFAULT = 512
+const GV_FAKE_CAMERA_DEFAULT_INTERFACE = "127.0.0.1"
+const GV_FAKE_CAMERA_DEFAULT_SERIAL_NUMBER = "GV01"
+const PIXEL_FORMAT_BAYER_BG_10 = 0x0110000f
+const PIXEL_FORMAT_BAYER_BG_10P = 0x010a0052
+const PIXEL_FORMAT_BAYER_BG_10_PACKED = 0x010c0029
+const PIXEL_FORMAT_BAYER_BG_12 = 0x01100013
+const PIXEL_FORMAT_BAYER_BG_12P = 0x010c0053
+const PIXEL_FORMAT_BAYER_BG_12_PACKED = 0x010c002d
+const PIXEL_FORMAT_BAYER_BG_16 = 0x01100031
+const PIXEL_FORMAT_BAYER_BG_8 = 0x0108000b
+const PIXEL_FORMAT_BAYER_GB_10 = 0x0110000e
+const PIXEL_FORMAT_BAYER_GB_10P = 0x010a0054
+const PIXEL_FORMAT_BAYER_GB_10_PACKED = 0x010c0028
+const PIXEL_FORMAT_BAYER_GB_12 = 0x01100012
+const PIXEL_FORMAT_BAYER_GB_12P = 0x010c0055
+const PIXEL_FORMAT_BAYER_GB_12_PACKED = 0x010c002c
+const PIXEL_FORMAT_BAYER_GB_16 = 0x01100030
+const PIXEL_FORMAT_BAYER_GB_8 = 0x0108000a
+const PIXEL_FORMAT_BAYER_GR_10 = 0x0110000c
+const PIXEL_FORMAT_BAYER_GR_10P = 0x010a0056
+const PIXEL_FORMAT_BAYER_GR_10_PACKED = 0x010c0026
+const PIXEL_FORMAT_BAYER_GR_12 = 0x01100010
+const PIXEL_FORMAT_BAYER_GR_12P = 0x010c0057
+const PIXEL_FORMAT_BAYER_GR_12_PACKED = 0x010c002a
+const PIXEL_FORMAT_BAYER_GR_16 = 0x0110002e
+const PIXEL_FORMAT_BAYER_GR_8 = 0x01080008
+const PIXEL_FORMAT_BAYER_RG_10 = 0x0110000d
+const PIXEL_FORMAT_BAYER_RG_10P = 0x010a0058
+const PIXEL_FORMAT_BAYER_RG_10_PACKED = 0x010c0027
+const PIXEL_FORMAT_BAYER_RG_12 = 0x01100011
+const PIXEL_FORMAT_BAYER_RG_12P = 0x010c0059
+const PIXEL_FORMAT_BAYER_RG_12_PACKED = 0x010c002b
+const PIXEL_FORMAT_BAYER_RG_16 = 0x0110002f
+const PIXEL_FORMAT_BAYER_RG_8 = 0x01080009
+const PIXEL_FORMAT_BGRA_8_PACKED = 0x02200017
+const PIXEL_FORMAT_BGR_10_PACKED = 0x02300019
+const PIXEL_FORMAT_BGR_12_PACKED = 0x0230001b
+const PIXEL_FORMAT_BGR_8_PACKED = 0x02180015
+const PIXEL_FORMAT_COORD3D_ABC_10P = 0x021e00db
+const PIXEL_FORMAT_COORD3D_ABC_10P_PLANAR = 0x021e00dc
+const PIXEL_FORMAT_COORD3D_ABC_12P = 0x022400de
+const PIXEL_FORMAT_COORD3D_ABC_12P_PLANAR = 0x022400df
+const PIXEL_FORMAT_COORD3D_ABC_16 = 0x023000b9
+const PIXEL_FORMAT_COORD3D_ABC_16_PLANAR = 0x023000ba
+const PIXEL_FORMAT_COORD3D_ABC_32F = 0x026000c0
+const PIXEL_FORMAT_COORD3D_ABC_32F_PLANAR = 0x026000c1
+const PIXEL_FORMAT_COORD3D_ABC_8 = 0x021800b2
+const PIXEL_FORMAT_COORD3D_ABC_8_PLANAR = 0x021800b3
+const PIXEL_FORMAT_COORD3D_AC_10P = 0x021400f0
+const PIXEL_FORMAT_COORD3D_AC_10P_PLANAR = 0x021400f1
+const PIXEL_FORMAT_COORD3D_AC_12P = 0x021800f2
+const PIXEL_FORMAT_COORD3D_AC_12P_PLANAR = 0x021800f3
+const PIXEL_FORMAT_COORD3D_AC_16 = 0x022000bb
+const PIXEL_FORMAT_COORD3D_AC_16_PLANAR = 0x022000bc
+const PIXEL_FORMAT_COORD3D_AC_32F = 0x024000c2
+const PIXEL_FORMAT_COORD3D_AC_32F_PLANAR = 0x024000c3
+const PIXEL_FORMAT_COORD3D_AC_8 = 0x021000b4
+const PIXEL_FORMAT_COORD3D_AC_8_PLANAR = 0x021000b5
+const PIXEL_FORMAT_COORD3D_A_10P = 0x010a00d5
+const PIXEL_FORMAT_COORD3D_A_12P = 0x010c00d8
+const PIXEL_FORMAT_COORD3D_A_16 = 0x011000b6
+const PIXEL_FORMAT_COORD3D_A_32F = 0x012000bd
+const PIXEL_FORMAT_COORD3D_A_8 = 0x010800af
+const PIXEL_FORMAT_COORD3D_B_10P = 0x010a00d6
+const PIXEL_FORMAT_COORD3D_B_12P = 0x010c00d9
+const PIXEL_FORMAT_COORD3D_B_16 = 0x011000b7
+const PIXEL_FORMAT_COORD3D_B_32F = 0x012000be
+const PIXEL_FORMAT_COORD3D_B_8 = 0x010800b0
+const PIXEL_FORMAT_COORD3D_C_10P = 0x010a00d7
+const PIXEL_FORMAT_COORD3D_C_12P = 0x010c00da
+const PIXEL_FORMAT_COORD3D_C_16 = 0x011000b8
+const PIXEL_FORMAT_COORD3D_C_32F = 0x012000bf
+const PIXEL_FORMAT_COORD3D_C_8 = 0x010800b1
+const PIXEL_FORMAT_CUSTOM_BAYER_BG_12_PACKED = 0x810c0004
+const PIXEL_FORMAT_CUSTOM_BAYER_BG_16 = 0x81100009
+const PIXEL_FORMAT_CUSTOM_BAYER_GB_12_PACKED = 0x810c0003
+const PIXEL_FORMAT_CUSTOM_BAYER_GB_16 = 0x81100008
+const PIXEL_FORMAT_CUSTOM_BAYER_GR_12_PACKED = 0x810c0001
+const PIXEL_FORMAT_CUSTOM_BAYER_GR_16 = 0x81100006
+const PIXEL_FORMAT_CUSTOM_BAYER_RG_12_PACKED = 0x810c0002
+const PIXEL_FORMAT_CUSTOM_BAYER_RG_16 = 0x81100007
+const PIXEL_FORMAT_CUSTOM_YUV_422_YUYV_PACKED = 0x82100005
+const PIXEL_FORMAT_DATA_16 = 0x01100118
+const PIXEL_FORMAT_DATA_16S = 0x01100119
+const PIXEL_FORMAT_DATA_32 = 0x0120011a
+const PIXEL_FORMAT_DATA_32F = 0x0120011c
+const PIXEL_FORMAT_DATA_32S = 0x0120011b
+const PIXEL_FORMAT_DATA_64 = 0x0140011d
+const PIXEL_FORMAT_DATA_64F = 0x0140011f
+const PIXEL_FORMAT_DATA_64S = 0x0140011e
+const PIXEL_FORMAT_DATA_8 = 0x01080116
+const PIXEL_FORMAT_DATA_8S = 0x01080117
+const PIXEL_FORMAT_MONO_10 = 0x01100003
+const PIXEL_FORMAT_MONO_10_PACKED = 0x010c0004
+const PIXEL_FORMAT_MONO_12 = 0x01100005
+const PIXEL_FORMAT_MONO_12_PACKED = 0x010c0006
+const PIXEL_FORMAT_MONO_14 = 0x01100025
+const PIXEL_FORMAT_MONO_16 = 0x01100007
+const PIXEL_FORMAT_MONO_8 = 0x01080001
+const PIXEL_FORMAT_MONO_8_SIGNED = 0x01080002
+const PIXEL_FORMAT_RGBA_8_PACKED = 0x02200016
+const PIXEL_FORMAT_RGB_10_PACKED = 0x02300018
+const PIXEL_FORMAT_RGB_10_PLANAR = 0x02300022
+const PIXEL_FORMAT_RGB_12_PACKED = 0x0230001a
+const PIXEL_FORMAT_RGB_12_PLANAR = 0x02300023
+const PIXEL_FORMAT_RGB_16_PLANAR = 0x02300024
+const PIXEL_FORMAT_RGB_8_PACKED = 0x02180014
+const PIXEL_FORMAT_RGB_8_PLANAR = 0x02180021
+const PIXEL_FORMAT_YUV_411_PACKED = 0x020c001e
+const PIXEL_FORMAT_YUV_422_PACKED = 0x0210001f
+const PIXEL_FORMAT_YUV_422_YUYV_PACKED = 0x02100032
+const PIXEL_FORMAT_YUV_444_PACKED = 0x02180020
+@cenum(AccessCheckPolicy::Int32, AccessCheckPolicy_DISABLE = 0, AccessCheckPolicy_ENABLE = 1, AccessCheckPolicy_DEFAULT = 0)
+(GLib.g_type(::Type{T}) where T <: AccessCheckPolicy) = ccall(("arv_access_check_policy_get_type", libaravis), GType, ())
+@cenum(AcquisitionMode::Int32, AcquisitionMode_CONTINUOUS = 0, AcquisitionMode_SINGLE_FRAME = 1, AcquisitionMode_MULTI_FRAME = 2)
+(GLib.g_type(::Type{T}) where T <: AcquisitionMode) = ccall(("arv_acquisition_mode_get_type", libaravis), GType, ())
+@cenum(Auto::Int32, Auto_OFF = 0, Auto_ONCE = 1, Auto_CONTINUOUS = 2)
+(GLib.g_type(::Type{T}) where T <: Auto) = ccall(("arv_auto_get_type", libaravis), GType, ())
+@cenum(BufferPartDataType::UInt16, BufferPartDataType_UNKNOWN = 0xffff, BufferPartDataType_2D_IMAGE = 0x0001, BufferPartDataType_2D_PLANE_BIPLANAR = 0x0002, BufferPartDataType_2D_PLANE_TRIPLANAR = 0x0003, BufferPartDataType_2D_PLANE_QUADPLANAR = 0x0004, BufferPartDataType_3D_IMAGE = 0x0005, BufferPartDataType_3D_PLANE_BIPLANAR = 0x0006, BufferPartDataType_3D_PLANE_TRIPLANAR = 0x0007, BufferPartDataType_3D_PLANE_QUADPLANAR = 0x0008, BufferPartDataType_CONFIDENCE_MAP = 0x0009, BufferPartDataType_CHUNK_DATA = 0x000a, BufferPartDataType_JPEG = 0x000b, BufferPartDataType_JPEG2000 = 0x000c, BufferPartDataType_DEVICE_SPECIFIC = 0x8000)
+(GLib.g_type(::Type{T}) where T <: BufferPartDataType) = ccall(("arv_buffer_part_data_type_get_type", libaravis), GType, ())
+@cenum(BufferPayloadType::UInt16, BufferPayloadType_UNKNOWN = 0xffff, BufferPayloadType_NO_DATA = 0x0000, BufferPayloadType_IMAGE = 0x0001, BufferPayloadType_RAWDATA = 0x0002, BufferPayloadType_FILE = 0x0003, BufferPayloadType_CHUNK_DATA = 0x0004, BufferPayloadType_EXTENDED_CHUNK_DATA = 0x0005, BufferPayloadType_JPEG = 0x0006, BufferPayloadType_JPEG2000 = 0x0007, BufferPayloadType_H264 = 0x0008, BufferPayloadType_MULTIZONE_IMAGE = 0x0009, BufferPayloadType_MULTIPART = 0x000a, BufferPayloadType_GENDC_CONTAINER = 0x000b, BufferPayloadType_GENDC_COMPONENT_DATA = 0x000c)
+(GLib.g_type(::Type{T}) where T <: BufferPayloadType) = ccall(("arv_buffer_payload_type_get_type", libaravis), GType, ())
+@cenum(BufferStatus::UInt16, BufferStatus_UNKNOWN = 0xffff, BufferStatus_SUCCESS = 0x0000, BufferStatus_CLEARED = 0x0001, BufferStatus_TIMEOUT = 0x0002, BufferStatus_MISSING_PACKETS = 0x0003, BufferStatus_WRONG_PACKET_ID = 0x0004, BufferStatus_SIZE_MISMATCH = 0x0005, BufferStatus_FILLING = 0x0006, BufferStatus_ABORTED = 0x0007, BufferStatus_PAYLOAD_NOT_SUPPORTED = 0x0008)
+(GLib.g_type(::Type{T}) where T <: BufferStatus) = ccall(("arv_buffer_status_get_type", libaravis), GType, ())
+@cenum(ChunkParserError::Int32, ChunkParserError_INVALID_FEATURE_TYPE = 0, ChunkParserError_BUFFER_NOT_FOUND = 1, ChunkParserError_CHUNK_NOT_FOUND = 2)
+(GLib.g_type(::Type{T}) where T <: ChunkParserError) = ccall(("arv_chunk_parser_error_get_type", libaravis), GType, ())
+@cenum(ComponentSelectionFlags::Int32, ComponentSelectionFlags_NONE = 0, ComponentSelectionFlags_ENABLE = 1, ComponentSelectionFlags_DISABLE = 2, ComponentSelectionFlags_EXCLUSIVE_ENABLE = 3, ComponentSelectionFlags_ENABLE_ALL = 4)
+(GLib.g_type(::Type{T}) where T <: ComponentSelectionFlags) = ccall(("arv_component_selection_flags_get_type", libaravis), GType, ())
+@cenum(DeviceError::Int32, DeviceError_WRONG_FEATURE = 0, DeviceError_FEATURE_NOT_FOUND = 1, DeviceError_NOT_CONNECTED = 2, DeviceError_PROTOCOL_ERROR = 3, DeviceError_TRANSFER_ERROR = 4, DeviceError_TIMEOUT = 5, DeviceError_NOT_FOUND = 6, DeviceError_INVALID_PARAMETER = 7, DeviceError_GENICAM_NOT_FOUND = 8, DeviceError_NO_STREAM_CHANNEL = 9, DeviceError_NOT_CONTROLLER = 10, DeviceError_UNKNOWN = 11, DeviceError_PROTOCOL_ERROR_NOT_IMPLEMENTED = 12, DeviceError_PROTOCOL_ERROR_INVALID_PARAMETER = 13, DeviceError_PROTOCOL_ERROR_INVALID_ADDRESS = 14, DeviceError_PROTOCOL_ERROR_WRITE_PROTECT = 15, DeviceError_PROTOCOL_ERROR_BAD_ALIGNMENT = 16, DeviceError_PROTOCOL_ERROR_ACCESS_DENIED = 17, DeviceError_PROTOCOL_ERROR_BUSY = 18)
+(GLib.g_type(::Type{T}) where T <: DeviceError) = ccall(("arv_device_error_get_type", libaravis), GType, ())
+@cenum(DomNodeType::Int32, DomNodeType_ELEMENT_NODE = 1, DomNodeType_ATTRIBUTE_NODE = 2, DomNodeType_TEXT_NODE = 3, DomNodeType_CDATA_SECTION_NODE = 4, DomNodeType_ENTITY_REFERENCE_NODE = 5, DomNodeType_ENTITY_NODE = 6, DomNodeType_PROCESSING_INSTRUCTION_NODE = 7, DomNodeType_COMMENT_NODE = 8, DomNodeType_DOCUMENT_NODE = 9, DomNodeType_DOCUMENT_TYPE_NODE = 10, DomNodeType_DOCUMENT_FRAGMENT_NODE = 11, DomNodeType_NOTATION_NODE = 12)
+(GLib.g_type(::Type{T}) where T <: DomNodeType) = ccall(("arv_dom_node_type_get_type", libaravis), GType, ())
+@cenum(ExposureMode::Int32, ExposureMode_OFF = 0, ExposureMode_TIMED = 1, ExposureMode_TRIGGER_WIDTH = 2, ExposureMode_TRIGGER_CONTROLLED = 3)
+(GLib.g_type(::Type{T}) where T <: ExposureMode) = ccall(("arv_exposure_mode_get_type", libaravis), GType, ())
+@cenum(GcAccessMode::UInt16, GcAccessMode_UNDEFINED = 0xffff, GcAccessMode_RO = 0x0000, GcAccessMode_WO = 0x0001, GcAccessMode_RW = 0x0002)
+(GLib.g_type(::Type{T}) where T <: GcAccessMode) = ccall(("arv_gc_access_mode_get_type", libaravis), GType, ())
+@cenum(GcCachable::UInt16, GcCachable_UNDEFINED = 0xffff, GcCachable_NO_CACHE = 0x0000, GcCachable_WRITE_THROUGH = 0x0001, GcCachable_WRITE_AROUND = 0x0002)
+(GLib.g_type(::Type{T}) where T <: GcCachable) = ccall(("arv_gc_cachable_get_type", libaravis), GType, ())
+@cenum(GcDisplayNotation::UInt16, GcDisplayNotation_UNDEFINED = 0xffff, GcDisplayNotation_AUTOMATIC = 0x0000, GcDisplayNotation_FIXED = 0x0001, GcDisplayNotation_SCIENTIFIC = 0x0002)
+(GLib.g_type(::Type{T}) where T <: GcDisplayNotation) = ccall(("arv_gc_display_notation_get_type", libaravis), GType, ())
+@cenum(GcError::Int32, GcError_PROPERTY_NOT_DEFINED = 0, GcError_PVALUE_NOT_DEFINED = 1, GcError_INVALID_PVALUE = 2, GcError_EMPTY_ENUMERATION = 3, GcError_OUT_OF_RANGE = 4, GcError_NO_DEVICE_SET = 5, GcError_NO_EVENT_IMPLEMENTATION = 6, GcError_NODE_NOT_FOUND = 7, GcError_ENUM_ENTRY_NOT_FOUND = 8, GcError_INVALID_LENGTH = 9, GcError_READ_ONLY = 10, GcError_SET_FROM_STRING_UNDEFINED = 11, GcError_GET_AS_STRING_UNDEFINED = 12, GcError_INVALID_BIT_RANGE = 13, GcError_INVALID_SYNTAX = 14)
+(GLib.g_type(::Type{T}) where T <: GcError) = ccall(("arv_gc_error_get_type", libaravis), GType, ())
+@cenum(GcIsLinear::UInt16, GcIsLinear_UNDEFINED = 0xffff, GcIsLinear_NO = 0x0000, GcIsLinear_YES = 0x0001)
+(GLib.g_type(::Type{T}) where T <: GcIsLinear) = ccall(("arv_gc_is_linear_get_type", libaravis), GType, ())
+@cenum(GcNameSpace::UInt16, GcNameSpace_UNDEFINED = 0xffff, GcNameSpace_STANDARD = 0x0000, GcNameSpace_CUSTOM = 0x0001)
+(GLib.g_type(::Type{T}) where T <: GcNameSpace) = ccall(("arv_gc_name_space_get_type", libaravis), GType, ())
+@cenum(GcPropertyNodeType::Int32, GcPropertyNodeType_UNKNOWN = 0, GcPropertyNodeType_VALUE = 1, GcPropertyNodeType_ADDRESS = 2, GcPropertyNodeType_DESCRIPTION = 3, GcPropertyNodeType_VISIBILITY = 4, GcPropertyNodeType_TOOLTIP = 5, GcPropertyNodeType_DISPLAY_NAME = 6, GcPropertyNodeType_MINIMUM = 7, GcPropertyNodeType_MAXIMUM = 8, GcPropertyNodeType_SLOPE = 9, GcPropertyNodeType_INCREMENT = 10, GcPropertyNodeType_IS_LINEAR = 11, GcPropertyNodeType_REPRESENTATION = 12, GcPropertyNodeType_DISPLAY_NOTATION = 13, GcPropertyNodeType_DISPLAY_PRECISION = 14, GcPropertyNodeType_UNIT = 15, GcPropertyNodeType_ON_VALUE = 16, GcPropertyNodeType_OFF_VALUE = 17, GcPropertyNodeType_LENGTH = 18, GcPropertyNodeType_FORMULA = 19, GcPropertyNodeType_FORMULA_TO = 20, GcPropertyNodeType_FORMULA_FROM = 21, GcPropertyNodeType_EXPRESSION = 22, GcPropertyNodeType_CONSTANT = 23, GcPropertyNodeType_ACCESS_MODE = 24, GcPropertyNodeType_IMPOSED_ACCESS_MODE = 25, GcPropertyNodeType_CACHABLE = 26, GcPropertyNodeType_POLLING_TIME = 27, GcPropertyNodeType_ENDIANNESS = 28, GcPropertyNodeType_SIGN = 29, GcPropertyNodeType_LSB = 30, GcPropertyNodeType_MSB = 31, GcPropertyNodeType_BIT = 32, GcPropertyNodeType_COMMAND_VALUE = 33, GcPropertyNodeType_CHUNK_ID = 34, GcPropertyNodeType_EVENT_ID = 35, GcPropertyNodeType_VALUE_INDEXED = 36, GcPropertyNodeType_VALUE_DEFAULT = 37, GcPropertyNodeType_STREAMABLE = 38, GcPropertyNodeType_IS_DEPRECATED = 39, GcPropertyNodeType_P_UNKNONW = 1000, GcPropertyNodeType_P_FEATURE = 1001, GcPropertyNodeType_P_VALUE = 1002, GcPropertyNodeType_P_ADDRESS = 1003, GcPropertyNodeType_P_IS_IMPLEMENTED = 1004, GcPropertyNodeType_P_IS_LOCKED = 1005, GcPropertyNodeType_P_IS_AVAILABLE = 1006, GcPropertyNodeType_P_SELECTED = 1007, GcPropertyNodeType_P_MINIMUM = 1008, GcPropertyNodeType_P_MAXIMUM = 1009, GcPropertyNodeType_P_INCREMENT = 1010, GcPropertyNodeType_P_INDEX = 1011, GcPropertyNodeType_P_LENGTH = 1012, GcPropertyNodeType_P_PORT = 1013, GcPropertyNodeType_P_VARIABLE = 1014, GcPropertyNodeType_P_INVALIDATOR = 1015, GcPropertyNodeType_P_COMMAND_VALUE = 1016, GcPropertyNodeType_P_VALUE_INDEXED = 1017, GcPropertyNodeType_P_VALUE_DEFAULT = 1018, GcPropertyNodeType_P_ALIAS = 1019, GcPropertyNodeType_P_CAST_ALIAS = 1020)
+(GLib.g_type(::Type{T}) where T <: GcPropertyNodeType) = ccall(("arv_gc_property_node_type_get_type", libaravis), GType, ())
+@cenum(GcRepresentation::UInt16, GcRepresentation_UNDEFINED = 0xffff, GcRepresentation_LINEAR = 0x0000, GcRepresentation_LOGARITHMIC = 0x0001, GcRepresentation_BOOLEAN = 0x0002, GcRepresentation_PURE_NUMBER = 0x0003, GcRepresentation_HEX_NUMBER = 0x0004, GcRepresentation_IPV4_ADDRESS = 0x0005, GcRepresentation_MAC_ADDRESS = 0x0006)
+(GLib.g_type(::Type{T}) where T <: GcRepresentation) = ccall(("arv_gc_representation_get_type", libaravis), GType, ())
+@cenum(GcSignedness::UInt16, GcSignedness_UNDEFINED = 0xffff, GcSignedness_SIGNED = 0x0000, GcSignedness_UNSIGNED = 0x0001)
+(GLib.g_type(::Type{T}) where T <: GcSignedness) = ccall(("arv_gc_signedness_get_type", libaravis), GType, ())
+@cenum(GcStreamable::UInt16, GcStreamable_UNDEFINED = 0xffff, GcStreamable_NO = 0x0000, GcStreamable_YES = 0x0001)
+(GLib.g_type(::Type{T}) where T <: GcStreamable) = ccall(("arv_gc_streamable_get_type", libaravis), GType, ())
+@cenum(GcVisibility::UInt16, GcVisibility_UNDEFINED = 0xffff, GcVisibility_INVISIBLE = 0x0000, GcVisibility_GURU = 0x0001, GcVisibility_EXPERT = 0x0002, GcVisibility_BEGINNER = 0x0003)
+(GLib.g_type(::Type{T}) where T <: GcVisibility) = ccall(("arv_gc_visibility_get_type", libaravis), GType, ())
+@cenum(GvIpConfigurationMode::Int32, GvIpConfigurationMode_NONE = 0, GvIpConfigurationMode_PERSISTENT_IP = 1, GvIpConfigurationMode_DHCP = 2, GvIpConfigurationMode_LLA = 3, GvIpConfigurationMode_FORCE_IP = 4)
+(GLib.g_type(::Type{T}) where T <: GvIpConfigurationMode) = ccall(("arv_gv_ip_configuration_mode_get_type", libaravis), GType, ())
+@cenum(GvPacketSizeAdjustment::Int32, GvPacketSizeAdjustment_NEVER = 0, GvPacketSizeAdjustment_ON_FAILURE_ONCE = 1, GvPacketSizeAdjustment_ON_FAILURE = 2, GvPacketSizeAdjustment_ONCE = 3, GvPacketSizeAdjustment_ALWAYS = 4, GvPacketSizeAdjustment_DEFAULT = 1)
+(GLib.g_type(::Type{T}) where T <: GvPacketSizeAdjustment) = ccall(("arv_gv_packet_size_adjustment_get_type", libaravis), GType, ())
+@cenum(GvStreamPacketResend::Int32, GvStreamPacketResend_NEVER = 0, GvStreamPacketResend_ALWAYS = 1)
+(GLib.g_type(::Type{T}) where T <: GvStreamPacketResend) = ccall(("arv_gv_stream_packet_resend_get_type", libaravis), GType, ())
+@cenum(GvStreamSocketBuffer::Int32, GvStreamSocketBuffer_FIXED = 0, GvStreamSocketBuffer_AUTO = 1)
+(GLib.g_type(::Type{T}) where T <: GvStreamSocketBuffer) = ccall(("arv_gv_stream_socket_buffer_get_type", libaravis), GType, ())
+@cenum(RangeCheckPolicy::Int32, RangeCheckPolicy_DISABLE = 0, RangeCheckPolicy_ENABLE = 1, RangeCheckPolicy_DEBUG = 2, RangeCheckPolicy_DEFAULT = 0)
+(GLib.g_type(::Type{T}) where T <: RangeCheckPolicy) = ccall(("arv_range_check_policy_get_type", libaravis), GType, ())
+@cenum(RegisterCachePolicy::Int32, RegisterCachePolicy_DISABLE = 0, RegisterCachePolicy_ENABLE = 1, RegisterCachePolicy_DEBUG = 2, RegisterCachePolicy_DEFAULT = 0)
+(GLib.g_type(::Type{T}) where T <: RegisterCachePolicy) = ccall(("arv_register_cache_policy_get_type", libaravis), GType, ())
+@cenum(StreamCallbackType::Int32, StreamCallbackType_INIT = 0, StreamCallbackType_EXIT = 1, StreamCallbackType_START_BUFFER = 2, StreamCallbackType_BUFFER_DONE = 3)
+(GLib.g_type(::Type{T}) where T <: StreamCallbackType) = ccall(("arv_stream_callback_type_get_type", libaravis), GType, ())
+@cenum(UvUsbMode::Int32, UvUsbMode_SYNC = 0, UvUsbMode_ASYNC = 1, UvUsbMode_DEFAULT = 1)
+(GLib.g_type(::Type{T}) where T <: UvUsbMode) = ccall(("arv_uv_usb_mode_get_type", libaravis), GType, ())
+@cenum(XmlSchemaError::Int32, XmlSchemaError_STRUCTURE = 0)
+(GLib.g_type(::Type{T}) where T <: XmlSchemaError) = ccall(("arv_xml_schema_error_get_type", libaravis), GType, ())
+@bitflag(GvInterfaceFlags::UInt32, GvInterfaceFlags_ACK = 1, GvInterfaceFlags_NONE = 0)
+(GLib.g_type(::Type{T}) where T <: GvInterfaceFlags) = ccall(("arv_gv_interface_flags_get_type", libaravis), GType, ())
+@bitflag(GvStreamOption::UInt32, GvStreamOption_NONE = 0, GvStreamOption_PACKET_SOCKET_DISABLED = 1)
+(GLib.g_type(::Type{T}) where T <: GvStreamOption) = ccall(("arv_gv_stream_option_get_type", libaravis), GType, ())

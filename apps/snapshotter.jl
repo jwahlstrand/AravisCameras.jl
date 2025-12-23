@@ -77,7 +77,7 @@ function activate(app)
 end
 
 # create application -- argument is the application id, which is optional
-const app = GtkApplication("julia.gtk4.aravisapp")
+const app = GtkApplication("julia.gtk4.aravissnapshotterapp")
 
 Gtk4.signal_connect(activate, app, :activate)
 

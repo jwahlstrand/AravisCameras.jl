@@ -1,5 +1,4 @@
-quote
-$(Expr(:toplevel, quote
+begin
     function Buffer_new(_size::Integer, _preallocated::Maybe(Nothing))
         _preallocated_maybe = nothing_to_null(_preallocated)
         ret = ccall(("arv_buffer_new", libaravis), Ptr{GObject}, (UInt64, Ptr{Nothing}), _size, _preallocated_maybe)
@@ -3018,7 +3017,7 @@ $(Expr(:toplevel, quote
         ret2
     end
     function get_info_type(instance::ArvStream, _id::Integer)
-        ret = ccall(("arv_stream_get_info_type", libaravis), UInt64, (Ptr{GObject}, UInt32), instance, _id)
+        ret = ccall(("arv_stream_get_info_type", libaravis), GType, (Ptr{GObject}, UInt32), instance, _id)
         ret
     end
     function get_info_uint64(instance::ArvStream, _id::Integer)
@@ -3283,5 +3282,4 @@ $(Expr(:toplevel, quote
         check_err(err)
         nothing
     end
-end))
 end

@@ -4,7 +4,6 @@ actions = String[]
 entry = GtkEntry()
 
 function on_action_added(group, name)
-    println(name)
     push!(actions, name)
 end
 
@@ -14,7 +13,7 @@ function on_button_clicked(widget)
 end
 
 function activate(app)
-    global remote_action_group = GDBusActionGroup(app, "julia.gtk4.aravisapp","/julia/gtk4/aravisapp")
+    global remote_action_group = GDBusActionGroup(app, "julia.gtk4.aravissnapshotterapp","/julia/gtk4/aravissnapshotterapp")
     signal_connect(on_action_added, remote_action_group, "action-added")
     actions = GLib.list_actions(remote_action_group)
 
