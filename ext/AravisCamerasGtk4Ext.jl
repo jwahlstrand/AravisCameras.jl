@@ -1,3 +1,12 @@
+module AravisCamerasGtk4Ext
+
+using AravisCameras
+using AravisCameras: G_, ArvGcCategory, ArvGcBoolean, ArvGcCommand, ArvGcEnumeration, ArvGcFloat,
+                     ArvGcFloatNode, ArvGcInteger, ArvGcIntegerNode, ArvGcString, ArvGcStringNode,
+                     ArvGcStringRegNode, GcAccessMode_RW, GcAccessMode_RO, GcAccessMode_WO
+using Gtk4
+using Gtk4.GLib
+
 printerr(e::Exception) = nothing
 printerr(e::GErrorException) = println(e.message)
 
@@ -14,7 +23,7 @@ function _get_node(n::ArvGcCategory, visibility)
     end
 end
 
-function feature_tree(gc, visibility)
+function AravisCameras.feature_tree(gc, visibility)
     node = G_.get_node(gc,"Root")
     features = G_.get_features(node)
     categories = collect(features)
@@ -195,3 +204,5 @@ end
 const Visibility = (AravisCameras.GcVisibility_BEGINNER, AravisCameras.GcVisibility_EXPERT, AravisCameras.GcVisibility_GURU)
 
 visibility_dropdown() = GtkDropDown(["Beginner","Expert","Guru"])
+
+end

@@ -112,7 +112,7 @@ begin
         ret2
     end
     function get_part_data_type(instance::ArvBuffer, _part_id::Integer)
-        ret = ccall(("arv_buffer_get_part_data_type", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _part_id)
+        ret = ccall(("arv_buffer_get_part_data_type", libaravis), Int32, (Ptr{GObject}, UInt32), instance, _part_id)
         ret2 = BufferPartDataType(ret)
         ret2
     end
@@ -157,12 +157,12 @@ begin
         ret
     end
     function get_payload_type(instance::ArvBuffer)
-        ret = ccall(("arv_buffer_get_payload_type", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_buffer_get_payload_type", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = BufferPayloadType(ret)
         ret2
     end
     function get_status(instance::ArvBuffer)
-        ret = ccall(("arv_buffer_get_status", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_buffer_get_status", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = BufferStatus(ret)
         ret2
     end
@@ -504,12 +504,12 @@ begin
         (_min, _max)
     end
     function get_exposure_time_representation(instance::ArvCamera)
-        ret = ccall(("arv_camera_get_exposure_time_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_camera_get_exposure_time_representation", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcRepresentation(ret)
         ret2
     end
     function get_feature_representation(instance::ArvCamera, _feature::Union{AbstractString, Symbol})
-        ret = ccall(("arv_camera_get_feature_representation", libaravis), UInt32, (Ptr{GObject}, Cstring), instance, _feature)
+        ret = ccall(("arv_camera_get_feature_representation", libaravis), Int32, (Ptr{GObject}, Cstring), instance, _feature)
         ret2 = GcRepresentation(ret)
         ret2
     end
@@ -598,7 +598,7 @@ begin
         (_min, _max)
     end
     function get_gain_representation(instance::ArvCamera)
-        ret = ccall(("arv_camera_get_gain_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_camera_get_gain_representation", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcRepresentation(ret)
         ret2
     end
@@ -1293,6 +1293,18 @@ begin
         ret2 = string_or_nothing(ret, false)
         ret2
     end
+    function set_integer_feature_value(instance::ArvChunkParser, _feature::Union{AbstractString, Symbol}, _value::Integer)
+        err = err_buf()
+        ret = ccall(("arv_chunk_parser_set_integer_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Int64, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
+    function set_string_feature_value(instance::ArvChunkParser, _feature::Union{AbstractString, Symbol}, _value::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_chunk_parser_set_string_feature_value", libaravis), Nothing, (Ptr{GObject}, Cstring, Cstring, Ptr{Ptr{GError}}), instance, _feature, _value, err)
+        check_err(err)
+        nothing
+    end
     function create_chunk_parser(instance::ArvDevice)
         ret = ccall(("arv_device_create_chunk_parser", libaravis), Ptr{GObject}, (Ptr{GObject},), instance)
         ret2 = convert(ArvChunkParser, ret, true)
@@ -1367,12 +1379,12 @@ begin
         ret2
     end
     function get_feature_access_mode(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
-        ret = ccall(("arv_device_get_feature_access_mode", libaravis), UInt32, (Ptr{GObject}, Cstring), instance, _feature)
+        ret = ccall(("arv_device_get_feature_access_mode", libaravis), Int32, (Ptr{GObject}, Cstring), instance, _feature)
         ret2 = GcAccessMode(ret)
         ret2
     end
     function get_feature_representation(instance::ArvDevice, _feature::Union{AbstractString, Symbol})
-        ret = ccall(("arv_device_get_feature_representation", libaravis), UInt32, (Ptr{GObject}, Cstring), instance, _feature)
+        ret = ccall(("arv_device_get_feature_representation", libaravis), Int32, (Ptr{GObject}, Cstring), instance, _feature)
         ret2 = GcRepresentation(ret)
         ret2
     end
@@ -2148,7 +2160,7 @@ begin
         ret2
     end
     function get_actual_access_mode(instance::ArvGcFeatureNode)
-        ret = ccall(("arv_gc_feature_node_get_actual_access_mode", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_gc_feature_node_get_actual_access_mode", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcAccessMode(ret)
         ret2
     end
@@ -2163,7 +2175,7 @@ begin
         ret2
     end
     function get_imposed_access_mode(instance::ArvGcFeatureNode)
-        ret = ccall(("arv_gc_feature_node_get_imposed_access_mode", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_gc_feature_node_get_imposed_access_mode", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcAccessMode(ret)
         ret2
     end
@@ -2173,7 +2185,7 @@ begin
         ret2
     end
     function get_name_space(instance::ArvGcFeatureNode)
-        ret = ccall(("arv_gc_feature_node_get_name_space", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_gc_feature_node_get_name_space", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcNameSpace(ret)
         ret2
     end
@@ -2190,7 +2202,7 @@ begin
         ret2
     end
     function get_visibility(instance::ArvGcFeatureNode)
-        ret = ccall(("arv_gc_feature_node_get_visibility", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_gc_feature_node_get_visibility", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcVisibility(ret)
         ret2
     end
@@ -2577,17 +2589,17 @@ begin
         ret2
     end
     function get_access_mode(instance::ArvGcPropertyNode, _default_value)
-        ret = ccall(("arv_gc_property_node_get_access_mode", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret = ccall(("arv_gc_property_node_get_access_mode", libaravis), Int32, (Ptr{GObject}, Int32), instance, _default_value)
         ret2 = GcAccessMode(ret)
         ret2
     end
     function get_cachable(instance::ArvGcPropertyNode, _default_value)
-        ret = ccall(("arv_gc_property_node_get_cachable", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret = ccall(("arv_gc_property_node_get_cachable", libaravis), Int32, (Ptr{GObject}, Int32), instance, _default_value)
         ret2 = GcCachable(ret)
         ret2
     end
     function get_display_notation(instance::ArvGcPropertyNode, _default_value)
-        ret = ccall(("arv_gc_property_node_get_display_notation", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret = ccall(("arv_gc_property_node_get_display_notation", libaravis), Int32, (Ptr{GObject}, Int32), instance, _default_value)
         ret2 = GcDisplayNotation(ret)
         ret2
     end
@@ -2635,17 +2647,17 @@ begin
         ret2
     end
     function get_representation(instance::ArvGcPropertyNode, _default_value)
-        ret = ccall(("arv_gc_property_node_get_representation", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret = ccall(("arv_gc_property_node_get_representation", libaravis), Int32, (Ptr{GObject}, Int32), instance, _default_value)
         ret2 = GcRepresentation(ret)
         ret2
     end
     function get_sign(instance::ArvGcPropertyNode, _default_value)
-        ret = ccall(("arv_gc_property_node_get_sign", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret = ccall(("arv_gc_property_node_get_sign", libaravis), Int32, (Ptr{GObject}, Int32), instance, _default_value)
         ret2 = GcSignedness(ret)
         ret2
     end
     function get_streamable(instance::ArvGcPropertyNode, _default_value)
-        ret = ccall(("arv_gc_property_node_get_streamable", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret = ccall(("arv_gc_property_node_get_streamable", libaravis), Int32, (Ptr{GObject}, Int32), instance, _default_value)
         ret2 = GcStreamable(ret)
         ret2
     end
@@ -2657,7 +2669,7 @@ begin
         ret2
     end
     function get_visibility(instance::ArvGcPropertyNode, _default_value)
-        ret = ccall(("arv_gc_property_node_get_visibility", libaravis), UInt32, (Ptr{GObject}, UInt32), instance, _default_value)
+        ret = ccall(("arv_gc_property_node_get_visibility", libaravis), Int32, (Ptr{GObject}, Int32), instance, _default_value)
         ret2 = GcVisibility(ret)
         ret2
     end
@@ -2930,6 +2942,15 @@ begin
         ret2 = convert(Bool, ret)
         ret2
     end
+    function dup_discovery_interface_name()
+        ret = ccall(("arv_gv_interface_dup_discovery_interface_name", libaravis), Cstring, ())
+        ret2 = string_or_nothing(ret, true)
+        ret2
+    end
+    function set_discovery_interface_name(_discovery_interface::Union{AbstractString, Symbol})
+        ret = ccall(("arv_gv_interface_set_discovery_interface_name", libaravis), Nothing, (Cstring,), _discovery_interface)
+        nothing
+    end
     function get_port(instance::ArvGvStream)
         ret = ccall(("arv_gv_stream_get_port", libaravis), UInt16, (Ptr{GObject},), instance)
         ret
@@ -3082,6 +3103,24 @@ begin
         ret2 = convert(ArvBuffer, ret, true)
         ret2
     end
+    function UvDevice_new(_vendor::Union{AbstractString, Symbol}, _product::Union{AbstractString, Symbol}, _serial_number::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_uv_device_new", libaravis), Ptr{GObject}, (Cstring, Cstring, Cstring, Ptr{Ptr{GError}}), _vendor, _product, _serial_number, err)
+        check_err(err)
+        ret2 = ArvUvDeviceLeaf(ret, true)
+        ret2
+    end
+    function UvDevice_new_from_guid(_guid::Union{AbstractString, Symbol})
+        err = err_buf()
+        ret = ccall(("arv_uv_device_new_from_guid", libaravis), Ptr{GObject}, (Cstring, Ptr{Ptr{GError}}), _guid, err)
+        check_err(err)
+        ret2 = ArvUvDeviceLeaf(ret, true)
+        ret2
+    end
+    function set_usb_mode(instance::ArvUvDevice, _usb_mode)
+        ret = ccall(("arv_uv_device_set_usb_mode", libaravis), Nothing, (Ptr{GObject}, UInt32), instance, _usb_mode)
+        nothing
+    end
     function XmlSchema_new_from_file(_file::GFile)
         ret = ccall(("arv_xml_schema_new_from_file", libaravis), Ptr{GObject}, (Ptr{GObject},), _file)
         ret2 = ArvXmlSchemaLeaf(ret, true)
@@ -3106,7 +3145,7 @@ begin
         ret2
     end
     function get_display_notation(instance::ArvGcFloat)
-        ret = ccall(("arv_gc_float_get_display_notation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_gc_float_get_display_notation", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcDisplayNotation(ret)
         ret2
     end
@@ -3133,7 +3172,7 @@ begin
         ret
     end
     function get_representation(instance::ArvGcFloat)
-        ret = ccall(("arv_gc_float_get_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_gc_float_get_representation", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcRepresentation(ret)
         ret2
     end
@@ -3185,7 +3224,7 @@ begin
         ret
     end
     function get_representation(instance::ArvGcInteger)
-        ret = ccall(("arv_gc_integer_get_representation", libaravis), UInt32, (Ptr{GObject},), instance)
+        ret = ccall(("arv_gc_integer_get_representation", libaravis), Int32, (Ptr{GObject},), instance)
         ret2 = GcRepresentation(ret)
         ret2
     end

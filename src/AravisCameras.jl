@@ -1,12 +1,22 @@
 module AravisCameras
 
-using Gtk4
-using Gtk4.GLib
+using GObjects
+const GLib = GObjects
 using ColorTypes, FixedPointNumbers
 
-using Glib_jll
-
 using CEnum, BitFlags, Aravis_jll
+
+# Generated code registers its GType/signal metadata in this package's own
+# registries, which are handed to GObjects from `__init__`: see the comment on
+# `GObjects._g_type_providers`. These local definitions shadow the same-named
+# functions exported by GObjects.
+const _leaf_g_types = Dict{Type,Any}()
+const _signal_names = Dict{Type,Vector{Symbol}}()
+const _signal_types = Dict{Type,Dict{Symbol,Tuple{Any,Any}}}()
+
+register_g_type!(T, f) = (_leaf_g_types[T::Type] = f; nothing)
+register_signals!(T, names::Vector{Symbol}) = (_signal_names[T::Type] = names; nothing)
+register_signal_types!(T, d::Dict{Symbol,Tuple{Any,Any}}) = (_signal_types[T::Type] = d; nothing)
 
 export update_device_list
 
@@ -17,9 +27,10 @@ eval(include("gen/aravis_structs"))
 
 module G_
 
-using Glib_jll, Aravis_jll
+using Aravis_jll
 
-using Gtk4.GLib, Gtk4
+using GObjects
+const GLib = GObjects
 using ..AravisCameras
 import AravisCameras: AccessCheckPolicy, AcquisitionMode, Auto, BufferPartDataType, BufferPayloadType, BufferStatus, ChunkParserError, ComponentSelectionFlags, DeviceError, DomNodeType, ExposureMode, GcAccessMode, GcCachable, GcDisplayNotation, GcError, GcIsLinear, GcNameSpace, GcPropertyNodeType, GcRepresentation, GcSignedness, GcStreamable, GcVisibility, GvIpConfigurationMode, GvPacketSizeAdjustment, GvStreamPacketResend, GvStreamSocketBuffer, RangeCheckPolicy, RegisterCachePolicy, StreamCallbackType, UvUsbMode, XmlSchemaError, GvInterfaceFlags, GvStreamOption
 
@@ -235,10 +246,19 @@ function acquisition(instance::ArvCamera, _timeout::Integer)
 end
 acquisition(instance::ArvCamera) = acquisition(instance, 0)
 
-include("gui.jl")
+"""
+    feature_tree(genicam, visibility)
+
+Return a `GtkTreeListModel` of the GenICam feature tree of `genicam`, restricted to features
+with at most the given visibility. Requires `Gtk4` to be loaded.
+"""
+function feature_tree end
 
 function __init__()
+    GObjects.register_g_type_provider!(_leaf_g_types)
+    GObjects.register_signal_provider!(_signal_names, _signal_types)
     gtype_wrapper_cache_init()
+    gboxed_cache_init()
 end
 
 end

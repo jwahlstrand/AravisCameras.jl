@@ -64,12 +64,12 @@ begin
         ret2
     end
     function gc_access_mode_from_string(_string::Union{AbstractString, Symbol})
-        ret = ccall(("arv_gc_access_mode_from_string", libaravis), UInt32, (Cstring,), _string)
+        ret = ccall(("arv_gc_access_mode_from_string", libaravis), Int32, (Cstring,), _string)
         ret2 = GcAccessMode(ret)
         ret2
     end
     function gc_access_mode_to_string(_value)
-        ret = ccall(("arv_gc_access_mode_to_string", libaravis), Cstring, (UInt32,), _value)
+        ret = ccall(("arv_gc_access_mode_to_string", libaravis), Cstring, (Int32,), _value)
         ret2 = string_or_nothing(ret, false)
         ret2
     end
@@ -147,6 +147,10 @@ begin
         check_err(err)
         ret2 = convert(ArvDevice, ret, true)
         ret2
+    end
+    function select_interface(_interface_id::Union{AbstractString, Symbol})
+        ret = ccall(("arv_select_interface", libaravis), Nothing, (Cstring,), _interface_id)
+        nothing
     end
     function set_fake_camera_genicam_filename(_filename::Union{AbstractString, Symbol})
         ret = ccall(("arv_set_fake_camera_genicam_filename", libaravis), Nothing, (Cstring,), _filename)
